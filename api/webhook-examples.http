@@ -1,0 +1,65 @@
+### Webhook Registration
+
+# Register a webhook
+POST http://localhost:3000/webhooks/register
+Content-Type: application/json
+Authorization: Bearer YOUR_JWT_TOKEN
+
+{
+  "url": "https://myapp.com/webhooks/subscription",
+  "events": ["payment.success", "payment.failure", "subscription.renewal"]
+}
+
+###
+
+# Register webhook for all events
+POST http://localhost:3000/webhooks/register
+Content-Type: application/json
+Authorization: Bearer YOUR_JWT_TOKEN
+
+{
+  "url": "https://myapp.com/webhooks/all",
+  "events": ["*"]
+}
+
+###
+
+# List webhooks
+GET http://localhost:3000/webhooks/list
+Authorization: Bearer YOUR_JWT_TOKEN
+
+###
+
+# Update webhook
+PATCH http://localhost:3000/webhooks/1
+Content-Type: application/json
+Authorization: Bearer YOUR_JWT_TOKEN
+
+{
+  "isActive": false
+}
+
+###
+
+# Update webhook events
+PATCH http://localhost:3000/webhooks/1
+Content-Type: application/json
+Authorization: Bearer YOUR_JWT_TOKEN
+
+{
+  "events": ["payment.success"]
+}
+
+###
+
+# Get webhook deliveries
+GET http://localhost:3000/webhooks/1/deliveries
+Authorization: Bearer YOUR_JWT_TOKEN
+
+###
+
+# Delete webhook
+DELETE http://localhost:3000/webhooks/1
+Authorization: Bearer YOUR_JWT_TOKEN
+
+###

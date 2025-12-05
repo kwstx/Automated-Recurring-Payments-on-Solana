@@ -1,0 +1,41 @@
+{
+    "name": "subscription-billing-api",
+    "version": "1.0.0",
+    "description": "Backend API for Solana Subscription Billing",
+    "main": "src/index.js",
+    "type": "module",
+    "scripts": {
+        "start": "node src/index.js",
+        "dev": "node --watch src/index.js",
+        "init-db": "node src/init-db.js"
+    },
+    "keywords": [
+        "solana",
+        "subscription",
+        "api",
+        "jwt",
+        "express"
+    ],
+    "author": "",
+    "license": "MIT",
+    "dependencies": {
+        "@coral-xyz/anchor": "^0.32.1",
+        "@solana/web3.js": "^1.95.8",
+        "bcrypt": "^5.1.1",
+        "better-sqlite3": "^11.7.0",
+        "cors": "^2.8.5",
+        "dotenv": "^16.4.7",
+        "express": "^4.21.2",
+        "joi": "^18.0.2",
+        "jsonwebtoken": "^9.0.2",
+        "node-cron": "^4.2.1",
+        "winston": "^3.17.0"
+    },
+    "devDependencies": {
+        "express-rate-limit": "^8.2.1",
+        "jest": "^30.2.0",
+        "supertest": "^7.1.4",
+        "swagger-jsdoc": "^6.2.8",
+        "swagger-ui-express": "^5.0.1"
+    }
+}

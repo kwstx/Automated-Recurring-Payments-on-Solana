@@ -1,0 +1,106 @@
+### Authentication
+
+# Register a merchant
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+  "username": "merchant1",
+  "password": "SecurePassword123!",
+  "walletAddress": "7XSjE8CZaabDrkP3MxKqL5zJwJtiK1CSuJbHHx9dgv9k"
+}
+
+###
+
+# Login
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "username": "merchant1",
+  "password": "SecurePassword123!"
+}
+
+###
+
+### Plans (Replace YOUR_JWT_TOKEN with the token from login)
+
+# Create a plan
+POST http://localhost:3000/plan/create
+Content-Type: application/json
+Authorization: Bearer YOUR_JWT_TOKEN
+
+{
+  "planPda": "plan_pda_example_123",
+  "name": "Premium Monthly",
+  "description": "Premium subscription plan",
+  "amount": 10000000,
+  "currency": "USDC",
+  "interval": "monthly"
+}
+
+###
+
+# Update a plan
+POST http://localhost:3000/plan/update
+Content-Type: application/json
+Authorization: Bearer YOUR_JWT_TOKEN
+
+{
+  "planId": 1,
+  "name": "Premium Monthly Updated",
+  "amount": 15000000,
+  "isActive": true
+}
+
+###
+
+# Get all plans
+GET http://localhost:3000/plan/list
+Authorization: Bearer YOUR_JWT_TOKEN
+
+###
+
+### Subscriptions
+
+# Activate a subscription
+POST http://localhost:3000/subscription/activate
+Content-Type: application/json
+
+{
+  "subscriptionPda": "subscription_pda_example_456",
+  "planId": 1,
+  "subscriberPubkey": "subscriber_wallet_address",
+  "subscriberTokenAccount": "subscriber_token_account",
+  "merchantTokenAccount": "merchant_token_account",
+  "nextBillingTimestamp": 1733328000
+}
+
+###
+
+# Cancel a subscription
+POST http://localhost:3000/subscription/cancel
+Content-Type: application/json
+
+{
+  "subscriptionPda": "subscription_pda_example_456"
+}
+
+###
+
+# Get subscription status
+GET http://localhost:3000/subscription/status?subscriptionPda=subscription_pda_example_456
+
+###
+
+### Merchant Analytics
+
+# Get merchant analytics
+GET http://localhost:3000/merchant/analytics
+Authorization: Bearer YOUR_JWT_TOKEN
+
+###
+
+### Health Check
+
+GET http://localhost:3000/health
