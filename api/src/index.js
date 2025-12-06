@@ -10,6 +10,8 @@ import subscriptionRoutes from './routes/subscriptionRoutes.js';
 import merchantRoutes from './routes/merchantRoutes.js';
 import metadataRoutes from './routes/metadataRoutes.js';
 import webhookRoutes from './routes/webhookRoutes.js';
+import portalRoutes from './routes/portalRoutes.js';
+import settingsRoutes from './routes/settingsRoutes.js';
 import { apiLimiter, authLimiter, subscriptionLimiter } from './middleware/rateLimiter.js';
 import { startMetadataSyncScheduler } from './metadata-scheduler.js';
 import { startWebhookRetryScheduler } from './webhook-retry-scheduler.js';
@@ -41,6 +43,8 @@ app.use('/subscription', subscriptionLimiter, subscriptionRoutes);
 app.use('/merchant', apiLimiter, merchantRoutes);
 app.use('/metadata', apiLimiter, metadataRoutes);
 app.use('/webhooks', apiLimiter, webhookRoutes);
+app.use('/portal', apiLimiter, portalRoutes);
+app.use('/settings', apiLimiter, settingsRoutes);
 
 // Health check
 app.get('/health', (req, res) => {

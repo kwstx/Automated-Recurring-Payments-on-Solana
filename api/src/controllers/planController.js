@@ -119,3 +119,168 @@ export const getPlans = (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 };
+
+// NEW: Get plans with pagination and search
+export const listPlans = (req, res) => {
+    const merchantId = req.user.id;
+    const { page = 1, limit = 10, search = '', status } = req.query;
+
+    const offset = (page - 1) * limit;
+
+    try {
+        let query = `
+            SELECT 
+                p.id, 
+                p.plan_pda, 
+                p.name, 
+                p.description, 
+                p.amount, 
+                p.currency, 
+                p.interval, 
+                p.is_active,
+                p.created_at,
+                COUNT(DISTINCT s.id) as subscriber_count
+            FROM plans p
+            LEFT JOIN subscriptions s ON p.id = s.plan_id AND s.is_active = 1
+            WHERE p.merchant_id = ?
+        `;
+
+        const params = [merchantId];
+
+        if (search) {
+            query += ` AND (p.name LIKE ? OR p.description LIKE ?)`;
+            params.push(`%${search}%`, `%${search}%`);
+        }
+
+        if (status !== undefined) {
+            query += ` AND p.is_active = ?`;
+            params.push(status === 'active' ? 1 : 0);
+        }
+
+        query += ` GROUP BY p.id ORDER BY p.created_at DESC LIMIT ? OFFSET ?`;
+        params.push(parseInt(limit), parseInt(offset));
+
+        const plans = db.prepare(query).all(...params);
+
+        // Get total count
+        let countQuery = `SELECT COUNT(*) as total FROM plans WHERE merchant_id = ?`;
+        const countParams = [merchantId];
+
+        if (search) {
+            countQuery += ` AND (name LIKE ? OR description LIKE ?)`;
+            countParams.push(`%${search}%`, `%${search}%`);
+        }
+
+        if (status !== undefined) {
+            countQuery += ` AND is_active = ?`;
+            countParams.push(status === 'active' ? 1 : 0);
+        }
+
+        const { total } = db.prepare(countQuery).get(...countParams);
+
+        res.json({
+            plans: plans.map(p => ({
+                ...p,
+                amount: p.amount / 1000000 // Convert to USDC
+            })),
+            pagination: {
+                page: parseInt(page),
+                limit: parseInt(limit),
+                total,
+                totalPages: Math.ceil(total / limit)
+            }
+        });
+    } catch (error) {
+        logger.error('List plans error', { error: error.message, merchantId });
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
+// NEW: Get plan subscribers
+export const getPlanSubscribers = (req, res) => {
+    const merchantId = req.user.id;
+    const { id } = req.params;
+
+    try {
+        // Verify plan belongs to merchant
+        const plan = db.prepare('SELECT * FROM plans WHERE id = ? AND merchant_id = ?').get(id, merchantId);
+
+        if (!plan) {
+            return res.status(404).json({ error: 'Plan not found or unauthorized' });
+        }
+
+        const subscribers = db.prepare(`
+            SELECT 
+                s.id,
+                s.subscription_pda,
+                s.subscriber_pubkey,
+                s.status,
+                s.next_billing_timestamp,
+                s.payment_count,
+                s.created_at,
+                s.last_payment_at
+            FROM subscriptions s
+            WHERE s.plan_id = ?
+            ORDER BY s.created_at DESC
+        `).all(id);
+
+        res.json({
+            planName: plan.name,
+            subscribers: subscribers.map(sub => ({
+                id: sub.id,
+                subscriptionPda: sub.subscription_pda,
+                walletAddress: sub.subscriber_pubkey,
+                status: sub.status,
+                nextBilling: sub.next_billing_timestamp,
+                paymentCount: sub.payment_count,
+                createdAt: sub.created_at,
+                lastPaymentAt: sub.last_payment_at
+            }))
+        });
+    } catch (error) {
+        logger.error('Get plan subscribers error', { error: error.message, merchantId, planId: id });
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
+// NEW: Delete (soft delete) a plan
+export const deletePlan = (req, res) => {
+    const merchantId = req.user.id;
+    const { id } = req.params;
+
+    try {
+        // Verify plan belongs to merchant
+        const plan = db.prepare('SELECT * FROM plans WHERE id = ? AND merchant_id = ?').get(id, merchantId);
+
+        if (!plan) {
+            return res.status(404).json({ error: 'Plan not found or unauthorized' });
+        }
+
+        // Check if plan has active subscriptions
+        const activeSubscriptions = db.prepare(`
+            SELECT COUNT(*) as count FROM subscriptions 
+            WHERE plan_id = ? AND is_active = 1
+        `).get(id);
+
+        if (activeSubscriptions.count > 0) {
+            return res.status(400).json({
+                error: 'Cannot delete plan with active subscriptions',
+                activeSubscriptions: activeSubscriptions.count
+            });
+        }
+
+        // Soft delete by setting is_active to 0
+        db.prepare(`
+            UPDATE plans 
+            SET is_active = 0, updated_at = strftime('%s', 'now')
+            WHERE id = ?
+        `).run(id);
+
+        logger.info('Plan deleted (soft)', { planId: id, merchantId });
+        res.json({ message: 'Plan deleted successfully' });
+    } catch (error) {
+        logger.error('Delete plan error', { error: error.message, merchantId, planId: id });
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
