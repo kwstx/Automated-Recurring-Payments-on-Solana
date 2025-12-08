@@ -130,11 +130,12 @@ export default function Hero() {
         </motion.span>
 
         {/* Main Heading */}
+        {/* Main Heading */}
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-3xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-[1.1] mb-10 max-w-3xl mx-auto"
+          className="text-2xl md:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-[1.1] mb-10 max-w-3xl mx-auto"
         >
           Automated Recurring <br className="hidden md:block" /> Payments
         </motion.h1>
@@ -146,11 +147,8 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="flex flex-col sm:flex-row items-center gap-4 z-20"
         >
-          <a href="/login?role=merchant" className="px-8 py-3 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-105 transition-all duration-300">
-            Merchant Dashboard
-          </a>
-          <a href="/login?role=subscriber" className="px-8 py-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white font-semibold hover:bg-white/20 hover:scale-105 transition-all duration-300">
-            Subscriber Portal
+          <a href="/login" className="px-8 py-3 rounded-full bg-white text-black font-semibold shadow-lg shadow-white/20 hover:bg-gray-200 hover:scale-105 transition-all duration-300">
+            Get Started
           </a>
         </motion.div>
 
@@ -167,6 +165,6 @@ export default function Hero() {
 
       </div>
 
-    </div>
+    </div >
   );
 }

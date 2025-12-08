@@ -5,7 +5,7 @@ export default function HeroBackground() {
         <div className="relative w-full h-[150vh] flex items-center justify-center pointer-events-none overflow-hidden -mt-[20vh]">
 
             {/* The main purple wash/eclipse effect */}
-            <div className="relative w-[60vw] h-[60vw] max-w-[700px] max-h-[700px]">
+            <div className="relative w-[45vw] h-[45vw] max-w-[550px] max-h-[550px]">
 
                 {/* 1. Base All-Around Glow (Strong light backing) - Increased Opacity */}
                 <div
