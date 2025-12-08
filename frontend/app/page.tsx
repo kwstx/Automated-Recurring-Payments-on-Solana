@@ -1,23 +1,17 @@
 import Hero from '@/components/Hero';
-import HowItWorks from '@/components/HowItWorks';
-import FeaturesGrid from '@/components/FeaturesGrid';
+import InfrastructureModules from '@/components/InfrastructureModules';
+import NativeSystemTools from '@/components/NativeSystemTools';
+import InsightsSection from '@/components/InsightsSection';
 import Footer from '@/components/Footer';
 
 export default function Home() {
   return (
-    <main className="relative bg-black min-h-screen overflow-hidden">
-      {/* Global Background Effects - Blends sections together */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute inset-0 bg-[#050505]" />
-
-        {/* Central subtle glow to backing the hero */}
-        <div className="absolute inset-0 bg-gradient-radial from-purple-900/10 via-transparent to-transparent opacity-30" />
-      </div>
-
+    <main className="relative bg-[#Eaeaea] min-h-screen overflow-hidden text-black font-sans">
       <div className="relative z-10">
         <Hero />
-        <HowItWorks />
-        <FeaturesGrid />
+        <InfrastructureModules />
+        <NativeSystemTools />
+        <InsightsSection />
         <Footer />
       </div>
     </main>
