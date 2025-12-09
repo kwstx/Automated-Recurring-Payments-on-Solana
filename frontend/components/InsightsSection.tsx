@@ -29,62 +29,70 @@ const insights = [
 
 export default function InsightsSection() {
     return (
-        <section className="relative w-full text-[#1a1a1a] bg-[#EAEAEA] pb-20">
-            {/* Header Section */}
-            <div className="grid grid-cols-1 md:grid-cols-2 border-b border-[#a3a3a3]">
-                <div className="p-6 md:p-10 border-r-0 md:border-r border-[#a3a3a3]">
-                    <span className="text-xs font-mono font-bold tracking-wider mb-2 block">[03] BLOG</span>
-                </div>
-                <div className="p-6 md:p-10 flex items-end">
-                    <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tight leading-none max-w-lg">
+        <section className="relative w-full text-[#1a1a1a] bg-[#C0C0C0] min-h-screen flex flex-col pb-32">
+            {/* Vertical Line absolute - Preserved */}
+            <div className="absolute top-0 bottom-0 left-[70%] w-px bg-[#a3a3a3] hidden md:block pointer-events-none z-0"></div>
+
+            {/* Grid Layout Container */}
+            <div className="flex-1 grid grid-cols-1 md:grid-cols-3 relative z-10">
+
+                {/* Header Section (Row 1, Cols 1-2) */}
+                <div className="md:col-span-2 p-6 md:p-10 flex flex-col justify-center">
+                    <span className="text-xs font-mono font-bold tracking-wider mb-4 block">[03] BLOG</span>
+                    <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tight leading-none max-w-lg mb-0 text-black">
                         FRESH INSIGHTS &<br />
                         CHAIN-LEVEL<br />
                         WALKTHROUGHS
                     </h2>
                 </div>
-            </div>
 
-            {/* Grid Layout */}
-            <div className="grid grid-cols-1 md:grid-cols-3 border-b border-[#a3a3a3]">
-                {insights.map((insight, index) => (
-                    <div
-                        key={insight.id}
-                        className={`group border-r border-[#a3a3a3] last:border-r-0 flex flex-col`}
-                    >
-                        {/* Image Placeholder */}
-                        <div className="p-6 md:p-8 pb-0">
-                            <div className={`w-full aspect-square ${insight.imageColor} relative overflow-hidden group-hover:opacity-90 transition-opacity duration-300`}>
-                                {/* Placeholder Content */}
-                                <div className="absolute inset-0 flex items-center justify-center">
-                                    <div className="w-12 h-12 border border-white/20 rounded-full flex items-center justify-center text-white/20 font-mono text-sm">
-                                        IMG
+                {/* Empty Spacer (Row 1, Col 3) */}
+                <div className="hidden md:block md:col-span-1"></div>
+
+                {/* Blog Posts (Row 2, Cols 1-3) */}
+                <div className="md:col-span-3 grid grid-cols-1 md:grid-cols-3">
+                    {insights.map((insight, index) => (
+                        <div
+                            key={insight.id}
+                            className="group flex flex-col h-full"
+                        >
+                            {/* Image Placeholder - Full width within column padding */}
+                            <div className="px-6 md:px-8 pb-0 shrink-0">
+                                <div className={`w-full aspect-square ${insight.imageColor} relative overflow-hidden group-hover:opacity-90 transition-opacity duration-300`}>
+                                    {/* Placeholder Content */}
+                                    <div className="absolute inset-0 flex items-center justify-center">
+                                        <div className="w-12 h-12 border border-white/20 rounded-full flex items-center justify-center text-white/20 font-mono text-xs">
+                                            IMG
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
+                            {/* Content */}
+                            <div className="px-6 md:px-8 pt-6 pb-6 flex flex-col flex-1 justify-between">
+                                <div>
+                                    <span className="text-xs text-[#666] mb-2 block font-mono uppercase">{insight.date}</span>
+
+                                    <h3 className="text-sm md:text-base font-bold leading-tight mb-2 group-hover:underline decoration-1 underline-offset-4 line-clamp-2">
+                                        {insight.title}
+                                    </h3>
+
+                                    <p className="text-xs leading-relaxed text-[#444] mb-4">
+                                        {insight.description}
+                                    </p>
+                                </div>
+
+                                <Link href="#" className="flex items-center gap-1 font-bold text-xs uppercase tracking-wide hover:gap-2 transition-all mt-auto shrink-0">
+                                    [Read more]
+                                </Link>
+                            </div>
                         </div>
-
-                        {/* Content */}
-                        <div className="p-6 md:p-8 flex flex-col flex-1">
-                            <span className="text-xs text-[#666] mb-4 block font-mono">{insight.date}</span>
-
-                            <h3 className="text-lg md:text-xl font-bold leading-tight mb-4 group-hover:underline decoration-1 underline-offset-4">
-                                {insight.title}
-                            </h3>
-
-                            <p className="text-sm leading-relaxed text-[#444] mb-8 flex-1">
-                                {insight.description}
-                            </p>
-
-                            <Link href="#" className="flex items-center gap-1 font-bold text-sm uppercase tracking-wide hover:gap-2 transition-all">
-                                [Read more]
-                            </Link>
-                        </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
 
-            {/* Bottom spacer line */}
-            <div className="w-full border-t border-[#a3a3a3] mt-20"></div>
+            {/* Bottom Spacing to ensure descriptions are clearly visible if at bottom */}
+            <div className="h-10 w-full md:hidden"></div>
         </section>
     );
 }

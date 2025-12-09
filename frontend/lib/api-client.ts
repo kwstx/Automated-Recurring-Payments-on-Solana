@@ -39,8 +39,8 @@ apiClient.interceptors.response.use(
 export const authAPI = {
     login: (username: string, password: string) =>
         apiClient.post('/auth/login', { username, password }),
-    register: (username: string, password: string, walletAddress: string) =>
-        apiClient.post('/auth/register', { username, password, walletAddress }),
+    register: (username: string, password: string, email: string) =>
+        apiClient.post('/auth/register', { username, password, email }),
 };
 
 // Plans API
