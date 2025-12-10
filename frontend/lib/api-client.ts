@@ -10,6 +10,8 @@ const apiClient = axios.create({
     },
 });
 
+console.log('API Client initialized with Base URL:', API_BASE_URL);
+
 // Request interceptor to add JWT token
 apiClient.interceptors.request.use(
     (config) => {
@@ -81,6 +83,12 @@ export const webhooksAPI = {
     update: (id: number, data: any) => apiClient.put(`/webhooks/${id}`, data),
     delete: (id: number) => apiClient.delete(`/webhooks/${id}`),
     getLogs: (id: number) => apiClient.get(`/webhooks/${id}/logs`),
+};
+
+// Subscriptions API (Merchant side)
+export const subscriptionsAPI = {
+    list: () => apiClient.get('/merchant/subscriptions'),
+    cancel: (subscriptionPda: string) => apiClient.post('/subscription/cancel', { subscriptionPda }),
 };
 
 // Portal API (public, no auth required)

@@ -77,16 +77,16 @@ export default function Footer() {
                     </div>
 
                     {/* Right Column: Link Directory */}
-                    <motion.div
-                        className="grid grid-cols-2 md:grid-cols-4 gap-10 lg:pl-10 lg:border-l border-[#a3a3a3]"
-                        variants={containerVariants}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                    >
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-10 lg:pl-10 lg:border-l border-[#a3a3a3]">
 
                         {/* Column 1 */}
-                        <div className="space-y-6">
+                        <motion.div
+                            className="space-y-6"
+                            variants={containerVariants}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                        >
                             <motion.h4 variants={itemVariants} className="text-sm text-[#666] mb-6">Tools & Infrastructure:</motion.h4>
                             <ul className="space-y-3 text-sm font-medium">
                                 {["SDK Reference", "API Docs", "Webhooks", "Pricing", "Status", "Github", "Audit"].map((item) => (
@@ -95,10 +95,16 @@ export default function Footer() {
                                     </motion.li>
                                 ))}
                             </ul>
-                        </div>
+                        </motion.div>
 
                         {/* Column 2 */}
-                        <div className="space-y-6">
+                        <motion.div
+                            className="space-y-6"
+                            variants={containerVariants}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                        >
                             <motion.h4 variants={itemVariants} className="text-sm text-[#666] mb-6">Build</motion.h4>
                             <ul className="space-y-3 text-sm font-medium">
                                 {["Quickstart", "Integration Guides", "Examples"].map((item) => (
@@ -116,10 +122,16 @@ export default function Footer() {
                                     </motion.li>
                                 ))}
                             </ul>
-                        </div>
+                        </motion.div>
 
                         {/* Column 3 */}
-                        <div className="space-y-6">
+                        <motion.div
+                            className="space-y-6"
+                            variants={containerVariants}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                        >
                             <motion.h4 variants={itemVariants} className="text-sm text-[#666] mb-6">Community</motion.h4>
                             <ul className="space-y-3 text-sm font-medium">
                                 {["Twitter", "Discord", "Blog"].map((item) => (
@@ -128,13 +140,13 @@ export default function Footer() {
                                     </motion.li>
                                 ))}
                             </ul>
-                        </div>
+                        </motion.div>
 
                         {/* Column 4 - Empty */}
                         <div className="space-y-6">
                         </div>
 
-                    </motion.div>
+                    </div>
                 </div>
 
             </div>

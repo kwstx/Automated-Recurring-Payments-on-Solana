@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS merchants (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   username TEXT NOT NULL UNIQUE,
   password_hash TEXT NOT NULL,
+  email TEXT NOT NULL,
   wallet_address TEXT NOT NULL,
   created_at INTEGER DEFAULT (strftime('%s', 'now')),
   updated_at INTEGER DEFAULT (strftime('%s', 'now'))
@@ -139,3 +140,36 @@ CREATE INDEX IF NOT EXISTS idx_webhook_deliveries_status ON webhook_deliveries(s
 CREATE INDEX IF NOT EXISTS idx_webhook_deliveries_retry ON webhook_deliveries(next_retry_at) WHERE status = 'pending';
 
 
+
+-- Merchant settings table
+CREATE TABLE IF NOT EXISTS merchant_settings (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  merchant_id INTEGER NOT NULL UNIQUE,
+  company_name TEXT,
+  company_website TEXT,
+  support_email TEXT,
+  brand_color TEXT,
+  logo_url TEXT,
+  notification_new_sub INTEGER DEFAULT 1,
+  notification_payment_failed INTEGER DEFAULT 1,
+  notification_weekly_summary INTEGER DEFAULT 1,
+  updated_at INTEGER DEFAULT (strftime('%s', 'now')),
+  FOREIGN KEY (merchant_id) REFERENCES merchants(id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_merchant_settings_merchant ON merchant_settings(merchant_id);
+
+-- API keys table
+CREATE TABLE IF NOT EXISTS api_keys (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  merchant_id INTEGER NOT NULL,
+  key_hash TEXT NOT NULL,
+  key_prefix TEXT NOT NULL,
+  name TEXT,
+  is_active INTEGER DEFAULT 1,
+  last_used_at INTEGER,
+  created_at INTEGER DEFAULT (strftime('%s', 'now')),
+  FOREIGN KEY (merchant_id) REFERENCES merchants(id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_api_keys_merchant ON api_keys(merchant_id);

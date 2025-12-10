@@ -4,10 +4,10 @@ import { generateToken } from '../auth.js';
 import logger from '../logger.js';
 
 export const register = (req, res) => {
-    const { username, password, walletAddress } = req.body;
+    const { username, password, email } = req.body;
 
-    if (!username || !password || !walletAddress) {
-        return res.status(400).json({ error: 'Username, password, and wallet address are required' });
+    if (!username || !password || !email) {
+        return res.status(400).json({ error: 'Username, password, and email are required' });
     }
 
     try {
@@ -21,16 +21,29 @@ export const register = (req, res) => {
         const passwordHash = bcrypt.hashSync(password, 10);
 
         // Insert merchant
+        // Note: wallet_address is NOT NULL in schema, so we insert a placeholder initially
         const result = db.prepare(`
-      INSERT INTO merchants (username, password_hash, wallet_address)
-      VALUES (?, ?, ?)
-    `).run(username, passwordHash, walletAddress);
+      INSERT INTO merchants (username, password_hash, email, wallet_address)
+      VALUES (?, ?, ?, ?)
+    `).run(username, passwordHash, email, 'Pending_Setup');
+
+        // Generate token
+        const token = generateToken({
+            id: result.lastInsertRowid,
+            username: username,
+            walletAddress: 'Pending_Setup'
+        });
 
         logger.info('Merchant registered', { merchantId: result.lastInsertRowid, username });
 
         res.status(201).json({
             message: 'Merchant registered successfully',
-            merchantId: result.lastInsertRowid
+            token,
+            merchant: {
+                id: result.lastInsertRowid,
+                username,
+                walletAddress: 'Pending_Setup'
+            }
         });
     } catch (error) {
         logger.error('Registration error', { error: error.message });

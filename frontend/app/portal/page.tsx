@@ -1,15 +1,14 @@
 'use client';
 
+import LandingHeader from '@/components/LandingHeader';
 import { motion } from 'framer-motion';
-import { CreditCard, Calendar, AlertCircle, CheckCircle, PauseCircle, RefreshCw, XCircle, Clock, ArrowRight } from 'lucide-react';
-import { useState } from 'react';
+import { Wallet } from 'lucide-react';
 
 // Mock Data for User Subscriptions
 const initialSubscriptions = [
     {
         id: 1,
         merchant: 'Netflix',
-        logo: 'bg-red-600',
         plan: 'Premium 4K',
         price: '22.99',
         interval: 'monthly',
@@ -19,7 +18,6 @@ const initialSubscriptions = [
     {
         id: 2,
         merchant: 'Spotify',
-        logo: 'bg-green-500',
         plan: 'Duo Premium',
         price: '14.99',
         interval: 'monthly',
@@ -29,7 +27,6 @@ const initialSubscriptions = [
     {
         id: 3,
         merchant: 'Midjourney',
-        logo: 'bg-white text-black',
         plan: 'Standard Plan',
         price: '30.00',
         interval: 'monthly',
@@ -40,98 +37,101 @@ const initialSubscriptions = [
 
 export default function PortalPage() {
     return (
-        <div className="space-y-12">
-            {/* Welcome Section */}
-            <div className="flex flex-col md:flex-row justify-between items-end gap-6">
-                <div>
-                    <h1 className="text-4xl font-bold text-white font-serif mb-2">My Subscriptions</h1>
-                    <p className="text-gray-400">Manage your active payments and billing history across Solana.</p>
-                </div>
-                <div className="flex gap-4">
-                    <div className="px-6 py-3 rounded-2xl bg-white/5 border border-white/5 backdrop-blur-sm">
-                        <span className="text-gray-400 text-xs uppercase tracking-wider font-bold block mb-1">Total Monthly Spend</span>
-                        <span className="text-2xl font-bold text-white">$67.98</span>
+        <div className="min-h-screen bg-white text-black font-sans overflow-x-hidden">
+            <LandingHeader />
+
+            <div className="relative pt-12 pb-24 px-4 md:px-6 max-w-[1600px] mx-auto">
+                {/* Background Grid Lines */}
+                <div className="absolute inset-0 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-12 pointer-events-none z-0 px-4 md:px-6">
+                    <div className="hidden md:block md:col-span-4 lg:col-span-3 border-r border-[#EAEAEA] h-full"></div>
+                    <div className="hidden md:block md:col-span-8 lg:col-span-9 relative h-full">
+                        {/* Second Vertical Line */}
+                        <div className="absolute left-[6.25rem] md:left-[8.5rem] lg:left-[11rem] top-0 bottom-0 w-px bg-[#EAEAEA]"></div>
                     </div>
                 </div>
-            </div>
 
-            {/* Subscriptions Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {initialSubscriptions.map((sub, index) => (
-                    <motion.div
-                        key={sub.id}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.1 }}
-                        className="p-6 rounded-3xl bg-[#0A0A0A] border border-white/5 hover:border-white/10 transition-all group relative overflow-hidden"
-                    >
-                        {/* Status Badge */}
-                        <div className="absolute top-6 right-6">
-                            <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide border ${sub.status === 'active'
-                                    ? 'bg-green-500/10 border-green-500/20 text-green-400'
-                                    : 'bg-yellow-500/10 border-yellow-500/20 text-yellow-400'
-                                }`}>
-                                {sub.status === 'active' ? <CheckCircle className="w-3 h-3" /> : <PauseCircle className="w-3 h-3" />}
-                                {sub.status}
-                            </div>
-                        </div>
+                <main className="relative z-10 flex flex-col items-center">
 
-                        {/* Merchant Info */}
-                        <div className="flex items-center gap-4 mb-6">
-                            <div className={`w-12 h-12 rounded-xl flex items-center justify-center font-bold text-lg shadow-lg ${sub.logo}`}>
-                                {sub.merchant[0]}
-                            </div>
-                            <div>
-                                <h3 className="text-xl font-bold text-white">{sub.merchant}</h3>
-                                <p className="text-sm text-gray-400">{sub.plan}</p>
-                            </div>
-                        </div>
+                    {/* Header Section: Centered */}
+                    <div className="text-center mb-16 max-w-3xl">
+                        <span className="text-xs font-mono font-bold tracking-wider mb-4 block text-[#666]">[06] SUBSCRIBER PORTAL</span>
+                        <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold uppercase tracking-tighter leading-[0.9] mb-8">
+                            MY ACTIVE SUBS
+                        </h1>
+                        <p className="text-sm font-mono text-[#666] mb-8 max-w-xs mx-auto leading-relaxed">
+                            Manage payments, view history, and cancel subscriptions directly on-chain.
+                        </p>
 
-                        {/* Details */}
-                        <div className="space-y-4 mb-8">
-                            <div className="flex justify-between items-center p-3 rounded-xl bg-white/5 border border-white/5">
-                                <span className="text-sm text-gray-400 flex items-center gap-2">
-                                    <CreditCard className="w-4 h-4" /> Price
-                                </span>
-                                <span className="text-white font-medium">${sub.price}<span className="text-gray-500 text-xs">/{sub.interval.slice(0, 3)}</span></span>
+                        <div className="flex justify-center gap-6 items-center">
+                            <div className="bg-white border border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] text-left min-w-[200px]">
+                                <span className="text-[10px] font-bold uppercase text-[#666] block mb-1">Total Monthly Spend</span>
+                                <span className="text-2xl font-bold font-mono">$67.98</span>
                             </div>
-                            <div className="flex justify-between items-center p-3 rounded-xl bg-white/5 border border-white/5">
-                                <span className="text-sm text-gray-400 flex items-center gap-2">
-                                    <Calendar className="w-4 h-4" /> Next Charge
-                                </span>
-                                <span className="text-white font-medium">{sub.nextCharge}</span>
-                            </div>
-                        </div>
-
-                        {/* Actions */}
-                        <div className="grid grid-cols-2 gap-3">
-                            {sub.status === 'active' ? (
-                                <>
-                                    <button className="flex items-center justify-center gap-2 py-2.5 rounded-xl bg-white/5 hover:bg-yellow-500/20 text-gray-300 hover:text-yellow-400 font-medium text-sm transition-colors border border-white/5 hover:border-yellow-500/30">
-                                        <PauseCircle className="w-4 h-4" />
-                                        Pause
-                                    </button>
-                                    <button className="flex items-center justify-center gap-2 py-2.5 rounded-xl bg-white/5 hover:bg-red-500/20 text-gray-300 hover:text-red-400 font-medium text-sm transition-colors border border-white/5 hover:border-red-500/30">
-                                        <XCircle className="w-4 h-4" />
-                                        Cancel
-                                    </button>
-                                </>
-                            ) : (
-                                <button className="col-span-2 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-white text-black hover:bg-gray-200 font-bold text-sm transition-colors">
-                                    <RefreshCw className="w-4 h-4" />
-                                    Resume Subscription
-                                </button>
-                            )}
-                        </div>
-
-                        <div className="mt-4 pt-4 border-t border-white/5 text-center">
-                            <button className="text-xs text-gray-500 hover:text-white transition-colors flex items-center justify-center gap-1 mx-auto group-hover:underline">
-                                <Clock className="w-3 h-3" />
-                                View Payment History
+                            <button className="bg-black text-white px-6 py-4 font-bold uppercase hover:bg-[#333] transition-colors flex items-center gap-2 h-[82px]">
+                                <Wallet size={18} /> Connect Wallet
                             </button>
                         </div>
-                    </motion.div>
-                ))}
+                    </div>
+
+                    {/* Content Grid: 3 Columns Next to Each Other */}
+                    <div className="w-full">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {initialSubscriptions.map((sub, index) => (
+                                <div
+                                    key={sub.id}
+                                    className="bg-white border border-black relative group hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-300"
+                                >
+                                    {/* Status Bar */}
+                                    <div className={`w-full h-1 ${sub.status === 'active' ? 'bg-black' : 'bg-[#ccc]'}`}></div>
+
+                                    <div className="p-6 md:p-8">
+                                        <div className="flex justify-between items-start mb-6">
+                                            <div>
+                                                <h3 className="text-2xl font-bold uppercase leading-none mb-2">{sub.merchant}</h3>
+                                                <span className="font-mono text-xs text-black border border-black px-1 uppercase">{sub.plan}</span>
+                                            </div>
+                                            <div className={`px-2 py-0.5 text-[10px] font-bold uppercase border border-black ${sub.status === 'active' ? 'bg-[#EAEAEA] text-black' : 'bg-black text-white'}`}>
+                                                {sub.status}
+                                            </div>
+                                        </div>
+
+                                        <div className="space-y-3 mb-8 font-mono text-sm">
+                                            <div className="flex justify-between items-center border-b border-[#EAEAEA] pb-2">
+                                                <span className="text-[#666]">Amount</span>
+                                                <span className="font-bold">${sub.price}</span>
+                                            </div>
+                                            <div className="flex justify-between items-center border-b border-[#EAEAEA] pb-2">
+                                                <span className="text-[#666]">Next Charge</span>
+                                                <span className="font-bold">{sub.nextCharge}</span>
+                                            </div>
+                                            <div className="flex justify-between items-center border-b border-[#EAEAEA] pb-2">
+                                                <span className="text-[#666]">Interval</span>
+                                                <span className="font-bold uppercase">{sub.interval}</span>
+                                            </div>
+                                        </div>
+
+                                        <div className="grid grid-cols-2 gap-3">
+                                            {sub.status === 'active' ? (
+                                                <>
+                                                    <button className="py-2.5 border border-black text-xs font-bold uppercase hover:bg-[#EAEAEA] transition-colors">
+                                                        Pause
+                                                    </button>
+                                                    <button className="py-2.5 border border-black bg-black text-white text-xs font-bold uppercase hover:bg-[#333] transition-colors">
+                                                        Cancel
+                                                    </button>
+                                                </>
+                                            ) : (
+                                                <button className="col-span-2 py-2.5 border border-black bg-black text-white text-xs font-bold uppercase hover:bg-[#333] transition-colors">
+                                                    Resume Subscription
+                                                </button>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </main>
             </div>
         </div>
     );

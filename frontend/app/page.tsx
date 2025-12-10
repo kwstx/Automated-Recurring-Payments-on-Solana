@@ -6,7 +6,7 @@ import Footer from '@/components/Footer';
 
 export default function Home() {
   return (
-    <main className="relative bg-[#Eaeaea] min-h-screen overflow-hidden text-black font-sans">
+    <main className="relative bg-[#Eaeaea] min-h-screen text-black font-sans">
       <div className="relative z-10">
         <Hero />
         <InfrastructureModules />

@@ -1,6 +1,6 @@
 'use client';
 
-import { Users, CreditCard, Activity, DollarSign, Plus, TrendingUp } from 'lucide-react';
+import { Users, CreditCard, Activity, DollarSign, Plus, TrendingUp, ArrowRight } from 'lucide-react';
 import StatsCard from '@/components/dashboard/StatsCard';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
@@ -13,24 +13,20 @@ const stats = [
 ];
 
 const ChartMock = () => (
-    <div className="relative w-full h-full flex items-end px-4 pb-0 pt-12 overflow-hidden">
+    <div className="relative w-full h-full flex items-end px-4 pb-0 pt-12 overflow-hidden border-t border-[#a3a3a3] bg-white">
         {/* Grid Lines */}
-        <div className="absolute inset-0 z-0 flex flex-col justify-between px-6 py-6 opacity-20">
+        <div className="absolute inset-0 z-0 flex flex-col justify-between px-6 py-6 opacity-30">
             {[...Array(5)].map((_, i) => (
-                <div key={i} className="w-full h-px border-t border-dashed border-white/20" />
+                <div key={i} className="w-full h-px border-t border-[#d4d4d4]" />
             ))}
         </div>
 
         {/* Graph Line */}
         <svg className="w-full h-2/3 z-10 overflow-visible" viewBox="0 0 100 40" preserveAspectRatio="none">
             <defs>
-                <linearGradient id="lineGradient" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0%" stopColor="#8b5cf6" />
-                    <stop offset="100%" stopColor="#3b82f6" />
-                </linearGradient>
                 <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.3" />
-                    <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0" />
+                    <stop offset="0%" stopColor="#000000" stopOpacity="0.1" />
+                    <stop offset="100%" stopColor="#000000" stopOpacity="0" />
                 </linearGradient>
             </defs>
             <path
@@ -40,21 +36,18 @@ const ChartMock = () => (
             <path
                 d="M0,35 Q10,32 20,25 T40,20 T60,15 T80,10 T100,5"
                 fill="none"
-                stroke="url(#lineGradient)"
-                strokeWidth="0.8"
-                strokeLinecap="round"
+                stroke="#000000"
+                strokeWidth="1.5"
+                strokeLinecap="square"
                 vectorEffect="non-scaling-stroke"
             />
         </svg>
 
         {/* Hover Ball Example */}
-        <div className="absolute top-[30%] left-[60%] w-3 h-3 bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,0.8)] z-20">
-            <div className="absolute top-0 left-0 w-full h-full animate-ping rounded-full bg-white opacity-75" />
-
-            {/* Tooltip */}
-            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 bg-white/10 backdrop-blur-md border border-white/20 px-3 py-1.5 rounded-lg text-xs text-white whitespace-nowrap">
+        <div className="absolute top-[30%] left-[60%] w-2 h-2 bg-black z-20">
+            <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 bg-black text-white px-2 py-1 text-xs font-mono font-bold whitespace-nowrap">
                 $24,235
-                <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-white/20" />
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 -mb-px w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-b-[4px] border-b-black" />
             </div>
         </div>
     </div>
@@ -62,17 +55,17 @@ const ChartMock = () => (
 
 export default function DashboardPage() {
     return (
-        <div className="space-y-8 max-w-[1600px] mx-auto">
+        <div className="space-y-8 max-w-[1600px] mx-auto pb-12">
             {/* Header Area */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b border-[#a3a3a3] pb-8">
                 <div>
-                    {/* Breadcrumb / Intro could go here */}
+                    <h2 className="text-3xl font-bold uppercase tracking-tight text-black">Overview</h2>
                 </div>
                 <Link href="/dashboard/create-plan">
-                    <button className="group relative px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl font-medium text-sm text-white shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:scale-[1.02] transition-all duration-300">
-                        <span className="relative z-10 flex items-center gap-2">
-                            <Plus className="w-4 h-4 bg-white/20 rounded p-0.5" />
-                            Create Subscription Plan
+                    <button className="group relative px-6 py-3 bg-black text-white hover:bg-[#1a1a1a] transition-all duration-200 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,0.2)] hover:translate-x-[2px] hover:translate-y-[2px]">
+                        <span className="relative z-10 flex items-center gap-2 font-mono font-bold text-xs uppercase tracking-wider">
+                            <Plus className="w-4 h-4" />
+                            Create Plan
                         </span>
                     </button>
                 </Link>
@@ -89,30 +82,27 @@ export default function DashboardPage() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Main Chart Area */}
                 <motion.div
-                    initial={{ opacity: 0, scale: 0.95 }}
+                    initial={{ opacity: 0, scale: 0.98 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.5, delay: 0.4 }}
-                    className="lg:col-span-2 p-8 rounded-3xl glass-panel relative overflow-hidden group min-h-[400px] flex flex-col"
+                    className="lg:col-span-2 border border-[#a3a3a3] bg-transparent relative overflow-hidden group min-h-[400px] flex flex-col hover:border-black transition-colors duration-300"
                 >
-                    {/* Glow effect */}
-                    <div className="absolute -top-24 -right-24 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl group-hover:bg-purple-500/15 transition-colors duration-500" />
-
-                    <div className="flex justify-between items-center mb-8 relative z-10">
+                    <div className="flex justify-between items-center p-8 bg-white/40">
                         <div>
-                            <h2 className="text-xl font-bold text-white mb-1">Revenue Overview</h2>
-                            <div className="flex items-center gap-2 text-sm text-green-400">
-                                <TrendingUp className="w-4 h-4" />
+                            <h2 className="text-lg font-bold text-black uppercase tracking-tight mb-1">Revenue Overview</h2>
+                            <div className="flex items-center gap-2 text-xs font-mono font-bold text-green-600">
+                                <TrendingUp className="w-3 h-3" />
                                 <span>+12.5% vs last month</span>
                             </div>
                         </div>
-                        <select className="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-sm text-gray-300 outline-none focus:border-purple-500/50 transition-colors cursor-pointer">
-                            <option className="bg-[#0A0A0A]">This Year</option>
-                            <option className="bg-[#0A0A0A]">Last 6 Months</option>
-                            <option className="bg-[#0A0A0A]">Last 30 Days</option>
+                        <select className="bg-transparent border border-[#a3a3a3] px-4 py-2 text-xs font-mono font-bold text-black outline-none focus:border-black transition-colors cursor-pointer uppercase">
+                            <option>This Year</option>
+                            <option>Last 6 Months</option>
+                            <option>Last 30 Days</option>
                         </select>
                     </div>
 
-                    <div className="flex-1 w-full bg-gradient-to-b from-white/[0.02] to-transparent rounded-2xl border border-white/5 relative">
+                    <div className="flex-1 w-full bg-[#f5f5f5]">
                         <ChartMock />
                     </div>
                 </motion.div>
@@ -122,28 +112,28 @@ export default function DashboardPage() {
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.5, delay: 0.5 }}
-                    className="p-8 rounded-3xl glass-panel relative overflow-hidden"
+                    className="border border-[#a3a3a3] bg-white p-0 relative overflow-hidden"
                 >
-                    <div className="flex justify-between items-center mb-6">
-                        <h2 className="text-xl font-bold text-white">Recent Activity</h2>
-                        <button className="text-xs text-purple-400 hover:text-purple-300 font-medium px-3 py-1.5 rounded-lg hover:bg-white/5 transition-colors">See All</button>
+                    <div className="flex justify-between items-center p-6 border-b border-[#a3a3a3] bg-[#f5f5f5]">
+                        <h2 className="text-lg font-bold text-black uppercase tracking-tight">Recent Activity</h2>
+                        <button className="text-xs font-mono font-bold text-black hover:underline uppercase">See All</button>
                     </div>
 
-                    <div className="space-y-4">
+                    <div className="divide-y divide-[#EAEAEA]">
                         {[1, 2, 3, 4, 5].map((_, i) => (
-                            <div key={i} className="flex items-center justify-between p-3 rounded-2xl hover:bg-white/5 border border-transparent hover:border-white/5 transition-all duration-200 cursor-pointer group">
+                            <div key={i} className="flex items-center justify-between p-4 hover:bg-[#fafafa] transition-colors cursor-pointer group">
                                 <div className="flex items-center gap-4">
-                                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-colors ${i % 2 === 0 ? 'bg-blue-500/10 text-blue-400 group-hover:bg-blue-500/20' : 'bg-purple-500/10 text-purple-400 group-hover:bg-purple-500/20'}`}>
-                                        {i % 2 === 0 ? <Users className="w-5 h-5" /> : <CreditCard className="w-5 h-5" />}
+                                    <div className={`w-10 h-10 border border-[#a3a3a3] flex items-center justify-center transition-colors ${i % 2 === 0 ? 'bg-blue-50 text-blue-600' : 'bg-purple-50 text-purple-600'}`}>
+                                        {i % 2 === 0 ? <Users className="w-4 h-4" /> : <CreditCard className="w-4 h-4" />}
                                     </div>
                                     <div>
-                                        <p className="text-sm font-semibold text-white group-hover:text-purple-200 transition-colors">Orbit Studio Pro</p>
-                                        <p className="text-xs text-gray-500">2 minutes ago</p>
+                                        <p className="text-sm font-bold text-black uppercase tracking-tight group-hover:underline">Orbit Studio Pro</p>
+                                        <p className="text-xs text-[#999] font-mono">2 mins ago</p>
                                     </div>
                                 </div>
                                 <div className="text-right">
-                                    <span className="block text-sm font-bold text-white">$250.00</span>
-                                    <span className="text-xs text-gray-500 flex items-center justify-end gap-1">
+                                    <span className="block text-sm font-bold text-black">$250.00</span>
+                                    <span className="text-[10px] font-mono font-bold text-[#999] uppercase">
                                         Subscribed
                                     </span>
                                 </div>
@@ -151,8 +141,11 @@ export default function DashboardPage() {
                         ))}
                     </div>
 
-                    {/* Bottom gradient fade */}
-                    <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#0A0A0A] to-transparent pointer-events-none opacity-50" />
+                    <div className="p-4 border-t border-[#a3a3a3] bg-[#f5f5f5]">
+                        <button className="w-full py-3 border border-black text-black font-mono font-bold text-xs uppercase hover:bg-black hover:text-white transition-all flex items-center justify-center gap-2">
+                            View All Transactions <ArrowRight className="w-3 h-3" />
+                        </button>
+                    </div>
                 </motion.div>
             </div>
         </div>

@@ -41,7 +41,7 @@ export default function InfrastructureModules() {
                 {/* Left Column: Fixed Header & Info */}
                 <div className="relative p-6 md:p-10 flex flex-col h-full md:relative">
                     {/* Vertical Line */}
-                    <div className="absolute right-[8px] top-[-3000px] bottom-0 w-px bg-[#d4d4d4] hidden md:block"></div>
+                    <div className="absolute right-[8px] -top-[150vh] bottom-0 w-px bg-[#d4d4d4] hidden md:block"></div>
 
                     <div className="w-full shrink-0">
                         <span className="text-xs font-mono font-bold tracking-wider mb-4 block">[01] PAYMENT PRIMITIVES</span>

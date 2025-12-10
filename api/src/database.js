@@ -10,9 +10,13 @@ const dbPath = process.env.DATABASE_PATH || './billing.db';
 const db = new Database(dbPath);
 
 // Initialize database with schema
-const schema = readFileSync(join(__dirname, '../schema.sql'), 'utf-8');
-db.exec(schema);
-
-console.log('Database initialized successfully');
+try {
+    const schema = readFileSync(join(__dirname, '../schema.sql'), 'utf-8');
+    db.exec(schema);
+    console.log('Database initialized successfully');
+} catch (error) {
+    console.error('Failed to initialize database schema:', error);
+    process.exit(1);
+}
 
 export default db;

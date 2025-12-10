@@ -13,7 +13,7 @@ export default function Hero() {
       {/* Wrapper for Content Below Top Line */}
       <div className="relative flex-1 flex flex-col min-h-0">
         {/* Background Grid Lines Layer */}
-        <div className="absolute inset-0 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-12 pointer-events-none z-0">
+        <div className="absolute inset-x-0 bottom-0 -top-4 md:-top-6 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-12 pointer-events-none z-0">
           {/* Left Spacer (matches col-span-4) */}
           <div className="hidden md:block md:col-span-4 lg:col-span-3"></div>
           {/* Right Area (matches col-span-8) - Contains Vertical Lines */}
@@ -45,12 +45,12 @@ export default function Hero() {
             <div className="md:col-span-4 lg:col-span-4 flex flex-col items-start text-left text-xs md:text-sm font-medium leading-relaxed gap-1 pl-4 md:pl-12 lg:pl-16">
               <div className="w-full flex justify-between">
                 <div>
-                  <Link href="#" className="block hover:underline">SDKs</Link>
-                  <Link href="#" className="block hover:underline">Webhooks</Link>
-                  <Link href="#" className="block hover:underline">Resources</Link>
-                  <Link href="#" className="block hover:underline">Pricing</Link>
-                  <Link href="#" className="block hover:underline">Docs</Link>
-                  <Link href="#" className="block hover:underline">Portal</Link>
+                  <Link href="/sdks" className="block hover:underline">SDKs</Link>
+                  <Link href="/webhooks" className="block hover:underline">Webhooks</Link>
+                  <Link href="/resources" className="block hover:underline">Resources</Link>
+                  <Link href="/pricing" className="block hover:underline">Pricing</Link>
+                  <Link href="/docs" className="block hover:underline">Docs</Link>
+                  <Link href="/portal" className="block hover:underline">Portal</Link>
                   <div className="h-2"></div>
                   <Link href="/login" className="block font-bold underline decoration-1 underline-offset-4 hover:text-black">Launch App</Link>
                 </div>

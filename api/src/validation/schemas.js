@@ -7,7 +7,7 @@ import { solanaPublicKey, urlValidator, timestamp, positiveInteger, currency, in
 export const registerSchema = Joi.object({
     username: Joi.string().min(3).max(50).required(),
     password: Joi.string().min(8).max(100).required(),
-    walletAddress: solanaPublicKey.required()
+    email: Joi.string().email().required()
 });
 
 export const loginSchema = Joi.object({

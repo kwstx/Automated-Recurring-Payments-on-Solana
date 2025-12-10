@@ -9,9 +9,6 @@ import { authAPI } from '@/lib/api-client';
 
 function RegisterContent() {
     const router = useRouter();
-    const title = 'Join Kvents';
-    const subtitle = 'Create your account to get started.';
-
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
@@ -24,84 +21,88 @@ function RegisterContent() {
         setIsLoading(true);
 
         try {
-            await authAPI.register(username, password, email);
-            // On success, redirect to login (authAPI.register returns { message, merchantId })
-            router.push('/login?registered=true');
+            // Call the register API
+            const response = await authAPI.register(username, password, email);
+
+            // Auto-login: Store token and redirect to dashboard
+            if (response.data.token) {
+                localStorage.setItem('auth_token', response.data.token);
+                // Also store minimal user info if needed
+                if (response.data.merchant) {
+                    localStorage.setItem('merchant_info', JSON.stringify(response.data.merchant));
+                }
+                router.push('/dashboard');
+            } else {
+                // Fallback if no token returned (shouldn't happen with new backend)
+                router.push('/login?registered=true');
+            }
         } catch (err: any) {
-            setError(err.response?.data?.error || 'Registration failed. Please try again.');
+            console.error('Registration error:', err);
+            const errorMessage = err.response?.data?.error
+                || err.message
+                || 'Registration failed. Please check your connection.';
+            const errorDetails = err.response?.data?.details
+                ? JSON.stringify(err.response.data.details)
+                : '';
+            setError(`${errorMessage} ${errorDetails}`);
         } finally {
             setIsLoading(false);
         }
     };
 
     return (
-        <div className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden bg-[#050505] text-white font-sans selection:bg-purple-500/30">
-
-            {/* Background Blobs - Consistent with Login */}
-            <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-                {/* Green Blob - Left */}
-                <div className="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-green-500/20 rounded-full blur-[120px] mix-blend-screen opacity-60 animate-pulse-slow"></div>
-                {/* Purple Blob - Right */}
-                <div className="absolute top-1/2 right-1/4 translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-600/20 rounded-full blur-[120px] mix-blend-screen opacity-60 animate-pulse-slow delay-700"></div>
-            </div>
-
-            {/* Content Container */}
+        <div className="relative min-h-screen flex items-center justify-center px-4 py-12 bg-[#EAEAEA] text-[#1a1a1a] font-sans">
             <motion.div
-                initial={{ opacity: 0, scale: 0.98 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
-                className="w-full max-w-[480px] relative z-10"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                className="w-full max-w-[900px] relative z-10"
             >
                 {/* Back Link */}
-                <Link href="/" className="absolute -top-16 left-0 inline-flex items-center gap-2 text-white/40 hover:text-white transition-colors text-xs font-medium tracking-wide uppercase">
+                <Link href="/" className="inline-flex items-center gap-2 text-[#666] hover:text-[#1a1a1a] transition-colors text-xs font-mono font-bold tracking-wider uppercase mb-8">
                     <ArrowLeft className="w-3 h-3" />
                     Back
                 </Link>
 
-                {/* Glassmorphic Card */}
-                <div className="relative rounded-[32px] p-1">
-                    {/* Subtle border gradient */}
-                    <div className="absolute inset-0 rounded-[32px] border border-white/5 pointer-events-none"></div>
-
-                    <div className="relative bg-[#0A0A0A]/80 backdrop-blur-3xl rounded-[30px] p-8 md:p-12 shadow-2xl border border-white/5">
-
-                        {/* Header */}
-                        <div className="text-center mb-8">
-                            {/* Icon */}
-                            <div className="flex justify-center mb-6">
-                                <div className="text-white">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="8.5" cy="7" r="4" /><line x1="20" y1="8" x2="20" y2="14" /><line x1="23" y1="11" x2="17" y2="11" /></svg>
-                                </div>
-                            </div>
-
-                            <h1 className="text-2xl font-bold text-white tracking-tight mb-3">{title}</h1>
-                            <p className="text-white/60 text-sm font-medium">{subtitle}</p>
+                <div className="grid grid-cols-1 md:grid-cols-[40%_1fr] border border-[#a3a3a3]">
+                    {/* Left Column: Header */}
+                    <div className="relative p-8 md:p-10 border-b md:border-b-0 md:border-r border-[#a3a3a3] flex flex-col justify-between">
+                        <div>
+                            <span className="text-xs font-mono font-bold tracking-wider mb-6 block">[01] REGISTER</span>
+                            <h1 className="text-3xl md:text-4xl font-bold uppercase tracking-tight leading-[0.9] text-black mb-4">
+                                CREATE<br />
+                                ACCOUNT
+                            </h1>
+                            <p className="text-sm text-[#666] leading-relaxed">
+                                Join the platform to access subscription billing infrastructure.
+                            </p>
                         </div>
+                    </div>
 
-                        {/* Form */}
-                        <form onSubmit={handleRegister} className="space-y-5">
-
+                    {/* Right Column: Form */}
+                    <div className="p-8 md:p-10">
+                        <form onSubmit={handleRegister} className="space-y-6">
                             {/* Username Input */}
                             <div className="space-y-2">
-                                <label className="text-[13px] font-semibold text-white/90 ml-1">Username</label>
+                                <label className="text-xs font-mono font-bold tracking-wider uppercase text-[#666]">Username</label>
                                 <input
                                     type="text"
                                     value={username}
                                     onChange={(e) => setUsername(e.target.value)}
-                                    className="w-full bg-white/[0.07] hover:bg-white/[0.1] focus:bg-white/[0.1] border border-transparent focus:border-white/10 rounded-xl px-4 py-3.5 text-white/90 placeholder:text-white/30 outline-none transition-all text-[15px]"
+                                    className="w-full bg-transparent border-b border-[#a3a3a3] px-0 py-3 text-[#1a1a1a] placeholder:text-[#999] outline-none focus:border-black transition-colors text-sm"
                                     placeholder="Choose a username"
                                     required
                                 />
                             </div>
 
-                            {/* Email Input (Replaces Wallet Address) */}
+                            {/* Email Input */}
                             <div className="space-y-2">
-                                <label className="text-[13px] font-semibold text-white/90 ml-1">Email Address</label>
+                                <label className="text-xs font-mono font-bold tracking-wider uppercase text-[#666]">Email Address</label>
                                 <input
                                     type="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full bg-white/[0.07] hover:bg-white/[0.1] focus:bg-white/[0.1] border border-transparent focus:border-white/10 rounded-xl px-4 py-3.5 text-white/90 placeholder:text-white/30 outline-none transition-all text-[15px]"
+                                    className="w-full bg-transparent border-b border-[#a3a3a3] px-0 py-3 text-[#1a1a1a] placeholder:text-[#999] outline-none focus:border-black transition-colors text-sm"
                                     placeholder="name@example.com"
                                     required
                                 />
@@ -109,12 +110,12 @@ function RegisterContent() {
 
                             {/* Password Input */}
                             <div className="space-y-2">
-                                <label className="text-[13px] font-semibold text-white/90 ml-1">Password</label>
+                                <label className="text-xs font-mono font-bold tracking-wider uppercase text-[#666]">Password</label>
                                 <input
                                     type="password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full bg-white/[0.07] hover:bg-white/[0.1] focus:bg-white/[0.1] border border-transparent focus:border-white/10 rounded-xl px-4 py-3.5 text-white/90 placeholder:text-white/30 outline-none transition-all text-[15px]"
+                                    className="w-full bg-transparent border-b border-[#a3a3a3] px-0 py-3 text-[#1a1a1a] placeholder:text-[#999] outline-none focus:border-black transition-colors text-sm"
                                     placeholder="Create a strong password"
                                     required
                                 />
@@ -124,36 +125,34 @@ function RegisterContent() {
                                 <motion.div
                                     initial={{ opacity: 0, height: 0 }}
                                     animate={{ opacity: 1, height: 'auto' }}
-                                    className="text-red-400 text-xs text-center font-medium bg-red-500/10 py-2 rounded-lg"
+                                    className="text-red-600 text-xs font-medium bg-red-50 border border-red-200 py-2 px-3"
                                 >
                                     {error}
                                 </motion.div>
                             )}
 
-                            {/* White Primary Button */}
+                            {/* Submit Button */}
                             <button
                                 type="submit"
                                 disabled={isLoading}
-                                className="w-full py-3.5 rounded-xl bg-white text-black font-bold text-[15px] hover:bg-gray-100 hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-70 flex items-center justify-center gap-2 mt-4 shadow-lg shadow-white/5"
+                                className="w-full py-4 bg-black text-white font-bold text-sm uppercase tracking-wide hover:bg-[#1a1a1a] active:scale-[0.99] transition-all disabled:opacity-50 flex items-center justify-center gap-2"
                             >
                                 {isLoading ? (
-                                    <Loader2 className="w-5 h-5 animate-spin text-black" />
+                                    <Loader2 className="w-5 h-5 animate-spin" />
                                 ) : (
                                     'Create Account'
                                 )}
                             </button>
 
+                            <div className="pt-4 text-center border-t border-[#d4d4d4]">
+                                <p className="text-xs text-[#666]">
+                                    Already have an account?{' '}
+                                    <Link href="/login" className="text-black font-bold hover:underline transition-all">
+                                        Sign in here
+                                    </Link>
+                                </p>
+                            </div>
                         </form>
-
-                        {/* Footer */}
-                        <div className="mt-8 pt-6 border-t border-white/10 text-center">
-                            <p className="text-sm text-white/40">
-                                Already have an account?{' '}
-                                <Link href="/login" className="text-white hover:text-purple-300 font-semibold transition-colors">
-                                    Sign in here
-                                </Link>
-                            </p>
-                        </div>
                     </div>
                 </div>
             </motion.div>
@@ -164,8 +163,8 @@ function RegisterContent() {
 export default function RegisterPage() {
     return (
         <Suspense fallback={
-            <div className="min-h-screen bg-black flex items-center justify-center">
-                <Loader2 className="w-8 h-8 text-white animate-spin" />
+            <div className="min-h-screen bg-[#EAEAEA] flex items-center justify-center">
+                <Loader2 className="w-8 h-8 text-black animate-spin" />
             </div>
         }>
             <RegisterContent />

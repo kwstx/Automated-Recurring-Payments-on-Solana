@@ -173,3 +173,45 @@ export const getSubscriptionStatus = (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 };
+// NEW: Get all subscriptions for a merchant
+export const getMerchantSubscriptions = (req, res) => {
+    const merchantId = req.user.id;
+
+    try {
+        const subscriptions = db.prepare(`
+            SELECT 
+                s.id,
+                s.subscription_pda,
+                s.subscriber_pubkey,
+                s.status,
+                s.next_billing_timestamp,
+                s.payment_count,
+                s.created_at,
+                s.last_payment_at,
+                p.name as plan_name,
+                p.amount as plan_amount
+            FROM subscriptions s
+            JOIN plans p ON s.plan_id = p.id
+            WHERE p.merchant_id = ?
+            ORDER BY s.created_at DESC
+        `).all(merchantId);
+
+        res.json({
+            subscriptions: subscriptions.map(sub => ({
+                id: sub.id,
+                subscriptionPda: sub.subscription_pda,
+                wallet: sub.subscriber_pubkey, // Mapped for frontend compatibility
+                plan: sub.plan_name,
+                amount: sub.plan_amount,
+                status: sub.status,
+                nextBilling: sub.next_billing_timestamp,
+                paymentCount: sub.payment_count,
+                createdAt: sub.created_at,
+                lastPaymentAt: sub.last_payment_at
+            }))
+        });
+    } catch (error) {
+        logger.error('Get merchant subscriptions error', { error: error.message, merchantId });
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};

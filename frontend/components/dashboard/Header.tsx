@@ -6,43 +6,45 @@ import { Bell, Search } from 'lucide-react';
 
 export default function Header({ title }: { title: string }) {
     return (
-        <header className="fixed top-0 right-0 left-0 md:left-[280px] h-24 z-30 px-8 flex items-center justify-between">
-            {/* Page Title / Breadcrumbs */}
+        <header className="fixed top-0 right-0 left-0 md:left-[280px] h-24 z-30 px-8 flex items-center justify-between bg-[#EAEAEA] border-b border-[#a3a3a3]">
+            {/* Page Title */}
             <div>
-                <h1 className="text-3xl font-bold text-white tracking-tight">{title}</h1>
-                <p className="text-gray-400 text-sm mt-1">Welcome back to your dashboard</p>
+                <span className="text-xs font-mono font-bold text-[#666] uppercase tracking-wider block mb-1">Area</span>
+                <h1 className="text-2xl font-bold text-black uppercase tracking-tight leading-none">{title}</h1>
             </div>
 
             {/* Right Actions */}
             <div className="flex items-center gap-4">
                 {/* Search */}
-                <div className="hidden md:flex items-center px-4 py-2.5 bg-white/[0.03] rounded-xl border border-white/[0.05] focus-within:border-purple-500/30 focus-within:bg-white/[0.05] transition-all duration-300 w-72 group">
-                    <Search className="w-4 h-4 text-gray-400 group-focus-within:text-purple-400 transition-colors mr-3" />
+                <div className="hidden md:flex items-center px-4 py-2.5 bg-transparent border border-[#a3a3a3] w-64 focus-within:border-black focus-within:bg-white transition-all duration-200 group">
+                    <Search className="w-4 h-4 text-[#666] group-focus-within:text-black transition-colors mr-3" />
                     <input
                         type="text"
-                        placeholder="Search..."
-                        className="bg-transparent border-none outline-none text-sm text-white placeholder-gray-500 w-full"
+                        placeholder="SEARCH..."
+                        className="bg-transparent border-none outline-none text-xs font-mono font-bold text-black placeholder:text-[#999] w-full uppercase"
                     />
                 </div>
 
                 {/* Notifications */}
-                <button className="relative w-11 h-11 rounded-xl bg-white/[0.03] flex items-center justify-center hover:bg-white/[0.08] transition-all duration-300 border border-white/[0.05] hover:border-white/[0.1]">
-                    <Bell className="w-5 h-5 text-gray-400" />
-                    <span className="absolute top-3 right-3 w-2 h-2 bg-purple-500 rounded-full shadow-[0_0_8px_rgba(168,85,247,0.5)]" />
+                <button className="relative w-10 h-10 flex items-center justify-center border border-[#a3a3a3] hover:bg-black hover:border-black hover:text-white transition-all duration-200 text-[#666]">
+                    <Bell className="w-4 h-4" />
+                    <span className="absolute top-2 right-2 w-1.5 h-1.5 bg-black hover:bg-white rounded-full" />
                 </button>
 
-                {/* Wallet Button */}
-                <div className="glass-button rounded-xl overflow-hidden hover:scale-105 active:scale-95 transition-all duration-200">
+                {/* Wallet Button Wrapper for Brutalist Style */}
+                <div className="border border-black bg-black hover:bg-[#1a1a1a] transition-colors">
                     <WalletMultiButton style={{
                         backgroundColor: 'transparent',
                         border: 'none',
                         borderRadius: '0',
                         padding: '0 1.5rem',
-                        height: '44px',
-                        fontSize: '0.875rem',
-                        fontWeight: 600,
+                        height: '40px',
+                        fontSize: '0.75rem',
+                        fontWeight: 700,
                         color: 'white',
-                        fontFamily: 'inherit',
+                        fontFamily: 'monospace',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.05em',
                     }} />
                 </div>
             </div>
