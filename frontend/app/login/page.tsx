@@ -168,7 +168,7 @@ const RoleSelection = () => {
                 </Link>
 
                 {/* Subscriber Card */}
-                <Link href="/login?role=subscriber" className="group relative hover:bg-[#f5f5f5] transition-colors">
+                <Link href="/portal" className="group relative hover:bg-[#f5f5f5] transition-colors">
                     <div className="p-10 md:p-12">
                         <div className="w-12 h-12 bg-black flex items-center justify-center mb-6">
                             <Wallet className="w-6 h-6 text-white" />

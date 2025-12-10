@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Hero() {
   return (
@@ -76,12 +77,12 @@ export default function Hero() {
 
           {/* Left: Square Gray Box with Gradient */}
           <div className="md:col-span-4 lg:col-span-3 flex items-center justify-end py-4">
-            <div className="relative h-48 md:h-60 lg:h-72 xl:h-[22rem] aspect-square bg-[#d0d0d0]">
-              {/* Gradient inside gray box */}
-              <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
-                <div className="w-[90%] h-[90%] rounded-[30%_70%_70%_30%_/_30%_30%_70%_70%] bg-gradient-to-br from-[#ff5f6d] via-[#ffc371] to-[#ff5f6d] blur-2xl opacity-70 animate-morph-slow"></div>
-                <div className="absolute w-[70%] h-[70%] rounded-full bg-gradient-to-tr from-blue-400 to-purple-500 blur-2xl opacity-50 animate-morph-reverse"></div>
-              </div>
+            <div className="relative h-48 md:h-60 lg:h-72 xl:h-[22rem] aspect-square">
+              <img
+                src="/hero-graphic.png"
+                alt="Abstract Hero Graphic"
+                className="w-full h-full object-contain brightness-[0.25]"
+              />
             </div>
           </div>
 

@@ -88,13 +88,15 @@ export default function Footer() {
                             viewport={{ once: true }}
                         >
                             <motion.h4 variants={itemVariants} className="text-sm text-[#666] mb-6">Tools & Infrastructure:</motion.h4>
-                            <ul className="space-y-3 text-sm font-medium">
-                                {["SDK Reference", "API Docs", "Webhooks", "Pricing", "Status", "Github", "Audit"].map((item) => (
-                                    <motion.li key={item} variants={itemVariants}>
-                                        <Link href="#" className="hover:text-[#666]">{item}</Link>
-                                    </motion.li>
-                                ))}
-                            </ul>
+                            <motion.ul variants={containerVariants} className="space-y-3 text-sm font-medium">
+                                <motion.li variants={itemVariants}><Link href="/sdks" className="hover:text-[#666]">SDK Reference</Link></motion.li>
+                                <motion.li variants={itemVariants}><Link href="/resources/api-reference" className="hover:text-[#666]">API Docs</Link></motion.li>
+                                <motion.li variants={itemVariants}><Link href="/webhooks" className="hover:text-[#666]">Webhooks</Link></motion.li>
+                                <motion.li variants={itemVariants}><Link href="/pricing" className="hover:text-[#666]">Pricing</Link></motion.li>
+                                <motion.li variants={itemVariants}><Link href="/status" className="hover:text-[#666]">Status</Link></motion.li>
+                                <motion.li variants={itemVariants}><Link href="/resources/open-source" className="hover:text-[#666]">Github</Link></motion.li>
+                                <motion.li variants={itemVariants}><Link href="/audit" className="hover:text-[#666]">Audit</Link></motion.li>
+                            </motion.ul>
                         </motion.div>
 
                         {/* Column 2 */}
@@ -106,22 +108,18 @@ export default function Footer() {
                             viewport={{ once: true }}
                         >
                             <motion.h4 variants={itemVariants} className="text-sm text-[#666] mb-6">Build</motion.h4>
-                            <ul className="space-y-3 text-sm font-medium">
-                                {["Quickstart", "Integration Guides", "Examples"].map((item) => (
-                                    <motion.li key={item} variants={itemVariants}>
-                                        <Link href="#" className="hover:text-[#666]">{item}</Link>
-                                    </motion.li>
-                                ))}
-                            </ul>
+                            <motion.ul variants={containerVariants} className="space-y-3 text-sm font-medium">
+                                <motion.li variants={itemVariants}><Link href="/docs/quick-start" className="hover:text-[#666]">Quickstart</Link></motion.li>
+                                <motion.li variants={itemVariants}><Link href="/resources" className="hover:text-[#666]">Integration Guides</Link></motion.li>
+                                <motion.li variants={itemVariants}><Link href="/examples" className="hover:text-[#666]">Examples</Link></motion.li>
+                            </motion.ul>
 
                             <motion.h4 variants={itemVariants} className="text-sm text-[#666] mb-6 mt-12">Company</motion.h4>
-                            <ul className="space-y-3 text-sm font-medium">
-                                {["About", "Careers", "Contact"].map((item) => (
-                                    <motion.li key={item} variants={itemVariants}>
-                                        <Link href="#" className="hover:text-[#666]">{item}</Link>
-                                    </motion.li>
-                                ))}
-                            </ul>
+                            <motion.ul variants={containerVariants} className="space-y-3 text-sm font-medium">
+                                <motion.li variants={itemVariants}><Link href="/about" className="hover:text-[#666]">About</Link></motion.li>
+                                <motion.li variants={itemVariants}><Link href="/careers" className="hover:text-[#666]">Careers</Link></motion.li>
+                                <motion.li variants={itemVariants}><Link href="/contact" className="hover:text-[#666]">Contact</Link></motion.li>
+                            </motion.ul>
                         </motion.div>
 
                         {/* Column 3 */}
@@ -133,13 +131,11 @@ export default function Footer() {
                             viewport={{ once: true }}
                         >
                             <motion.h4 variants={itemVariants} className="text-sm text-[#666] mb-6">Community</motion.h4>
-                            <ul className="space-y-3 text-sm font-medium">
-                                {["Twitter", "Discord", "Blog"].map((item) => (
-                                    <motion.li key={item} variants={itemVariants}>
-                                        <Link href="#" className="hover:text-[#666]">{item}</Link>
-                                    </motion.li>
-                                ))}
-                            </ul>
+                            <motion.ul variants={containerVariants} className="space-y-3 text-sm font-medium">
+                                <motion.li variants={itemVariants}><Link href="https://twitter.com" target="_blank" className="hover:text-[#666]">Twitter</Link></motion.li>
+                                <motion.li variants={itemVariants}><Link href="https://discord.com" target="_blank" className="hover:text-[#666]">Discord</Link></motion.li>
+                                <motion.li variants={itemVariants}><Link href="/blog" className="hover:text-[#666]">Blog</Link></motion.li>
+                            </motion.ul>
                         </motion.div>
 
                         {/* Column 4 - Empty */}

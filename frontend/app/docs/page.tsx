@@ -1,7 +1,9 @@
 'use client';
 
 import LandingHeader from '@/components/LandingHeader';
+import DocsSidebar from '@/components/DocsSidebar';
 import { Search, ChevronRight, FileText, Code, Settings } from 'lucide-react';
+import Link from 'next/link';
 
 export default function DocsPage() {
     return (
@@ -12,30 +14,7 @@ export default function DocsPage() {
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
 
                     {/* Sidebar */}
-                    <aside className="hidden lg:block space-y-8 sticky top-32 h-fit">
-                        <div className="relative">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#999]" />
-                            <input
-                                type="text"
-                                placeholder="Search docs..."
-                                className="w-full pl-10 pr-4 py-2 bg-white border border-[#ccc] font-mono text-sm focus:border-black outline-none transition-colors"
-                            />
-                        </div>
-
-                        <div className="space-y-1">
-                            <h4 className="font-bold uppercase text-xs tracking-wider mb-4 text-[#666]">Getting Started</h4>
-                            <a href="#" className="block py-1 font-bold text-black border-l-2 border-black pl-3">Introduction</a>
-                            <a href="#" className="block py-1 text-[#666] hover:text-black hover:border-l-2 hover:border-[#ccc] pl-3 transition-all">Quick Start</a>
-                            <a href="#" className="block py-1 text-[#666] hover:text-black hover:border-l-2 hover:border-[#ccc] pl-3 transition-all">Installation</a>
-                        </div>
-
-                        <div className="space-y-1">
-                            <h4 className="font-bold uppercase text-xs tracking-wider mb-4 mt-8 text-[#666]">Core Concepts</h4>
-                            <a href="#" className="block py-1 text-[#666] hover:text-black hover:border-l-2 hover:border-[#ccc] pl-3 transition-all">Plans</a>
-                            <a href="#" className="block py-1 text-[#666] hover:text-black hover:border-l-2 hover:border-[#ccc] pl-3 transition-all">Subscriptions</a>
-                            <a href="#" className="block py-1 text-[#666] hover:text-black hover:border-l-2 hover:border-[#ccc] pl-3 transition-all">Invoices</a>
-                        </div>
-                    </aside>
+                    <DocsSidebar />
 
                     {/* Main Content */}
                     <div className="lg:col-span-3">
@@ -48,7 +27,7 @@ export default function DocsPage() {
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
-                            <div className="p-6 border border-[#a3a3a3] bg-white hover:border-black transition-colors group cursor-pointer">
+                            <Link href="/docs/quick-start" className="p-6 border border-[#a3a3a3] bg-white hover:border-black transition-colors group cursor-pointer block">
                                 <FileText className="w-8 h-8 mb-4 group-hover:scale-110 transition-transform" />
                                 <h3 className="text-xl font-bold uppercase mb-2 flex items-center gap-2">
                                     Quick Start <ChevronRight size={16} />
@@ -56,8 +35,8 @@ export default function DocsPage() {
                                 <p className="text-sm font-mono text-[#666]">
                                     Deploy your first subscription plan in under 5 minutes using our CLI.
                                 </p>
-                            </div>
-                            <div className="p-6 border border-[#a3a3a3] bg-white hover:border-black transition-colors group cursor-pointer">
+                            </Link>
+                            <Link href="/sdks" className="p-6 border border-[#a3a3a3] bg-white hover:border-black transition-colors group cursor-pointer block">
                                 <Code className="w-8 h-8 mb-4 group-hover:scale-110 transition-transform" />
                                 <h3 className="text-xl font-bold uppercase mb-2 flex items-center gap-2">
                                     SDK Reference <ChevronRight size={16} />
@@ -65,7 +44,7 @@ export default function DocsPage() {
                                 <p className="text-sm font-mono text-[#666]">
                                     Detailed documentation for our TypeScript and Rust client libraries.
                                 </p>
-                            </div>
+                            </Link>
                         </div>
 
                         <div className="prose max-w-none font-mono text-sm leading-7">

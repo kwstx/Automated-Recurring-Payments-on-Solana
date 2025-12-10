@@ -3,6 +3,9 @@
 import LandingHeader from '@/components/LandingHeader';
 import { motion } from 'framer-motion';
 import { Wallet } from 'lucide-react';
+import { useWallet } from '@solana/wallet-adapter-react';
+import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+import { useEffect, useState } from 'react';
 
 // Mock Data for User Subscriptions
 const initialSubscriptions = [
@@ -36,6 +39,59 @@ const initialSubscriptions = [
 ];
 
 export default function PortalPage() {
+    const { connected } = useWallet();
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    // Prevent hydration mismatch by not rendering wallet logic until mounted
+    if (!mounted) return null;
+
+    if (!connected) {
+        return (
+            <div className="min-h-screen bg-[#F5F5F5] text-black font-sans flex flex-col">
+                <LandingHeader />
+                <div className="flex-1 flex flex-col items-center justify-center p-4">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="max-w-md w-full text-center"
+                    >
+                        <span className="text-xs font-mono font-bold tracking-wider mb-6 block text-[#666]">[06] SUBSCRIBER PORTAL</span>
+                        <h1 className="text-4xl md:text-5xl font-bold uppercase tracking-tight leading-[0.9] mb-6">
+                            Connect<br />Wallet
+                        </h1>
+                        <p className="text-sm font-mono text-[#666] mb-12 leading-relaxed">
+                            To view your active subscriptions and manage payments, please connect your Solana wallet.
+                        </p>
+
+                        <div className="flex justify-center w-full">
+                            <WalletMultiButton style={{
+                                backgroundColor: '#000000',
+                                color: '#ffffff',
+                                fontFamily: 'monospace',
+                                fontWeight: 'bold',
+                                textTransform: 'uppercase',
+                                padding: '24px 32px',
+                                borderRadius: '0px',
+                                width: '100%',
+                                justifyContent: 'center'
+                            }} />
+                        </div>
+
+                        <div className="mt-8 pt-8 border-t border-[#ccc]">
+                            <p className="text-xs text-[#666] font-mono">
+                                Don't have a wallet? <a href="https://phantom.app/" target="_blank" className="underline text-black">Get started here</a>.
+                            </p>
+                        </div>
+                    </motion.div>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="min-h-screen bg-white text-black font-sans overflow-x-hidden">
             <LandingHeader />
@@ -67,9 +123,15 @@ export default function PortalPage() {
                                 <span className="text-[10px] font-bold uppercase text-[#666] block mb-1">Total Monthly Spend</span>
                                 <span className="text-2xl font-bold font-mono">$67.98</span>
                             </div>
-                            <button className="bg-black text-white px-6 py-4 font-bold uppercase hover:bg-[#333] transition-colors flex items-center gap-2 h-[82px]">
-                                <Wallet size={18} /> Connect Wallet
-                            </button>
+                            <div className="flex items-center gap-2 h-[82px] px-6">
+                                <WalletMultiButton style={{
+                                    backgroundColor: '#000000',
+                                    height: '50px',
+                                    borderRadius: '0px',
+                                    fontFamily: 'monospace',
+                                    fontSize: '12px'
+                                }} />
+                            </div>
                         </div>
                     </div>
 

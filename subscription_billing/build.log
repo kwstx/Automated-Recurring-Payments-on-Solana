@@ -1,0 +1,7 @@
+WARNING: `@coral-xyz/anchor` version(^0.29.0) and the current CLI version(0.30.1) don't match.
+
+	This can lead to unwanted behavior. To fix, upgrade the package by running:
+
+	yarn upgrade @coral-xyz/anchor@0.30.1
+
+    Finished release [optimized] target(s) in 3.86s
