@@ -7,27 +7,27 @@ import { ArrowDown, ArrowUpRight, Check, Box } from 'lucide-react';
 const modules = [
     {
         id: 'recurring',
-        title: 'RECURRING ENGINE: AUTOMATED BILLING',
-        description: 'Monitor and execute recurring payment streams with on-chain precision. Perfect for SaaS and subscription models on Solana.',
-        tags: ['Automation', 'Cron', 'Payments']
+        title: 'RECURRING FLOWS: AUTO-SWEEPS',
+        description: 'Automate periodic payouts with on-chain precision. Non-custodial, high-frequency settlement layers for modern SaaS.',
+        tags: ['Auto-Sweeps', 'Cron', 'Settlement']
     },
     {
         id: 'token-gate',
-        title: 'TOKEN GATE: ACCESS CONTROL',
-        description: 'Grant access to exclusive content or services based on NFT or Token ownership. Native verified integration.',
-        tags: ['NFT', 'SPL Tokens', 'Access']
+        title: 'TOKEN GATING: ASSET ACCESS',
+        description: 'Permissionless access control based on wallet holdings. Gate services by SPL token or NFT ownership verification.',
+        tags: ['NFT', 'SPL', 'Permissionless']
     },
     {
         id: 'invoicing',
-        title: 'CODEDOCK: SMART INVOICING',
-        description: 'Generate and settle on-chain invoices instantly. Immutable records for auditing and reconciliation.',
-        tags: ['Invoices', 'Settlement', 'Audit']
+        title: 'SMART INVOICING: SETTLEMENT',
+        description: 'On-chain invoice generation with instant liquidity settlement. Immutable audit trails for transparent accounting.',
+        tags: ['Invoicing', 'Liquidity', 'Audit']
     },
     {
         id: 'analytics',
-        title: 'METAINDEX: REVENUE ANALYTICS',
-        description: 'Real-time dashboard for tracking Churn, MMR, and active subscriber bases across all your plans.',
-        tags: ['Data', 'Insights', 'Growth']
+        title: 'DATA ANALYTICS: METRICS',
+        description: 'Overview of deep protocol metrics. Track MMR, Churn, and LTV with sub-second latency across all subscribers.',
+        tags: ['Metrics', 'LTV', 'Real-time']
     }
 ];
 
@@ -44,16 +44,16 @@ export default function InfrastructureModules() {
                     <div className="absolute right-[8px] top-[-3000px] bottom-0 w-px bg-[#d4d4d4] hidden md:block"></div>
 
                     <div className="w-full shrink-0">
-                        <span className="text-xs font-mono font-bold tracking-wider mb-4 block">[01] INFRA MODULES</span>
+                        <span className="text-xs font-mono font-bold tracking-wider mb-4 block">[01] PAYMENT PRIMITIVES</span>
                     </div>
 
                     <div className="flex-1 flex flex-col justify-center pb-4 min-h-0">
                         <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tight leading-[0.9] text-black mb-12">
-                            INFRASTRUCTURE<br />
-                            MODULES<br />
-                            FOR SOLANA<br />
-                            SUBSCRIPTION<br />
-                            NETWORKS
+                            PAYMENT<br />
+                            PRIMITIVES<br />
+                            FOR MODERN<br />
+                            RECURRING<br />
+                            ECONOMIES
                         </h2>
 
                         <div className="grid grid-cols-2 gap-y-2 gap-x-8 max-w-xs font-mono text-xs">
@@ -80,10 +80,10 @@ export default function InfrastructureModules() {
                         {/* Top Black Line */}
                         <div className="w-full border-t border-black mb-0 shrink-0"></div>
 
-                        {modules.map((module) => (
+                        {modules.map((module, index) => (
                             <div
                                 key={module.id}
-                                className={`border-b border-[#a3a3a3] last:border-b-0 transition-colors duration-300 ${activeModule === module.id ? 'bg-[#EAEAEA] flex-[2]' : 'hover:bg-white/50 flex-none'}`}
+                                className={`relative transition-colors duration-300 ${activeModule === module.id ? 'bg-[#EAEAEA] flex-[2]' : 'hover:bg-white/50 flex-none'}`}
                             >
                                 <button
                                     onClick={() => setActiveModule(activeModule === module.id ? null : module.id)}
@@ -131,6 +131,17 @@ export default function InfrastructureModules() {
                                         </motion.div>
                                     )}
                                 </AnimatePresence>
+
+                                {/* Animated Separator - Only if not last item */}
+                                {index !== modules.length - 1 && (
+                                    <motion.div
+                                        className="h-px bg-[#a3a3a3] w-full absolute bottom-0 left-0"
+                                        initial={{ width: 0 }}
+                                        whileInView={{ width: "100%" }}
+                                        viewport={{ once: true }}
+                                        transition={{ duration: 0.8, ease: "easeInOut", delay: index * 0.2 }}
+                                    />
+                                )}
                             </div>
                         ))}
                     </div>

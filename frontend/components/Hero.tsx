@@ -34,11 +34,10 @@ export default function Hero() {
             {/* Center: Mission Statement - Aligned with Typography Column */}
             <div className="md:col-span-4 lg:col-span-5 pl-4 md:pl-0">
               <h3 className="font-bold text-lg md:text-xl lg:text-2xl leading-tight uppercase text-left">
-                WE BUILD TOOLS<br />
-                FOR DEVELOPERS WHO<br />
-                TREAT THE BLOCKCHAIN<br />
-                AS EXECUTION, NOT<br />
-                SPECTACLE
+                AUTOMATED RECURRING<br />
+                REVENUE INFRASTRUCTURE<br />
+                FOR THE MODERN<br />
+                WEB3 ECONOMY
               </h3>
             </div>
 
@@ -46,14 +45,14 @@ export default function Hero() {
             <div className="md:col-span-4 lg:col-span-4 flex flex-col items-start text-left text-xs md:text-sm font-medium leading-relaxed gap-1 pl-4 md:pl-12 lg:pl-16">
               <div className="w-full flex justify-between">
                 <div>
-                  <Link href="#" className="block hover:underline">Stack</Link>
-                  <Link href="#" className="block hover:underline">Triggers</Link>
-                  <Link href="#" className="block hover:underline">Knowledge</Link>
-                  <Link href="#" className="block hover:underline">Signals</Link>
+                  <Link href="#" className="block hover:underline">SDKs</Link>
+                  <Link href="#" className="block hover:underline">Webhooks</Link>
+                  <Link href="#" className="block hover:underline">Resources</Link>
+                  <Link href="#" className="block hover:underline">Pricing</Link>
                   <Link href="#" className="block hover:underline">Docs</Link>
-                  <Link href="#" className="block hover:underline">Console</Link>
+                  <Link href="#" className="block hover:underline">Portal</Link>
                   <div className="h-2"></div>
-                  <Link href="/login" className="block font-bold underline decoration-1 underline-offset-4 hover:text-black">Launch Tools</Link>
+                  <Link href="/login" className="block font-bold underline decoration-1 underline-offset-4 hover:text-black">Launch App</Link>
                 </div>
                 <span className="text-[#999] text-xs">[2025]</span>
               </div>
@@ -77,7 +76,7 @@ export default function Hero() {
 
           {/* Left: Square Gray Box with Gradient */}
           <div className="md:col-span-4 lg:col-span-3 flex items-center justify-end py-4">
-            <div className="relative h-32 md:h-40 lg:h-52 xl:h-64 aspect-square bg-[#d0d0d0]">
+            <div className="relative h-48 md:h-60 lg:h-72 xl:h-[22rem] aspect-square bg-[#d0d0d0]">
               {/* Gradient inside gray box */}
               <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
                 <div className="w-[90%] h-[90%] rounded-[30%_70%_70%_30%_/_30%_30%_70%_70%] bg-gradient-to-br from-[#ff5f6d] via-[#ffc371] to-[#ff5f6d] blur-2xl opacity-70 animate-morph-slow"></div>
@@ -91,18 +90,18 @@ export default function Hero() {
 
             <h2 className="text-[3.5rem] md:text-[4.5rem] lg:text-[5.5rem] xl:text-[7rem] font-bold tracking-tighter leading-[0.8] relative z-10 w-full">
               <div className="flex justify-between w-full">
-                <span className="text-[#999]">RETHINK</span>
-                <span className="text-[#999]">WHAT</span>
+                <span className="text-[#999]">AUTOMATE</span>
+                <span className="text-[#999]">YOUR</span>
               </div>
 
               <div className="flex justify-between w-full">
-                <span className="text-black">WEB3</span>
-                <span className="text-[#999]">CAN</span>
-                <span className="text-[#999]">BE</span>
+                <AnimatedText text="BILLING" className="text-black" delay={0.5} />
+                <span className="text-[#999]">ON</span>
+                <span className="text-[#999]">CHAIN</span>
               </div>
 
-              <span className="text-[#999]">WHEN</span> <span className="text-black">BITCOIN</span><br />
-              <span className="text-black">RUNS THE LOGIC.</span>
+              <span className="text-[#999]">WITH</span> <AnimatedText text="SOLANA" className="text-black ml-[0.3em]" delay={1.5} /><br />
+              <AnimatedText text="SUBSCRIPTIONS." className="text-black" delay={2.5} />
             </h2>
           </div>
         </div>
@@ -112,5 +111,29 @@ export default function Hero() {
       <div className="w-full border-t border-black mt-0"></div>
 
     </div>
+  );
+}
+
+function AnimatedText({ text, className = "", delay = 0 }: { text: string, className?: string, delay?: number }) {
+  // Split text into characters
+  const characters = text.split("");
+
+  return (
+    <span className={`inline-block whitespace-pre ${className}`}>
+      {characters.map((char, index) => (
+        <motion.span
+          key={index}
+          initial={{ color: "#999999" }}
+          animate={{ color: "#000000" }}
+          transition={{
+            duration: 0,
+            delay: delay + index * 0.1,
+            ease: "linear"
+          }}
+        >
+          {char}
+        </motion.span>
+      ))}
+    </span>
   );
 }

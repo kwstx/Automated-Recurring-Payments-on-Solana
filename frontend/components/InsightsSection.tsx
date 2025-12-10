@@ -2,34 +2,35 @@
 
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const insights = [
     {
         id: 1,
         date: 'May 19, 2025',
-        title: 'Things to Know Before Dropping Into a Solana Dev Sprint',
-        description: 'Tips from builders who don\'t wait for mainnet to get ready.',
+        title: 'Optimizing High-Frequency Payment Streams on Mainnet',
+        description: 'Best practices for reducing latency in high-volume recurring transaction loops.',
         imageColor: 'bg-[#1a1a1a]' // Placeholder color
     },
     {
         id: 2,
         date: 'May 28, 2025',
-        title: 'Solana, Rules, and What Economists Get Wrong',
-        description: 'Professor Baetjer on crypto, policy, and where Web3 diverges.',
+        title: 'Token Gating: Designing Permissionless Access Tiers',
+        description: 'Strategies for implementing tier-based access control using SPL tokens.',
         imageColor: 'bg-[#333333]' // Placeholder color
     },
     {
         id: 3,
         date: 'May 30, 2025',
-        title: 'Running Your Workflow Locally — No Cloud, No Friction',
-        description: 'Sync your code with the chain without leaving your editor.',
+        title: 'Scaling Subscription Infrastructure: A Case Study',
+        description: 'How we scaled our subscription infrastructure to handle 1M+ active users.',
         imageColor: 'bg-[#555555]' // Placeholder color
     }
 ];
 
 export default function InsightsSection() {
     return (
-        <section className="relative w-full text-[#1a1a1a] bg-[#C0C0C0] min-h-screen flex flex-col pb-32">
+        <section className="relative z-10 w-full text-[#1a1a1a] bg-[#C0C0C0] min-h-screen flex flex-col pb-32">
             {/* Vertical Line absolute - Preserved */}
             <div className="absolute top-0 bottom-0 left-[70%] w-px bg-[#a3a3a3] hidden md:block pointer-events-none z-0"></div>
 
@@ -40,9 +41,9 @@ export default function InsightsSection() {
                 <div className="md:col-span-2 p-6 md:p-10 flex flex-col justify-center">
                     <span className="text-xs font-mono font-bold tracking-wider mb-4 block">[03] BLOG</span>
                     <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tight leading-none max-w-lg mb-0 text-black">
-                        FRESH INSIGHTS &<br />
-                        CHAIN-LEVEL<br />
-                        WALKTHROUGHS
+                        LATEST UPDATES &<br />
+                        PROTOCOL<br />
+                        UPGRADES
                     </h2>
                 </div>
 
@@ -57,7 +58,13 @@ export default function InsightsSection() {
                             className="group flex flex-col h-full"
                         >
                             {/* Image Placeholder - Full width within column padding */}
-                            <div className="px-6 md:px-8 pb-0 shrink-0">
+                            <motion.div
+                                className="px-6 md:px-8 pb-0 shrink-0"
+                                initial={{ y: -50, opacity: 0 }}
+                                whileInView={{ y: 0, opacity: 1 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.8, delay: index * 0.2, ease: "easeOut" }}
+                            >
                                 <div className={`w-full aspect-square ${insight.imageColor} relative overflow-hidden group-hover:opacity-90 transition-opacity duration-300`}>
                                     {/* Placeholder Content */}
                                     <div className="absolute inset-0 flex items-center justify-center">
@@ -66,7 +73,7 @@ export default function InsightsSection() {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </motion.div>
 
                             {/* Content */}
                             <div className="px-6 md:px-8 pt-6 pb-6 flex flex-col flex-1 justify-between">
