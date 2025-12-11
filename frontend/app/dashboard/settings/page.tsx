@@ -7,14 +7,6 @@ import { useCompanyDetails, useUpdateCompany, useAPIKeys, useGenerateAPIKey, use
 
 export default function SettingsPage() {
     const [activeTab, setActiveTab] = useState('company');
-    const [isLoading, setIsLoading] = useState(false);
-
-    const handleSave = async () => {
-        setIsLoading(true);
-        // Mock save
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        setIsLoading(false);
-    };
 
     const tabs = [
         { id: 'company', label: 'Company', icon: Building2 },
@@ -66,23 +58,6 @@ export default function SettingsPage() {
                         {activeTab === 'developer' && <DeveloperSettings />}
                         {activeTab === 'branding' && <BrandingSettings />}
                         {activeTab === 'notifications' && <NotificationSettings />}
-
-                        {/* Save Bar */}
-                        <div className="border border-[#a3a3a3] bg-white p-4 flex justify-between items-center shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)]">
-                            <p className="text-xs font-mono font-bold text-[#666] uppercase pl-2">Unsaved changes will be lost.</p>
-                            <button
-                                onClick={handleSave}
-                                disabled={isLoading}
-                                className="px-6 py-2.5 bg-black text-white font-mono font-bold text-xs uppercase hover:bg-[#1a1a1a] shadow-[2px_2px_0px_0px_rgba(0,0,0,0.2)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all disabled:opacity-50 flex items-center gap-2"
-                            >
-                                {isLoading ? (
-                                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                                ) : (
-                                    <Save className="w-4 h-4" />
-                                )}
-                                Save Changes
-                            </button>
-                        </div>
                     </div>
 
                     {/* Side Info / Quick Links */}
@@ -162,10 +137,10 @@ function CompanySettings() {
     useEffect(() => {
         if (company) {
             setFormData({
-                name: company.name,
-                website: company.website,
-                email: company.email,
-                address: company.address
+                companyName: company.companyName,
+                companyWebsite: company.companyWebsite,
+                supportEmail: company.supportEmail,
+                address: company.address // Note: API doesn't seem to return address yet, but keeping for future
             });
         }
     }, [company]);
@@ -180,7 +155,7 @@ function CompanySettings() {
         }
     };
 
-    if (isLoading) return <div className="p-8 text-center">Loading company details...</div>;
+    if (isLoading) return <div className="p-8 text-center uppercase font-mono text-sm">Loading company details...</div>;
 
     return (
         <SettingsSection title="Company Profile" description="Update your company information.">
@@ -193,8 +168,8 @@ function CompanySettings() {
                         </div>
                         <input
                             type="text"
-                            value={formData.name || ''}
-                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                            value={formData.companyName || ''}
+                            onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
                             placeholder="Stellar Inc."
                             className="w-full bg-transparent border border-[#a3a3a3] rounded-none py-2.5 pl-10 pr-4 text-black text-sm font-medium placeholder-[#999] focus:border-black focus:bg-white outline-none transition-all"
                         />
@@ -209,8 +184,8 @@ function CompanySettings() {
                         </div>
                         <input
                             type="text"
-                            value={formData.website || ''}
-                            onChange={(e) => setFormData({ ...formData, website: e.target.value })}
+                            value={formData.companyWebsite || ''}
+                            onChange={(e) => setFormData({ ...formData, companyWebsite: e.target.value })}
                             placeholder="https://stellar.com"
                             className="w-full bg-transparent border border-[#a3a3a3] rounded-none py-2.5 pl-10 pr-4 text-black text-sm font-medium placeholder-[#999] focus:border-black focus:bg-white outline-none transition-all"
                         />
@@ -225,8 +200,8 @@ function CompanySettings() {
                         </div>
                         <input
                             type="email"
-                            value={formData.email || ''}
-                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                            value={formData.supportEmail || ''}
+                            onChange={(e) => setFormData({ ...formData, supportEmail: e.target.value })}
                             placeholder="contact@stellar.com"
                             className="w-full bg-transparent border border-[#a3a3a3] rounded-none py-2.5 pl-10 pr-4 text-black text-sm font-medium placeholder-[#999] focus:border-black focus:bg-white outline-none transition-all"
                         />
@@ -250,6 +225,11 @@ function CompanySettings() {
                         disabled={updateCompany.isPending}
                         className="px-6 py-2.5 bg-black text-white font-mono font-bold text-xs uppercase hover:bg-[#1a1a1a] transition-all disabled:opacity-50 flex items-center gap-2"
                     >
+                        {updateCompany.isPending ? (
+                            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        ) : (
+                            <Save className="w-4 h-4" />
+                        )}
                         {updateCompany.isPending ? 'Saving...' : 'Save Changes'}
                     </button>
                 </div>
@@ -259,20 +239,20 @@ function CompanySettings() {
 }
 
 function BillingSettings() {
+    const { data: company, isLoading } = useCompanyDetails();
     const [autoWithdraw, setAutoWithdraw] = useState(true);
 
     const handleChangeWallet = () => {
         // In a real app, this would open a wallet connector modal
-        const confirmChange = confirm("Do you want to disconnect current wallet and connect a new one?");
-        if (confirmChange) {
-            alert("Wallet disconnect/connect flow triggered.");
-        }
+        alert("To change your payout wallet, please connect a new wallet via the Connect Wallet button in the header.");
     };
 
     const handleToggleAutoWithdraw = () => {
         setAutoWithdraw(!autoWithdraw);
         // Here we would call an API to update this setting
     };
+
+    if (isLoading) return <div className="p-8 text-center uppercase font-mono text-sm">Loading billing details...</div>;
 
     return (
         <SettingsSection title="Billing Preferences" description="Manage payouts and platform fees.">
@@ -283,7 +263,9 @@ function BillingSettings() {
                 <div>
                     <h4 className="text-black font-bold text-sm uppercase mb-1">Connected Wallet</h4>
                     <p className="text-[#666] text-xs font-mono mb-2">Payouts are deposited here.</p>
-                    <code className="text-xs font-mono bg-white border border-[#a3a3a3] px-2 py-1 text-black font-bold">8xzt...jLk2</code>
+                    <code className="text-xs font-mono bg-white border border-[#a3a3a3] px-2 py-1 text-black font-bold">
+                        {company?.walletAddress ? `${company.walletAddress.substring(0, 6)}...${company.walletAddress.substring(company.walletAddress.length - 4)}` : 'No wallet connected'}
+                    </code>
                 </div>
                 <button
                     onClick={handleChangeWallet}
@@ -301,7 +283,7 @@ function BillingSettings() {
                 >
                     <div>
                         <p className="text-black font-bold text-sm uppercase">Auto-Withdraw</p>
-                        <p className="text-[#666] text-xs font-mono">Withdraw when balance exceeds threshold.</p>
+                        <p className="text-[#666] text-xs font-mono">Withdraw when balance exceeds threshold (Coming Soon).</p>
                     </div>
                     <div className={`w-10 h-6 border transition-colors relative ${autoWithdraw ? 'bg-black border-black' : 'bg-white border-[#a3a3a3]'}`}>
                         <div className={`absolute top-0.5 w-4 h-4 bg-white shadow-sm transition-all duration-200 ${autoWithdraw ? 'right-0.5' : 'left-0.5'}`} />
@@ -397,6 +379,20 @@ function DeveloperSettings() {
 }
 
 function BrandingSettings() {
+    const { data: company, isLoading } = useCompanyDetails();
+    const updateCompany = useUpdateCompany();
+    const [formData, setFormData] = useState<any>({});
+
+    useEffect(() => {
+        if (company) {
+            setFormData({
+                brandColor: company.brandColor || '#000000',
+                logoUrl: company.logoUrl,
+                companyName: company.companyName // preserve other fields when updating
+            });
+        }
+    }, [company]);
+
     const handleUpload = () => {
         // Trigger file input click
         document.getElementById('logo-upload')?.click();
@@ -405,10 +401,22 @@ function BrandingSettings() {
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
-            alert(`File "${file.name}" selected for upload (Mock).`);
-            // Here we would handle the actual upload
+            alert(`File "${file.name}" selected. (File upload to storage bucket is coming soon)`);
+            // In future: upload to S3, get URL, setFormData({ ...formData, logoUrl: url })
         }
     };
+
+    const handleSave = async () => {
+        try {
+            await updateCompany.mutateAsync(formData);
+            alert('Branding updated successfully');
+        } catch (error) {
+            console.error('Failed to update branding:', error);
+            alert('Failed to update branding');
+        }
+    };
+
+    if (isLoading) return <div className="p-8 text-center uppercase font-mono text-sm">Loading branding details...</div>;
 
     return (
         <SettingsSection title="Branding" description="Checkout page appearance.">
@@ -416,8 +424,14 @@ function BrandingSettings() {
                 <div>
                     <label className="text-xs font-mono font-bold text-black uppercase mb-2 block">Brand Color</label>
                     <div className="flex items-center gap-2 p-2 border border-[#a3a3a3] bg-white">
-                        <div className="w-8 h-8 bg-[#A855F7] border border-black" />
-                        <span className="text-xs text-black font-mono font-bold">#A855F7</span>
+                        <div className="w-8 h-8 border border-black" style={{ backgroundColor: formData.brandColor }} />
+                        <input
+                            type="text"
+                            value={formData.brandColor || ''}
+                            onChange={(e) => setFormData({ ...formData, brandColor: e.target.value })}
+                            className="text-xs text-black font-mono font-bold w-full outline-none"
+                            placeholder="#000000"
+                        />
                     </div>
                 </div>
                 <div>
@@ -426,10 +440,14 @@ function BrandingSettings() {
                         className="flex items-center gap-2 p-2 border border-[#a3a3a3] bg-white cursor-pointer hover:border-black transition-colors"
                         onClick={handleUpload}
                     >
-                        <div className="w-8 h-8 bg-black flex items-center justify-center">
-                            <span className="text-xs font-bold text-white">S</span>
-                        </div>
-                        <span className="text-xs text-[#666] font-mono uppercase">Upload</span>
+                        {formData.logoUrl ? (
+                            <img src={formData.logoUrl} alt="Logo" className="w-8 h-8 object-contain bg-gray-100" />
+                        ) : (
+                            <div className="w-8 h-8 bg-black flex items-center justify-center">
+                                <span className="text-xs font-bold text-white">S</span>
+                            </div>
+                        )}
+                        <span className="text-xs text-[#666] font-mono uppercase truncate max-w-[100px]">{formData.logoUrl ? 'Change' : 'Upload'}</span>
                         <input
                             id="logo-upload"
                             type="file"
@@ -440,7 +458,25 @@ function BrandingSettings() {
                     </div>
                 </div>
             </div>
-            <InputGroup label="Checkout Headline" placeholder="Subscribe to Premium" defaultValue="Subscribe to Premium" />
+            {/* Headline is not yet in backend schema, so we treat it as visual only for now or map to existing field if appropriate */}
+            <div className="space-y-2">
+                <label className="text-xs font-mono font-bold text-black uppercase">Checkout Headline (Preview)</label>
+                <input
+                    type="text"
+                    defaultValue="Subscribe to Premium"
+                    className="w-full bg-transparent border border-[#a3a3a3] rounded-none py-2.5 px-4 text-black text-sm font-medium placeholder-[#999] focus:border-black focus:bg-white outline-none transition-all"
+                />
+            </div>
+
+            <div className="mt-6 flex justify-end">
+                <button
+                    onClick={handleSave}
+                    disabled={updateCompany.isPending}
+                    className="px-6 py-2.5 bg-black text-white font-mono font-bold text-xs uppercase hover:bg-[#1a1a1a] transition-all disabled:opacity-50 flex items-center gap-2"
+                >
+                    {updateCompany.isPending ? 'Saving...' : 'Save Changes'}
+                </button>
+            </div>
         </SettingsSection>
     );
 }

@@ -7,6 +7,9 @@ export const getCompanyDetails = (req, res) => {
     const merchantId = req.user.id;
 
     try {
+        // Get merchant details for wallet address
+        const merchant = db.prepare(`SELECT wallet_address FROM merchants WHERE id = ?`).get(merchantId);
+
         let settings = db.prepare(`
             SELECT * FROM merchant_settings WHERE merchant_id = ?
         `).get(merchantId);
@@ -27,7 +30,8 @@ export const getCompanyDetails = (req, res) => {
             companyWebsite: settings.company_website,
             supportEmail: settings.support_email,
             brandColor: settings.brand_color,
-            logoUrl: settings.logo_url
+            logoUrl: settings.logo_url,
+            walletAddress: merchant ? merchant.wallet_address : null
         });
     } catch (error) {
         logger.error('Get company details error', { error: error.message, merchantId });
