@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 const insights = [
     {
         id: 1,
+        slug: 'optimizing-payment-streams',
         date: 'May 19, 2025',
         title: 'Optimizing High-Frequency Payment Streams on Mainnet',
         description: 'Best practices for reducing latency in high-volume recurring transaction loops.',
@@ -14,6 +15,7 @@ const insights = [
     },
     {
         id: 2,
+        slug: 'token-gating',
         date: 'May 28, 2025',
         title: 'Token Gating: Designing Permissionless Access Tiers',
         description: 'Strategies for implementing tier-based access control using SPL tokens.',
@@ -21,6 +23,7 @@ const insights = [
     },
     {
         id: 3,
+        slug: 'scaling-infrastructure',
         date: 'May 30, 2025',
         title: 'Scaling Subscription Infrastructure: A Case Study',
         description: 'How we scaled our subscription infrastructure to handle 1M+ active users.',
@@ -89,7 +92,7 @@ export default function InsightsSection() {
                                     </p>
                                 </div>
 
-                                <Link href="#" className="flex items-center gap-1 font-bold text-xs uppercase tracking-wide hover:gap-2 transition-all mt-auto shrink-0">
+                                <Link href={`/blog/${insight.slug}`} className="flex items-center gap-1 font-bold text-xs uppercase tracking-wide hover:gap-2 transition-all mt-auto shrink-0">
                                     [Read more]
                                 </Link>
                             </div>

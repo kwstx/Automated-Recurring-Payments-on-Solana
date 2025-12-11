@@ -62,20 +62,60 @@ export const BLOG_POSTS: BlogPost[] = [
         excerpt: 'Faster instruction building, improved type safety, and reduced bundle size.',
         content: `
             <p class="mb-6">We've rebuilt our SDK from the ground up to be lighter, faster, and more developer-friendly. Version 2.0 is now available on npm/cargo.</p>
-
             <h3 class="text-2xl font-bold uppercase mb-4">Key Improvements</h3>
             <p class="mb-6"><strong>1. Tree-Shaking Support:</strong> The new SDK is fully modular. Only import what you need. This reduces the bundle size impact by up to 60%.</p>
-
             <p class="mb-6"><strong>2. Improved TypeScript Types:</strong> We've tightened our strict options. No more guessing what arguments an instruction requires. IntelliSense now works perfectly.</p>
-            
             <pre class="bg-[#EAEAEA] p-4 font-mono text-sm mb-6 border border-black">
 import { createSubscription } from '@solanasub/sdk';
 
 // Fully typed response
 const tx = await createSubscription(connection, wallet, planId);
             </pre>
-
             <p>Upgrade today by running <code>npm install @solanasub/sdk@latest</code>.</p>
+        `
+    },
+    {
+        slug: 'optimizing-payment-streams',
+        title: 'Optimizing High-Frequency Payment Streams on Mainnet',
+        date: 'May 19, 2025',
+        category: 'Engineering',
+        excerpt: 'Best practices for reducing latency in high-volume recurring transaction loops.',
+        content: `
+            <p class="mb-6">High-frequency payment streams present a unique set of challenges on Solana mainnet. As transaction volume scales, latency and jitter can impact user experience. Here is how we optimized our infrastructure.</p>
+            <h3 class="text-2xl font-bold uppercase mb-4">Priority Fees & Compute Units</h3>
+            <p class="mb-6">We implemented dynamic priority fees based on network congestion. By analyzing recent blocks, we can estimate the optimal micro-lamport fee to ensure inclusion in the next slot.</p>
+            <p class="mb-6">Additionally, we optimized our Compute Unit (CU) request for every instruction, ensuring we don't over-allocate and waste validator resources.</p>
+            <h3 class="text-2xl font-bold uppercase mb-4">Results</h3>
+            <ul class="list-disc pl-5 mb-8 space-y-2">
+                <li><strong>99.9%</strong> transaction landing rate.</li>
+                <li><strong>< 400ms</strong> average confirmation time.</li>
+            </ul>
+        `
+    },
+    {
+        slug: 'token-gating',
+        title: 'Token Gating: Designing Permissionless Access Tiers',
+        date: 'May 28, 2025',
+        category: 'Product',
+        excerpt: 'Strategies for implementing tier-based access control using SPL tokens.',
+        content: `
+            <p class="mb-6">Token gating is more than just checking a balance. It's about designing a permissionless access system that scales. We explore how to use SPL tokens to create flexible subscription tiers.</p>
+            <h3 class="text-2xl font-bold uppercase mb-4">The Architecture</h3>
+            <p class="mb-6">Our system uses a PDA (Program Derived Address) to track active subscriptions. When a user creates a plan, an SPL token acts as the "key" to that plan.</p>
+            <p class="mb-6">This allows for secondary markets. A user can sell their "Pro Plan" access token on an NFT marketplace if they no longer need it, and the new owner instantly gains access.</p>
+        `
+    },
+    {
+        slug: 'scaling-infrastructure',
+        title: 'Scaling Subscription Infrastructure: A Case Study',
+        date: 'May 30, 2025',
+        category: 'Case Study',
+        excerpt: 'How we scaled our subscription infrastructure to handle 1M+ active users.',
+        content: `
+            <p class="mb-6">Scaling to 1 million active users on Solana required a fundamental rethink of our indexing and database layer.</p>
+            <h3 class="text-2xl font-bold uppercase mb-4">Horizontal Scaling</h3>
+            <p class="mb-6">We moved from a monolithic indexer to a distributed system. We now have dedicated indexers for different program instructions (create, cancel, renew).</p>
+            <p class="mb-6">This separation of concerns allows us to handle spikes in traffic—like during a popular NFT mint or a major product launch—without degrading performance for other users.</p>
         `
     }
 ];
