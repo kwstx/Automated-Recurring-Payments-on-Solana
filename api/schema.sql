@@ -22,6 +22,8 @@ CREATE TABLE IF NOT EXISTS plans (
   description TEXT,
   amount INTEGER NOT NULL,
   currency TEXT NOT NULL DEFAULT 'USDC',
+  currency_mint TEXT,
+  decimals INTEGER DEFAULT 6,
   interval TEXT NOT NULL,
   is_active INTEGER DEFAULT 1,
   created_at INTEGER DEFAULT (strftime('%s', 'now')),
@@ -37,6 +39,7 @@ CREATE TABLE IF NOT EXISTS subscriptions (
   subscription_pda TEXT NOT NULL UNIQUE,
   plan_id INTEGER NOT NULL,
   subscriber_pubkey TEXT NOT NULL,
+  subscriber_email TEXT,
   subscriber_token_account TEXT NOT NULL,
   merchant_token_account TEXT NOT NULL,
   next_billing_timestamp INTEGER NOT NULL,
@@ -193,3 +196,31 @@ CREATE TABLE IF NOT EXISTS invoices (
 
 CREATE INDEX IF NOT EXISTS idx_invoices_merchant ON invoices(merchant_id);
 CREATE INDEX IF NOT EXISTS idx_invoices_status ON invoices(status);
+
+-- Metered Billing: Definitions
+CREATE TABLE IF NOT EXISTS plan_meters (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  plan_id INTEGER NOT NULL,
+  event_name TEXT NOT NULL, -- e.g., 'api_call', 'storage_gb'
+  price_per_unit INTEGER NOT NULL, -- in atomic units (e.g., cents, lamports) based on plan currency
+  included_units INTEGER DEFAULT 0,
+  created_at INTEGER DEFAULT (strftime('%s', 'now')),
+  FOREIGN KEY (plan_id) REFERENCES plans(id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_plan_meters_plan ON plan_meters(plan_id);
+
+-- Metered Billing: Usage Logs
+CREATE TABLE IF NOT EXISTS usage_records (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  subscription_id INTEGER NOT NULL,
+  meter_id INTEGER NOT NULL,
+  quantity INTEGER NOT NULL,
+  idempotency_key TEXT UNIQUE, -- prevent double counting
+  recorded_at INTEGER DEFAULT (strftime('%s', 'now')),
+  FOREIGN KEY (subscription_id) REFERENCES subscriptions(id),
+  FOREIGN KEY (meter_id) REFERENCES plan_meters(id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_usage_records_sub ON usage_records(subscription_id);
+

@@ -182,3 +182,64 @@ export const getWebhookDeliveries = (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 };
+
+/**
+ * Get single webhook delivery details (including payload)
+ */
+export const getWebhookDelivery = (req, res) => {
+    const { id } = req.params;
+    const merchantId = req.user.id;
+
+    try {
+        const delivery = db.prepare(`
+            SELECT d.* 
+            FROM webhook_deliveries d
+            JOIN webhook_endpoints e ON d.webhook_endpoint_id = e.id
+            WHERE d.id = ? AND e.merchant_id = ?
+        `).get(id, merchantId);
+
+        if (!delivery) {
+            return res.status(404).json({ error: 'Delivery log not found' });
+        }
+
+        res.json({ delivery });
+    } catch (error) {
+        logger.error('Get webhook delivery details error', { error: error.message, deliveryId: id });
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
+/**
+ * Retry a failed webhook delivery manually
+ */
+export const retryWebhookDelivery = (req, res) => {
+    const { id } = req.params;
+    const merchantId = req.user.id;
+
+    try {
+        // Verify ownership and fetch delivery
+        const delivery = db.prepare(`
+            SELECT d.* 
+            FROM webhook_deliveries d
+            JOIN webhook_endpoints e ON d.webhook_endpoint_id = e.id
+            WHERE d.id = ? AND e.merchant_id = ?
+        `).get(id, merchantId);
+
+        if (!delivery) {
+            return res.status(404).json({ error: 'Delivery log not found' });
+        }
+
+        // Reset status to pending so scheduler picks it up immediately
+        db.prepare(`
+            UPDATE webhook_deliveries
+            SET status = 'pending', next_retry_at = strftime('%s', 'now'), error_message = NULL
+            WHERE id = ?
+        `).run(id);
+
+        logger.info('Webhook delivery queued for retry', { deliveryId: id });
+        res.json({ message: 'Webhook queued for retry' });
+    } catch (error) {
+        logger.error('Retry webhook delivery error', { error: error.message, deliveryId: id });
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};

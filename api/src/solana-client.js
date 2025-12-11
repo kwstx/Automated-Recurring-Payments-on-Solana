@@ -37,6 +37,20 @@ export const getProgram = () => programInstance;
  * Verify a plan exists on-chain
  */
 export const verifyPlanOnChain = async (planPda) => {
+    if (process.env.MOCK_CHAIN === 'true') {
+        logger.info('MOCK_CHAIN: Simulating successful plan verification', { planPda });
+        return {
+            verified: true,
+            data: {
+                merchant: 'MockMerchantKey11111111111111111111111111',
+                name: 'Mock Plan',
+                amount: '1000000',
+                interval: '2592000',
+                isActive: true
+            }
+        };
+    }
+
     if (!programInstance) {
         logger.warn('Program not initialized, skipping on-chain verification');
         return { verified: false, reason: 'Program not initialized' };
@@ -67,6 +81,20 @@ export const verifyPlanOnChain = async (planPda) => {
  * Verify a subscription exists on-chain
  */
 export const verifySubscriptionOnChain = async (subscriptionPda) => {
+    if (process.env.MOCK_CHAIN === 'true') {
+        logger.info('MOCK_CHAIN: Simulating successful subscription verification', { subscriptionPda });
+        return {
+            verified: true,
+            data: {
+                subscriber: 'MockSubscriberKey1111111111111111111111111',
+                plan: 'MockPlanKey1111111111111111111111111111111',
+                nextBillingTimestamp: (Math.floor(Date.now() / 1000) + 86400).toString(),
+                isActive: true,
+                paymentCount: '1'
+            }
+        };
+    }
+
     if (!programInstance) {
         logger.warn('Program not initialized, skipping on-chain verification');
         return { verified: false, reason: 'Program not initialized' };

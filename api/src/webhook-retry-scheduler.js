@@ -1,4 +1,5 @@
 import cron from 'node-cron';
+import * as Sentry from '@sentry/node';
 import logger from './logger.js';
 import { retryFailedWebhooks } from './webhook-triggers.js';
 
@@ -16,6 +17,7 @@ export const startWebhookRetryScheduler = () => {
             }
         } catch (error) {
             logger.error('Webhook retry job failed', { error: error.message });
+            Sentry.captureException(error, { tags: { scheduler: 'webhook-retry' } });
         }
     });
 

@@ -1,7 +1,7 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token::{self, Token, TokenAccount, Transfer, Approve};
 
-declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
+declare_id!("5F2mgGWf8jsJVrNYyvHx8qSTVTK9DdCd5YY77C7kK5H6");
 
 #[program]
 pub mod subscription_billing {
@@ -147,9 +147,17 @@ pub struct Subscribe<'info> {
     pub plan: Account<'info, Plan>,
     #[account(mut)]
     pub subscriber: Signer<'info>,
-    #[account(mut)]
+    #[account(
+        mut,
+        constraint = subscriber_token_account.mint == plan.token_mint,
+        constraint = subscriber_token_account.owner == subscriber.key()
+    )]
     pub subscriber_token_account: Account<'info, TokenAccount>,
-    #[account(mut)]
+    #[account(
+        mut,
+        constraint = merchant_token_account.mint == plan.token_mint,
+        constraint = merchant_token_account.owner == plan.merchant
+    )]
     pub merchant_token_account: Account<'info, TokenAccount>,
     pub token_program: Program<'info, Token>,
     pub system_program: Program<'info, System>,
@@ -166,30 +174,53 @@ pub struct ProcessPayment<'info> {
     pub subscription: Account<'info, Subscription>,
     #[account(mut)]
     pub plan: Account<'info, Plan>,
-    #[account(mut)]
+    #[account(
+        mut,
+        constraint = subscriber_token_account.mint == plan.token_mint,
+        constraint = subscriber_token_account.owner == subscription.subscriber
+    )]
     pub subscriber_token_account: Account<'info, TokenAccount>,
-    #[account(mut)]
+    #[account(
+        mut,
+        constraint = merchant_token_account.mint == plan.token_mint,
+        constraint = merchant_token_account.owner == plan.merchant
+    )]
     pub merchant_token_account: Account<'info, TokenAccount>,
     pub token_program: Program<'info, Token>,
 }
 
 #[derive(Accounts)]
 pub struct CancelSubscription<'info> {
-    #[account(mut)]
+    #[account(
+        mut,
+        seeds = [b"sub", subscriber.key().as_ref(), subscription.plan.as_ref()],
+        bump,
+        constraint = subscription.subscriber == subscriber.key()
+    )]
     pub subscription: Account<'info, Subscription>,
     pub subscriber: Signer<'info>,
 }
 
 #[derive(Accounts)]
 pub struct PauseSubscription<'info> {
-    #[account(mut)]
+    #[account(
+        mut,
+        seeds = [b"sub", subscriber.key().as_ref(), subscription.plan.as_ref()],
+        bump,
+        constraint = subscription.subscriber == subscriber.key()
+    )]
     pub subscription: Account<'info, Subscription>,
     pub subscriber: Signer<'info>,
 }
 
 #[derive(Accounts)]
 pub struct ResumeSubscription<'info> {
-    #[account(mut)]
+    #[account(
+        mut,
+        seeds = [b"sub", subscriber.key().as_ref(), subscription.plan.as_ref()],
+        bump,
+        constraint = subscription.subscriber == subscriber.key()
+    )]
     pub subscription: Account<'info, Subscription>,
     pub subscriber: Signer<'info>,
 }

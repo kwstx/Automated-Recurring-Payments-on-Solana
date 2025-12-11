@@ -1,5 +1,7 @@
+import './instrument.js'; // Must be first import
 import 'dotenv/config';
 import express from 'express';
+import * as Sentry from '@sentry/node';
 import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './swagger.js';
@@ -12,12 +14,19 @@ import metadataRoutes from './routes/metadataRoutes.js';
 import webhookRoutes from './routes/webhookRoutes.js';
 import portalRoutes from './routes/portalRoutes.js';
 import settingsRoutes from './routes/settingsRoutes.js';
+import usageRoutes from './routes/usageRoutes.js';
 import { apiLimiter, authLimiter, subscriptionLimiter } from './middleware/rateLimiter.js';
 import { startMetadataSyncScheduler } from './metadata-scheduler.js';
 import { startWebhookRetryScheduler } from './webhook-retry-scheduler.js';
+import { startBalanceMonitor } from './balance-monitor.js';
+import { startKeeperScheduler } from './services/keeperService.js';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
+
+// Sentry Request Handler not needed in v8+ with auto instrumentation
+// app.use(Sentry.Handlers.requestHandler());
+// app.use(Sentry.Handlers.tracingHandler());
 
 // Middleware
 app.use(cors({
@@ -50,11 +59,20 @@ app.use('/metadata', apiLimiter, metadataRoutes);
 app.use('/webhooks', apiLimiter, webhookRoutes);
 app.use('/portal', apiLimiter, portalRoutes);
 app.use('/settings', apiLimiter, settingsRoutes);
+app.use('/usage', apiLimiter, usageRoutes);
+
+// Debug Sentry
+app.get('/debug-sentry', function mainHandler(req, res) {
+    throw new Error('My first Sentry error!');
+});
 
 // Health check
 app.get('/health', (req, res) => {
     res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
+
+// Sentry Error Handler must be before any other error middleware and after all controllers
+app.use(Sentry.expressErrorHandler());
 
 // Error handling
 app.use((err, req, res, next) => {
@@ -63,7 +81,7 @@ app.use((err, req, res, next) => {
         stack: err.stack,
         path: req.path
     });
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Internal server error', eventId: res.sentry });
 });
 
 // Start server
@@ -81,5 +99,15 @@ app.listen(PORT, () => {
     // Start webhook retry scheduler
     if (process.env.ENABLE_WEBHOOK_RETRIES !== 'false') {
         startWebhookRetryScheduler();
+    }
+
+    // Start balance monitor
+    if (process.env.ENABLE_BALANCE_MONITOR !== 'false') {
+        startBalanceMonitor();
+    }
+
+    // Start Keeper Bot (Payment Processor)
+    if (process.env.ENABLE_KEEPER !== 'false') {
+        startKeeperScheduler();
     }
 });

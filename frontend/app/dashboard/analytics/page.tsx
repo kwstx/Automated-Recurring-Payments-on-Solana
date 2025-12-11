@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Download, TrendingUp, TrendingDown, DollarSign, Users, Clock, PieChart, Activity, Loader2, ArrowUpRight } from 'lucide-react';
 import { useMRR, useChurnRate, useRevenueByPlan } from '@/hooks/useAnalytics';
 import { analyticsAPI } from '@/lib/api-client';
+import MRRChart from '@/components/charts/MRRChart';
+import ChurnChart from '@/components/charts/ChurnChart';
 
 export default function AnalyticsPage() {
     const { data: mrrData, isLoading: mrrLoading } = useMRR();
@@ -184,6 +186,45 @@ export default function AnalyticsPage() {
                         </div>
                     </motion.div>
                 ))}
+            </div>
+
+            {/* Charts Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* MRR Chart */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2 }}
+                    className="bg-white border border-[#a3a3a3] p-0 flex flex-col h-[300px]"
+                >
+                    <div className="p-4 border-b border-[#EAEAEA] flex justify-between items-center">
+                        <h3 className="font-bold uppercase text-sm tracking-tight text-black flex items-center gap-2">
+                            <TrendingUp className="w-4 h-4" />
+                            Revenue Trend
+                        </h3>
+                    </div>
+                    <div className="flex-1 p-4">
+                        <MRRChart data={mrrData?.history || []} />
+                    </div>
+                </motion.div>
+
+                {/* Churn Chart */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                    className="bg-white border border-[#a3a3a3] p-0 flex flex-col h-[300px]"
+                >
+                    <div className="p-4 border-b border-[#EAEAEA] flex justify-between items-center">
+                        <h3 className="font-bold uppercase text-sm tracking-tight text-black flex items-center gap-2">
+                            <Users className="w-4 h-4" />
+                            Churn Trend
+                        </h3>
+                    </div>
+                    <div className="flex-1 p-4">
+                        <ChurnChart data={churnData?.history || []} />
+                    </div>
+                </motion.div>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

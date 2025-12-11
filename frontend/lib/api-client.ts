@@ -83,6 +83,8 @@ export const webhooksAPI = {
     update: (id: number, data: any) => apiClient.patch(`/webhooks/${id}`, data),
     delete: (id: number) => apiClient.delete(`/webhooks/${id}`),
     getLogs: (id: number) => apiClient.get(`/webhooks/${id}/deliveries`),
+    getDelivery: (id: number) => apiClient.get(`/webhooks/delivery/${id}`),
+    retryDelivery: (id: number) => apiClient.post(`/webhooks/delivery/${id}/retry`),
 };
 
 // Subscriptions API (Merchant side)

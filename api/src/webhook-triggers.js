@@ -1,6 +1,7 @@
 import db from './database.js';
 import logger from './logger.js';
 import { deliverWebhook, calculateNextRetry } from './webhook-service.js';
+import { emailService } from './services/emailService.js';
 
 /**
  * Trigger webhook for an event
@@ -167,9 +168,37 @@ export const retryFailedWebhooks = async () => {
 };
 
 /**
- * Trigger payment success webhook
+ * Get subscriber email
+ */
+const getSubscriberEmail = (subscriptionId) => {
+    try {
+        const sub = db.prepare('SELECT subscriber_email FROM subscriptions WHERE id = ?').get(subscriptionId);
+        return sub ? sub.subscriber_email : null;
+    } catch (e) {
+        return null;
+    }
+};
+
+/**
+ * Trigger payment success webhook and email
  */
 export const triggerPaymentSuccess = async (merchantId, subscriptionData, paymentData) => {
+    // 1. Send Email
+    const email = getSubscriberEmail(subscriptionData.id);
+    if (email) {
+        // Fetch merchant name for better email
+        const merchant = db.prepare('SELECT username FROM merchants WHERE id = ?').get(merchantId);
+
+        await emailService.sendPaymentSuccess(email, {
+            amount: paymentData.amount || '0.00',
+            currency: paymentData.currency || 'USDC',
+            merchantName: merchant ? merchant.username : 'Merchant',
+            planName: subscriptionData.planName || 'Subscription',
+            transactionSignature: paymentData.signature || 'N/A'
+        });
+    }
+
+    // 2. Trigger Webhook
     return await triggerWebhook(merchantId, 'payment.success', {
         subscription: subscriptionData,
         payment: paymentData
@@ -177,9 +206,24 @@ export const triggerPaymentSuccess = async (merchantId, subscriptionData, paymen
 };
 
 /**
- * Trigger payment failure webhook
+ * Trigger payment failure webhook and email
  */
 export const triggerPaymentFailure = async (merchantId, subscriptionData, error) => {
+    // 1. Send Email
+    const email = getSubscriberEmail(subscriptionData.id);
+    if (email) {
+        const merchant = db.prepare('SELECT username FROM merchants WHERE id = ?').get(merchantId);
+
+        await emailService.sendPaymentFailed(email, {
+            amount: subscriptionData.amount || 'Unknown',
+            currency: 'USDC',
+            merchantName: merchant ? merchant.username : 'Merchant',
+            planName: subscriptionData.planName || 'Subscription',
+            reason: error.message
+        });
+    }
+
+    // 2. Trigger Webhook
     return await triggerWebhook(merchantId, 'payment.failure', {
         subscription: subscriptionData,
         error: {
@@ -190,9 +234,24 @@ export const triggerPaymentFailure = async (merchantId, subscriptionData, error)
 };
 
 /**
- * Trigger subscription renewal webhook
+ * Trigger subscription renewal webhook and email
  */
 export const triggerSubscriptionRenewal = async (merchantId, subscriptionData) => {
+    // 1. Send Email
+    const email = getSubscriberEmail(subscriptionData.id);
+    if (email) {
+        const merchant = db.prepare('SELECT username FROM merchants WHERE id = ?').get(merchantId);
+
+        await emailService.sendRenewalNotification(email, {
+            merchantName: merchant ? merchant.username : 'Merchant',
+            planName: subscriptionData.planName || 'Subscription',
+            renewalDate: new Date(subscriptionData.nextBillingTimestamp * 1000).toLocaleDateString(),
+            amount: subscriptionData.amount || 'Unknown',
+            currency: 'USDC'
+        });
+    }
+
+    // 2. Trigger Webhook
     return await triggerWebhook(merchantId, 'subscription.renewal', {
         subscription: subscriptionData
     });

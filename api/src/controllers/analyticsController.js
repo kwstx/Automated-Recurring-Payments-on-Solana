@@ -117,7 +117,22 @@ export const getMRR = (req, res) => {
 
     res.json({
       mrr: (mrrData.mrr || 0).toFixed(2),
-      currency: 'USDC'
+      currency: 'USDC',
+      history: db.prepare(`
+        SELECT 
+          strftime('%Y-%m', datetime(created_at, 'unixepoch')) as month,
+          SUM(CASE 
+            WHEN p.interval = 'monthly' THEN p.amount
+            WHEN p.interval = 'yearly' THEN p.amount / 12
+            ELSE 0
+          END) / 1000000 as mrr
+        FROM subscriptions s
+        JOIN plans p ON s.plan_id = p.id
+        WHERE p.merchant_id = ? AND s.is_active = 1
+        GROUP BY month
+        ORDER BY month ASC
+        LIMIT 12
+      `).all(merchantId)
     });
   } catch (error) {
     logger.error('Get MRR error', { error: error.message, merchantId });
@@ -150,7 +165,17 @@ export const getChurnRate = (req, res) => {
       churnRate: parseFloat(churnRate),
       period: 'last_30_days',
       churnedCustomers: churnData.churned_customers,
-      totalCustomers: churnData.customers_start
+      totalCustomers: churnData.customers_start,
+      history: db.prepare(`
+        SELECT 
+          strftime('%Y-%m', datetime(created_at, 'unixepoch')) as month,
+          COUNT(id) as churn_count
+        FROM subscriptions s
+        WHERE s.status = 'cancelled' AND s.plan_id IN (SELECT id FROM plans WHERE merchant_id = ?)
+        GROUP BY month
+        ORDER BY month ASC
+        LIMIT 12
+      `).all(merchantId)
     });
   } catch (error) {
     logger.error('Get churn rate error', { error: error.message, merchantId });

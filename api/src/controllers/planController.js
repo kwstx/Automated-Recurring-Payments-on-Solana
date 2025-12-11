@@ -3,7 +3,7 @@ import logger from '../logger.js';
 import { verifyPlanOnChain } from '../solana-client.js';
 
 export const createPlan = async (req, res) => {
-    const { planPda, name, description, amount, currency, interval, verifyOnChain } = req.body;
+    const { planPda, name, description, amount, currency, currencyMint, decimals, interval, verifyOnChain } = req.body;
     const merchantId = req.user.id;
 
     if (!planPda || !name || !amount || !interval) {
@@ -24,9 +24,9 @@ export const createPlan = async (req, res) => {
         }
 
         const result = db.prepare(`
-      INSERT INTO plans (merchant_id, plan_pda, name, description, amount, currency, interval)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
-    `).run(merchantId, planPda, name, description || null, amount, currency || 'USDC', interval);
+      INSERT INTO plans (merchant_id, plan_pda, name, description, amount, currency, currency_mint, decimals, interval)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `).run(merchantId, planPda, name, description || null, amount, currency || 'USDC', currencyMint || null, decimals || 6, interval);
 
         logger.info('Plan created', { planId: result.lastInsertRowid, merchantId, planPda });
 
@@ -284,3 +284,43 @@ export const deletePlan = (req, res) => {
     }
 };
 
+// NEW: Get public plan details (no auth required)
+export const getPublicPlan = (req, res) => {
+    const { planPda } = req.params;
+
+    try {
+        const plan = db.prepare(`
+            SELECT 
+                p.id, 
+                p.plan_pda, 
+                p.name, 
+                p.description, 
+                p.amount, 
+                p.currency, 
+                p.currency_mint,
+                p.decimals,
+                p.interval, 
+                p.is_active,
+                ms.company_name,
+                ms.logo_url,
+                ms.brand_color,
+                m.wallet_address as merchant_wallet
+            FROM plans p
+            JOIN merchants m ON p.merchant_id = m.id
+            LEFT JOIN merchant_settings ms ON m.id = ms.merchant_id
+            WHERE p.plan_pda = ? AND p.is_active = 1
+        `).get(planPda);
+
+        if (!plan) {
+            return res.status(404).json({ error: 'Plan not found or inactive' });
+        }
+
+        res.json({
+            ...plan,
+            amount: plan.amount / Math.pow(10, plan.decimals || 6) // formatted
+        });
+    } catch (error) {
+        logger.error('Get public plan error', { error: error.message, planPda });
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};

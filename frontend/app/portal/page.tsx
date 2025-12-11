@@ -2,49 +2,39 @@
 
 import LandingHeader from '@/components/LandingHeader';
 import { motion } from 'framer-motion';
-import { Wallet } from 'lucide-react';
+import { Wallet, Loader2 } from 'lucide-react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { useEffect, useState } from 'react';
-
-// Mock Data for User Subscriptions
-const initialSubscriptions = [
-    {
-        id: 1,
-        merchant: 'Netflix',
-        plan: 'Premium 4K',
-        price: '22.99',
-        interval: 'monthly',
-        nextCharge: 'Dec 15, 2025',
-        status: 'active'
-    },
-    {
-        id: 2,
-        merchant: 'Spotify',
-        plan: 'Duo Premium',
-        price: '14.99',
-        interval: 'monthly',
-        nextCharge: 'Dec 03, 2025',
-        status: 'active'
-    },
-    {
-        id: 3,
-        merchant: 'Midjourney',
-        plan: 'Standard Plan',
-        price: '30.00',
-        interval: 'monthly',
-        nextCharge: '-',
-        status: 'paused'
-    },
-];
+import { usePortalSubscriptions, usePortalActions } from '@/hooks/usePortal';
+import UnsubscribeButton from '@/components/UnsubscribeButton';
 
 export default function PortalPage() {
-    const { connected } = useWallet();
+    const { connected, publicKey } = useWallet();
     const [mounted, setMounted] = useState(false);
+
+    // Hooks
+    const walletAddress = publicKey ? publicKey.toBase58() : null;
+    const { data: subscriptions = [], isLoading, error } = usePortalSubscriptions(walletAddress);
+    const { pause, resume, cancel } = usePortalActions(walletAddress || '');
 
     useEffect(() => {
         setMounted(true);
     }, []);
+
+    const handleAction = async (action: 'pause' | 'resume' | 'cancel', id: number) => {
+        try {
+            if (action === 'pause') await pause.mutateAsync(id);
+            if (action === 'resume') await resume.mutateAsync(id);
+            if (action === 'cancel') {
+                if (confirm('Are you sure you want to cancel this subscription? This cannot be undone.')) {
+                    await cancel.mutateAsync(id);
+                }
+            }
+        } catch (err: any) {
+            alert(err.response?.data?.error || `Failed to ${action} subscription`);
+        }
+    };
 
     // Prevent hydration mismatch by not rendering wallet logic until mounted
     if (!mounted) return null;
@@ -119,10 +109,6 @@ export default function PortalPage() {
                         </p>
 
                         <div className="flex justify-center gap-6 items-center">
-                            <div className="bg-white border border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] text-left min-w-[200px]">
-                                <span className="text-[10px] font-bold uppercase text-[#666] block mb-1">Total Monthly Spend</span>
-                                <span className="text-2xl font-bold font-mono">$67.98</span>
-                            </div>
                             <div className="flex items-center gap-2 h-[82px] px-6">
                                 <WalletMultiButton style={{
                                     backgroundColor: '#000000',
@@ -135,63 +121,92 @@ export default function PortalPage() {
                         </div>
                     </div>
 
-                    {/* Content Grid: 3 Columns Next to Each Other */}
+                    {/* Content Grid */}
                     <div className="w-full">
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            {initialSubscriptions.map((sub, index) => (
-                                <div
-                                    key={sub.id}
-                                    className="bg-white border border-black relative group hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-300"
-                                >
-                                    {/* Status Bar */}
-                                    <div className={`w-full h-1 ${sub.status === 'active' ? 'bg-black' : 'bg-[#ccc]'}`}></div>
+                        {isLoading ? (
+                            <div className="text-center py-20">
+                                <Loader2 className="w-8 h-8 animate-spin mx-auto text-black" />
+                                <p className="mt-4 font-mono text-sm uppercase text-[#666]">Loading subscriptions...</p>
+                            </div>
+                        ) : subscriptions.length === 0 ? (
+                            <div className="text-center py-20 border border-black bg-[#f5f5f5]">
+                                <p className="font-mono text-sm uppercase text-[#666]">No active subscriptions found for this wallet.</p>
+                            </div>
+                        ) : (
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                {subscriptions.map((sub: any) => (
+                                    <div
+                                        key={sub.id}
+                                        className="bg-white border border-black relative group hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-300"
+                                    >
+                                        {/* Status Bar */}
+                                        <div className="w-full h-1" style={{ backgroundColor: sub.status === 'active' ? (sub.brandColor || '#000000') : '#ccc' }}></div>
 
-                                    <div className="p-6 md:p-8">
-                                        <div className="flex justify-between items-start mb-6">
-                                            <div>
-                                                <h3 className="text-2xl font-bold uppercase leading-none mb-2">{sub.merchant}</h3>
-                                                <span className="font-mono text-xs text-black border border-black px-1 uppercase">{sub.plan}</span>
+                                        <div className="p-6 md:p-8">
+                                            <div className="flex justify-between items-start mb-6">
+                                                <div>
+                                                    <div className="flex items-center gap-3 mb-2">
+                                                        {sub.logoUrl && (
+                                                            <img src={sub.logoUrl} alt={sub.merchant} className="w-8 h-8 object-contain rounded-full border border-[#EAEAEA]" />
+                                                        )}
+                                                        <h3 className="text-2xl font-bold uppercase leading-none">{sub.merchant}</h3>
+                                                    </div>
+                                                    <span className="font-mono text-xs text-black border border-black px-1 uppercase">{sub.plan}</span>
+                                                </div>
+                                                <div className={`px-2 py-0.5 text-[10px] font-bold uppercase border border-black ${sub.status === 'active' ? 'bg-[#EAEAEA] text-black' : 'bg-black text-white'}`}>
+                                                    {sub.status}
+                                                </div>
                                             </div>
-                                            <div className={`px-2 py-0.5 text-[10px] font-bold uppercase border border-black ${sub.status === 'active' ? 'bg-[#EAEAEA] text-black' : 'bg-black text-white'}`}>
-                                                {sub.status}
-                                            </div>
-                                        </div>
 
-                                        <div className="space-y-3 mb-8 font-mono text-sm">
-                                            <div className="flex justify-between items-center border-b border-[#EAEAEA] pb-2">
-                                                <span className="text-[#666]">Amount</span>
-                                                <span className="font-bold">${sub.price}</span>
+                                            <div className="space-y-3 mb-8 font-mono text-sm">
+                                                <div className="flex justify-between items-center border-b border-[#EAEAEA] pb-2">
+                                                    <span className="text-[#666]">Amount</span>
+                                                    <span className="font-bold">${sub.price} <span className="text-xs font-normal text-[#999]">{sub.currency}</span></span>
+                                                </div>
+                                                <div className="flex justify-between items-center border-b border-[#EAEAEA] pb-2">
+                                                    <span className="text-[#666]">Next Charge</span>
+                                                    <span className="font-bold">{sub.nextBilling ? new Date(sub.nextBilling * 1000).toLocaleDateString() : '-'}</span>
+                                                </div>
+                                                <div className="flex justify-between items-center border-b border-[#EAEAEA] pb-2">
+                                                    <span className="text-[#666]">Interval</span>
+                                                    <span className="font-bold uppercase">{sub.interval}</span>
+                                                </div>
                                             </div>
-                                            <div className="flex justify-between items-center border-b border-[#EAEAEA] pb-2">
-                                                <span className="text-[#666]">Next Charge</span>
-                                                <span className="font-bold">{sub.nextCharge}</span>
-                                            </div>
-                                            <div className="flex justify-between items-center border-b border-[#EAEAEA] pb-2">
-                                                <span className="text-[#666]">Interval</span>
-                                                <span className="font-bold uppercase">{sub.interval}</span>
-                                            </div>
-                                        </div>
 
-                                        <div className="grid grid-cols-2 gap-3">
-                                            {sub.status === 'active' ? (
-                                                <>
-                                                    <button className="py-2.5 border border-black text-xs font-bold uppercase hover:bg-[#EAEAEA] transition-colors">
-                                                        Pause
+                                            <div className="grid grid-cols-2 gap-3">
+                                                {sub.status === 'active' ? (
+                                                    <>
+                                                        <button
+                                                            onClick={() => handleAction('pause', sub.id)}
+                                                            disabled={pause.isPending}
+                                                            className="py-2.5 border border-black text-xs font-bold uppercase hover:bg-[#EAEAEA] transition-colors disabled:opacity-50"
+                                                        >
+                                                            {pause.isPending ? 'Pausing...' : 'Pause'}
+                                                        </button>
+                                                        <UnsubscribeButton
+                                                            subscriptionPda={sub.subscriptionPda}
+                                                            subscriptionId={sub.id}
+                                                        />
+                                                    </>
+                                                ) : sub.status === 'paused' ? (
+                                                    <button
+                                                        onClick={() => handleAction('resume', sub.id)}
+                                                        disabled={resume.isPending}
+                                                        className="col-span-2 py-2.5 border border-black bg-black text-white text-xs font-bold uppercase hover:bg-[#333] transition-colors disabled:opacity-50"
+                                                    >
+                                                        {resume.isPending ? 'Resuming...' : 'Resume Subscription'}
                                                     </button>
-                                                    <button className="py-2.5 border border-black bg-black text-white text-xs font-bold uppercase hover:bg-[#333] transition-colors">
-                                                        Cancel
-                                                    </button>
-                                                </>
-                                            ) : (
-                                                <button className="col-span-2 py-2.5 border border-black bg-black text-white text-xs font-bold uppercase hover:bg-[#333] transition-colors">
-                                                    Resume Subscription
-                                                </button>
-                                            )}
+                                                ) : (
+                                                    <div className="col-span-2 text-center py-2.5 text-xs font-mono text-[#999] uppercase border border-[#EAEAEA] bg-[#f9f9f9]">
+                                                        Subscription Cancelled
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            ))}
-                        </div>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 </main>
             </div>

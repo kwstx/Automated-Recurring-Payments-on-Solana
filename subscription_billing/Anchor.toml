@@ -3,7 +3,7 @@ seeds = false
 skip-lint = false
 
 [programs.localnet]
-subscription_billing = "Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS"
+subscription_billing = "5F2mgGWf8jsJVrNYyvHx8qSTVTK9DdCd5YY77C7kK5H6"
 
 [programs.devnet]
 subscription_billing = "5F2mgGWf8jsJVrNYyvHx8qSTVTK9DdCd5YY77C7kK5H6"

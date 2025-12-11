@@ -54,6 +54,14 @@ export const cancelSubscriptionSchema = Joi.object({
     subscriptionPda: solanaPublicKey.required()
 });
 
+export const pauseSubscriptionSchema = Joi.object({
+    subscriptionPda: solanaPublicKey.required()
+});
+
+export const resumeSubscriptionSchema = Joi.object({
+    subscriptionPda: solanaPublicKey.required()
+});
+
 export const subscriptionStatusQuerySchema = Joi.object({
     subscriptionPda: solanaPublicKey.required()
 });

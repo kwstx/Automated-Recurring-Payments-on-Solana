@@ -1,0 +1,249 @@
+{
+  "version": "0.1.0",
+  "name": "subscription_billing",
+  "instructions": [
+    {
+      "name": "initializePlan",
+      "accounts": [
+        {
+          "name": "plan",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "merchant",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "planId",
+          "type": "string"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "frequency",
+          "type": "i64"
+        }
+      ]
+    },
+    {
+      "name": "subscribe",
+      "accounts": [
+        {
+          "name": "subscription",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "plan",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "subscriber",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "subscriberTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "merchantTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "processPayment",
+      "accounts": [
+        {
+          "name": "subscription",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "plan",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "subscriberTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "merchantTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "cancelSubscription",
+      "accounts": [
+        {
+          "name": "subscription",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "subscriber",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "pauseSubscription",
+      "accounts": [
+        {
+          "name": "subscription",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "subscriber",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "resumeSubscription",
+      "accounts": [
+        {
+          "name": "subscription",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "subscriber",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Plan",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "merchant",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "frequency",
+            "type": "i64"
+          },
+          {
+            "name": "isActive",
+            "type": "bool"
+          },
+          {
+            "name": "planId",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Subscription",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "subscriber",
+            "type": "publicKey"
+          },
+          {
+            "name": "plan",
+            "type": "publicKey"
+          },
+          {
+            "name": "startTime",
+            "type": "i64"
+          },
+          {
+            "name": "nextBillingTime",
+            "type": "i64"
+          },
+          {
+            "name": "isActive",
+            "type": "bool"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "SubscriptionInactive",
+      "msg": "Subscription is inactive"
+    },
+    {
+      "code": 6001,
+      "name": "PaymentNotDue",
+      "msg": "Payment is not due yet"
+    },
+    {
+      "code": 6002,
+      "name": "Unauthorized",
+      "msg": "Unauthorized"
+    },
+    {
+      "code": 6003,
+      "name": "MissingBump",
+      "msg": "Missing bump seed"
+    }
+  ]
+}

@@ -117,6 +117,50 @@ export const cancelSubscription = (req, res) => {
     }
 };
 
+export const pauseSubscription = (req, res) => {
+    const { subscriptionPda } = req.body;
+
+    try {
+        const result = db.prepare(`
+      UPDATE subscriptions
+      SET is_active = 0, status = 'paused', updated_at = strftime('%s', 'now')
+      WHERE subscription_pda = ?
+    `).run(subscriptionPda);
+
+        if (result.changes === 0) {
+            return res.status(404).json({ error: 'Subscription not found' });
+        }
+
+        logger.info('Subscription paused', { subscriptionPda });
+        res.json({ message: 'Subscription paused successfully' });
+    } catch (error) {
+        logger.error('Pause subscription error', { error: error.message, subscriptionPda });
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
+export const resumeSubscription = (req, res) => {
+    const { subscriptionPda } = req.body;
+
+    try {
+        const result = db.prepare(`
+      UPDATE subscriptions
+      SET is_active = 1, status = 'active', updated_at = strftime('%s', 'now')
+      WHERE subscription_pda = ?
+    `).run(subscriptionPda);
+
+        if (result.changes === 0) {
+            return res.status(404).json({ error: 'Subscription not found' });
+        }
+
+        logger.info('Subscription resumed', { subscriptionPda });
+        res.json({ message: 'Subscription resumed successfully' });
+    } catch (error) {
+        logger.error('Resume subscription error', { error: error.message, subscriptionPda });
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
 export const getSubscriptionStatus = (req, res) => {
     const { subscriptionPda } = req.query;
 

@@ -2,6 +2,7 @@
 
 import LandingHeader from '@/components/LandingHeader';
 import { Check } from 'lucide-react';
+import SubscribeButton from '@/components/SubscribeButton';
 
 export default function PricingPage() {
     return (
@@ -37,9 +38,13 @@ export default function PricingPage() {
                             <li className="flex items-center gap-2"><Check size={16} /> Email Support</li>
                         </ul>
 
-                        <button className="w-full py-3 bg-white border border-black text-black font-bold uppercase hover:bg-black hover:text-white transition-all">
-                            Get Started
-                        </button>
+                        <SubscribeButton
+                            planId="StarterXX11111111111111111111111111"
+                            planName="Starter"
+                            amount={0}
+                            tokenMint="7XSjE8CZaabDrkP3MxKqL5zJwJtiK1CSuJbHHx9dgv9k"
+                            merchantPubkey="5F2mgGWf8jsJVrNYyvHx8qSTVTK9DdCd5YY77C7kK5H6"
+                        />
                     </div>
 
                     {/* Pro */}
@@ -63,9 +68,13 @@ export default function PricingPage() {
                             <li className="flex items-center gap-2"><Check size={16} /> Custom Domain</li>
                         </ul>
 
-                        <button className="w-full py-3 bg-white text-black font-bold uppercase hover:bg-[#e0e0e0] transition-all">
-                            Start Scaling
-                        </button>
+                        <SubscribeButton
+                            planId="GrowthXXX22222222222222222222222222"
+                            planName="Growth"
+                            amount={0.5}
+                            tokenMint="7XSjE8CZaabDrkP3MxKqL5zJwJtiK1CSuJbHHx9dgv9k"
+                            merchantPubkey="5F2mgGWf8jsJVrNYyvHx8qSTVTK9DdCd5YY77C7kK5H6"
+                        />
                     </div>
 
                     {/* Enterprise */}

@@ -18,10 +18,13 @@ export const getSubscriptionsByWallet = (req, res) => {
                 p.amount,
                 p.interval,
                 p.currency,
-                m.username as merchant_name
+                m.username as merchant_name,
+                ms.logo_url,
+                ms.brand_color
             FROM subscriptions s
             JOIN plans p ON s.plan_id = p.id
             JOIN merchants m ON p.merchant_id = m.id
+            LEFT JOIN merchant_settings ms ON m.id = ms.merchant_id
             WHERE s.subscriber_pubkey = ?
             ORDER BY s.created_at DESC
         `).all(walletAddress);
@@ -38,7 +41,9 @@ export const getSubscriptionsByWallet = (req, res) => {
                 status: sub.status,
                 nextBilling: sub.next_billing_timestamp,
                 paymentCount: sub.payment_count,
-                createdAt: sub.created_at
+                createdAt: sub.created_at,
+                logoUrl: sub.logo_url,
+                brandColor: sub.brand_color
             }))
         });
     } catch (error) {

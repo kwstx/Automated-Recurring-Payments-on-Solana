@@ -11,7 +11,7 @@ export default function SettingsPage() {
     const tabs = [
         { id: 'company', label: 'Company', icon: Building2 },
         { id: 'billing', label: 'Billing', icon: CreditCard },
-        { id: 'developer', label: 'Developer', icon: Key },
+        { id: 'developer', label: 'Security & API', icon: Shield },
         { id: 'branding', label: 'Branding', icon: Palette },
         { id: 'notifications', label: 'Notifications', icon: Bell },
     ];
@@ -373,6 +373,30 @@ function DeveloperSettings() {
                         + Add Endpoint
                     </button>
                 </div>
+
+                <div className="pt-6 border-t border-[#a3a3a3] mt-8">
+                    <h3 className="text-black font-bold text-xs uppercase mb-4 flex items-center gap-2">
+                        <Shield className="w-4 h-4" />
+                        Recent Access Logs
+                    </h3>
+                    <div className="border border-[#a3a3a3] bg-[#f9f9f9] p-4 text-xs font-mono space-y-2">
+                        <div className="flex justify-between text-[#666]">
+                            <span>192.168.1.104</span>
+                            <span>GET /api/plans</span>
+                            <span>2s ago</span>
+                        </div>
+                        <div className="flex justify-between text-[#666]">
+                            <span>10.0.0.52</span>
+                            <span>POST /api/subscription</span>
+                            <span>45s ago</span>
+                        </div>
+                        <div className="flex justify-between text-[#666]">
+                            <span>192.168.1.104</span>
+                            <span>GET /api/me</span>
+                            <span>1m ago</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </SettingsSection>
     );
@@ -455,6 +479,24 @@ function BrandingSettings() {
                             accept="image/*"
                             onChange={handleFileChange}
                         />
+                    </div>
+                </div>
+                {/* Logo URL Manual Entry */}
+                <div className="col-span-2">
+                    <label className="text-xs font-mono font-bold text-black uppercase mb-2 block">Logo URL</label>
+                    <div className="relative">
+                        <input
+                            type="url"
+                            value={formData.logoUrl || ''}
+                            onChange={(e) => setFormData({ ...formData, logoUrl: e.target.value })}
+                            placeholder="https://example.com/logo.png"
+                            className="w-full bg-transparent border border-[#a3a3a3] rounded-none py-2 px-3 text-black text-xs font-mono placeholder-[#999] focus:border-black focus:bg-white outline-none transition-all"
+                        />
+                        <div className="absolute right-2 top-1/2 -translate-y-1/2">
+                            {formData.logoUrl && (
+                                <img src={formData.logoUrl} alt="Preview" className="w-6 h-6 object-contain" onError={(e) => (e.currentTarget.style.display = 'none')} />
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>

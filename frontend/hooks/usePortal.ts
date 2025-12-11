@@ -1,3 +1,4 @@
+
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { portalAPI } from '../lib/api-client';
 
@@ -9,42 +10,33 @@ export const usePortalSubscriptions = (walletAddress: string | null) => {
             const { data } = await portalAPI.getSubscriptions(walletAddress);
             return data.subscriptions;
         },
-        enabled: !!walletAddress,
+        enabled: !!walletAddress, // Only fetch if wallet connected
     });
 };
 
-export const usePauseSubscription = () => {
+export const usePortalActions = (walletAddress: string) => {
     const queryClient = useQueryClient();
 
-    return useMutation({
-        mutationFn: ({ id, walletAddress }: { id: number; walletAddress: string }) =>
-            portalAPI.pauseSubscription(id, walletAddress),
+    const pause = useMutation({
+        mutationFn: (id: number) => portalAPI.pauseSubscription(id, walletAddress),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['portal', 'subscriptions'] });
         },
     });
-};
 
-export const useResumeSubscription = () => {
-    const queryClient = useQueryClient();
-
-    return useMutation({
-        mutationFn: ({ id, walletAddress }: { id: number; walletAddress: string }) =>
-            portalAPI.resumeSubscription(id, walletAddress),
+    const resume = useMutation({
+        mutationFn: (id: number) => portalAPI.resumeSubscription(id, walletAddress),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['portal', 'subscriptions'] });
         },
     });
-};
 
-export const useCancelSubscription = () => {
-    const queryClient = useQueryClient();
-
-    return useMutation({
-        mutationFn: ({ id, walletAddress }: { id: number; walletAddress: string }) =>
-            portalAPI.cancelSubscription(id, walletAddress),
+    const cancel = useMutation({
+        mutationFn: (id: number) => portalAPI.cancelSubscription(id, walletAddress),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['portal', 'subscriptions'] });
         },
     });
+
+    return { pause, resume, cancel };
 };

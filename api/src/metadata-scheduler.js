@@ -1,4 +1,5 @@
 import cron from 'node-cron';
+import * as Sentry from '@sentry/node';
 import logger from './logger.js';
 import { syncAllPlansMetadata, syncAllSubscriptionsMetadata } from './metadata-sync.js';
 
@@ -14,6 +15,7 @@ export const startMetadataSyncScheduler = () => {
             logger.info('Scheduled plan metadata sync completed', results);
         } catch (error) {
             logger.error('Scheduled plan metadata sync failed', { error: error.message });
+            Sentry.captureException(error, { tags: { scheduler: 'metadata-sync', type: 'plans' } });
         }
     });
 
@@ -25,6 +27,7 @@ export const startMetadataSyncScheduler = () => {
             logger.info('Scheduled subscription metadata sync completed', results);
         } catch (error) {
             logger.error('Scheduled subscription metadata sync failed', { error: error.message });
+            Sentry.captureException(error, { tags: { scheduler: 'metadata-sync', type: 'subscriptions' } });
         }
     });
 

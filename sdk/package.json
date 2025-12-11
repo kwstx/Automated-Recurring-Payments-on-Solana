@@ -1,0 +1,28 @@
+{
+    "name": "@sol-billing/sdk",
+    "version": "0.1.0",
+    "description": "JavaScript/TypeScript SDK for Solana Subscription Billing",
+    "main": "dist/index.js",
+    "module": "dist/index.mjs",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "build": "tsup src/index.ts --format cjs,esm --dts",
+        "lint": "tsc",
+        "test": "jest"
+    },
+    "keywords": [
+        "solana",
+        "billing",
+        "subscription",
+        "sdk"
+    ],
+    "author": "Antigravity",
+    "license": "MIT",
+    "devDependencies": {
+        "tsup": "^8.0.0",
+        "typescript": "^5.0.0"
+    },
+    "dependencies": {
+        "axios": "^1.6.0"
+    }
+}

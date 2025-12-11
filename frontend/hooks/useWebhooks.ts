@@ -54,3 +54,27 @@ export const useDeleteWebhook = () => {
         },
     });
 };
+// New Debugging Hooks
+export const useWebhookDelivery = (id: number | null) => {
+    return useQuery({
+        queryKey: ['webhook-delivery', id],
+        queryFn: async () => {
+            if (!id) return null;
+            const { data } = await webhooksAPI.getDelivery(id);
+            return data.delivery;
+        },
+        enabled: !!id,
+    });
+};
+
+export const useRetryWebhook = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (id: number) => webhooksAPI.retryDelivery(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['webhook-delivery'] });
+            queryClient.invalidateQueries({ queryKey: ['webhooks'] }); // to refresh log list status
+            alert("Webhook queued for retry");
+        },
+    });
+};

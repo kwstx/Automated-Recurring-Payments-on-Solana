@@ -4,7 +4,9 @@ import {
     listWebhooks,
     deleteWebhook,
     updateWebhook,
-    getWebhookDeliveries
+    getWebhookDeliveries,
+    getWebhookDelivery,
+    retryWebhookDelivery
 } from '../controllers/webhookController.js';
 import { authenticateToken } from '../auth.js';
 import { validate } from '../middleware/validation.js';
@@ -20,5 +22,7 @@ router.patch('/:webhookId', authenticateToken, validate(updateWebhookSchema), up
 
 // Webhook deliveries
 router.get('/:webhookId/deliveries', authenticateToken, getWebhookDeliveries);
+router.get('/delivery/:id', authenticateToken, getWebhookDelivery);
+router.post('/delivery/:id/retry', authenticateToken, retryWebhookDelivery);
 
 export default router;

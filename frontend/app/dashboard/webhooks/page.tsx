@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Plus, Trash2, Key, RefreshKw, Activity, CheckCircle, XCircle, AlertTriangle } from 'lucide-react';
 import { useWebhooks, useCreateWebhook, useDeleteWebhook, useWebhookLogs, useUpdateWebhook } from '@/hooks/useWebhooks';
 import { motion, AnimatePresence } from 'framer-motion';
+import WebhookDebugger from '@/components/WebhookDebugger';
 
 export default function WebhooksPage() {
     const [showCreateModal, setShowCreateModal] = useState(false);
@@ -18,6 +19,8 @@ export default function WebhooksPage() {
     });
 
     const availableEvents = ['payment.success', 'payment.failure', 'subscription.renewal'];
+
+    const [debugWebhook, setDebugWebhook] = useState<{ id: number; url: string } | null>(null);
 
     const handleCreate = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -46,7 +49,26 @@ export default function WebhooksPage() {
     };
 
     return (
-        <div className="space-y-8 max-w-[1600px] mx-auto pb-12">
+        <div className="space-y-8 max-w-[1600px] mx-auto pb-12 relative">
+            <AnimatePresence>
+                {debugWebhook && (
+                    <>
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="fixed inset-0 bg-black/20 z-40"
+                            onClick={() => setDebugWebhook(null)}
+                        />
+                        <WebhookDebugger
+                            webhookId={debugWebhook.id}
+                            url={debugWebhook.url}
+                            onClose={() => setDebugWebhook(null)}
+                        />
+                    </>
+                )}
+            </AnimatePresence>
+
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#a3a3a3] pb-6">
                 <div>
@@ -99,6 +121,13 @@ export default function WebhooksPage() {
                                 </div>
 
                                 <div className="flex items-center gap-2">
+                                    <button
+                                        onClick={() => setDebugWebhook({ id: webhook.id, url: webhook.url })}
+                                        className="px-3 py-1.5 text-xs font-mono font-bold uppercase border border-black hover:bg-black hover:text-white transition-colors flex items-center gap-2"
+                                    >
+                                        <Activity className="w-3 h-3" />
+                                        Logs
+                                    </button>
                                     <button
                                         onClick={() => updateWebhook.mutate({ id: webhook.id, data: { isActive: !webhook.is_active } })}
                                         className={`px-3 py-1.5 text-xs font-mono font-bold uppercase border transition-colors ${webhook.is_active ? 'border-red-200 bg-red-50 text-red-600 hover:bg-red-100' : 'border-green-200 bg-green-50 text-green-600 hover:bg-green-100'}`}
