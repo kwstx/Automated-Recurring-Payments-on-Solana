@@ -79,10 +79,10 @@ export const settingsAPI = {
 // Webhooks API
 export const webhooksAPI = {
     list: () => apiClient.get('/webhooks/list'),
-    create: (data: any) => apiClient.post('/webhooks/create', data),
-    update: (id: number, data: any) => apiClient.put(`/webhooks/${id}`, data),
+    create: (data: any) => apiClient.post('/webhooks/register', data),
+    update: (id: number, data: any) => apiClient.patch(`/webhooks/${id}`, data),
     delete: (id: number) => apiClient.delete(`/webhooks/${id}`),
-    getLogs: (id: number) => apiClient.get(`/webhooks/${id}/logs`),
+    getLogs: (id: number) => apiClient.get(`/webhooks/${id}/deliveries`),
 };
 
 // Subscriptions API (Merchant side)
@@ -103,6 +103,13 @@ export const portalAPI = {
         apiClient.post(`/portal/subscriptions/${id}/cancel`, { walletAddress }),
     getPaymentHistory: (id: number, walletAddress: string) =>
         apiClient.get(`/portal/subscriptions/${id}/history`, { params: { walletAddress } }),
+};
+
+// Invoices API
+export const invoicesAPI = {
+    list: (status?: string) => apiClient.get('/merchant/invoices', { params: { status } }),
+    create: (data: any) => apiClient.post('/merchant/invoices', data),
+    get: (id: number) => apiClient.get(`/merchant/invoices/${id}`),
 };
 
 export default apiClient;

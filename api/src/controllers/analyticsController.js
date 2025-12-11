@@ -18,8 +18,8 @@ export const getMerchantAnalytics = (req, res) => {
     const subscriptionStats = db.prepare(`
       SELECT 
         COUNT(*) as total_subscriptions,
-        SUM(CASE WHEN is_active = 1 THEN 1 ELSE 0 END) as active_subscriptions,
-        SUM(CASE WHEN status = 'cancelled' THEN 1 ELSE 0 END) as cancelled_subscriptions
+        SUM(CASE WHEN s.is_active = 1 THEN 1 ELSE 0 END) as active_subscriptions,
+        SUM(CASE WHEN s.status = 'cancelled' THEN 1 ELSE 0 END) as cancelled_subscriptions
       FROM subscriptions s
       JOIN plans p ON s.plan_id = p.id
       WHERE p.merchant_id = ?

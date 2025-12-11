@@ -173,3 +173,23 @@ CREATE TABLE IF NOT EXISTS api_keys (
 );
 
 CREATE INDEX IF NOT EXISTS idx_api_keys_merchant ON api_keys(merchant_id);
+
+-- Invoices table
+CREATE TABLE IF NOT EXISTS invoices (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  merchant_id INTEGER NOT NULL,
+  customer_email TEXT,
+  customer_name TEXT,
+  amount INTEGER NOT NULL,
+  currency TEXT DEFAULT 'USDC',
+  due_date INTEGER,
+  status TEXT DEFAULT 'draft', -- draft, sent, paid, void
+  description TEXT,
+  invoice_number TEXT,
+  created_at INTEGER DEFAULT (strftime('%s', 'now')),
+  updated_at INTEGER DEFAULT (strftime('%s', 'now')),
+  FOREIGN KEY (merchant_id) REFERENCES merchants(id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_invoices_merchant ON invoices(merchant_id);
+CREATE INDEX IF NOT EXISTS idx_invoices_status ON invoices(status);

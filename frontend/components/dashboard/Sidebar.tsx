@@ -2,12 +2,14 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, CreditCard, Layers, Settings, LogOut, Activity } from 'lucide-react';
+import { Home, CreditCard, Layers, Settings, LogOut, Activity, FileText, Webhook } from 'lucide-react';
 
 const menuItems = [
     { icon: Home, label: 'Overview', href: '/dashboard' },
     { icon: Layers, label: 'Plans', href: '/dashboard/plans' },
     { icon: CreditCard, label: 'Subscriptions', href: '/dashboard/subscriptions' },
+    { icon: FileText, label: 'Invoices', href: '/dashboard/invoices' },
+    { icon: Webhook, label: 'Webhooks', href: '/dashboard/webhooks' },
     { icon: Activity, label: 'Analytics', href: '/dashboard/analytics' },
     { icon: Settings, label: 'Settings', href: '/dashboard/settings' },
 ];
