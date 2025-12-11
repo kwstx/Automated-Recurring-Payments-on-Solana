@@ -123,9 +123,20 @@ export default function InfrastructureModules() {
                                                 </div>
 
                                                 {/* Visual Placeholder for Module - Restored Original Styles */}
+                                                {/* Visual Placeholder for Module - Updated for Auto-Sweeps */}
                                                 <div className="hidden lg:flex w-48 h-48 bg-[#151515] rounded-none relative overflow-hidden items-center justify-center shrink-0">
-                                                    <div className="absolute inset-0 bg-gradient-to-tr from-purple-600 to-blue-500 opacity-80 mix-blend-screen blur-xl md:blur-2xl"></div>
-                                                    <Box size={80} strokeWidth={1} className="text-white opacity-90 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-150" />
+                                                    {module.id === 'recurring' ? (
+                                                        <img
+                                                            src="/auto-sweeps-feature.png"
+                                                            alt="Auto-Sweeps Flow"
+                                                            className="object-cover w-full h-full"
+                                                        />
+                                                    ) : (
+                                                        <>
+                                                            <div className="absolute inset-0 bg-gradient-to-tr from-purple-600 to-blue-500 opacity-80 mix-blend-screen blur-xl md:blur-2xl"></div>
+                                                            <Box size={80} strokeWidth={1} className="text-white opacity-90 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-150" />
+                                                        </>
+                                                    )}
                                                 </div>
                                             </div>
                                         </motion.div>
