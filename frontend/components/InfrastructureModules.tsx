@@ -123,7 +123,7 @@ export default function InfrastructureModules() {
                                                 </div>
 
                                                 {/* Visual Placeholder for Module - Restored Original Styles */}
-                                                {/* Visual Placeholder for Module - Updated for Auto-Sweeps & Token Gating */}
+                                                {/* Visual Placeholder for Module - Updated for Auto-Sweeps, Token Gating & Smart Invoicing */}
                                                 <div className="hidden lg:flex w-48 h-48 bg-[#151515] rounded-none relative overflow-hidden items-center justify-center shrink-0">
                                                     {module.id === 'recurring' ? (
                                                         <img
@@ -135,6 +135,12 @@ export default function InfrastructureModules() {
                                                         <img
                                                             src="/token-gating-feature.png"
                                                             alt="Token Gating Access"
+                                                            className="object-cover w-full h-full"
+                                                        />
+                                                    ) : module.id === 'invoicing' ? (
+                                                        <img
+                                                            src="/invoicing-feature.png"
+                                                            alt="Smart Invoicing"
                                                             className="object-cover w-full h-full"
                                                         />
                                                     ) : (
