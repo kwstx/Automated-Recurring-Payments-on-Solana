@@ -67,6 +67,7 @@ export default function Footer() {
                                 <input
                                     type="email"
                                     placeholder="Enter your email"
+                                    suppressHydrationWarning
                                     className="flex-1 bg-transparent outline-none text-[#1a1a1a] placeholder:text-[#888] pb-1"
                                 />
                                 <button type="submit" className="font-bold text-sm uppercase tracking-wide hover:opacity-70 transition-opacity pb-1">
