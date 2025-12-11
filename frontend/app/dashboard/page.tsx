@@ -4,6 +4,7 @@ import { Users, CreditCard, Activity, DollarSign, Plus, TrendingUp, ArrowRight }
 import StatsCard from '@/components/dashboard/StatsCard';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { useAnalyticsOverview, useMRR, useChurnRate } from '@/hooks/useAnalytics';
 
 const stats = [
     { title: 'Total Revenue', value: '$12,450.00', change: '12.5%', isPositive: true, icon: DollarSign },
@@ -54,6 +55,45 @@ const ChartMock = () => (
 );
 
 export default function DashboardPage() {
+    const { data: analyticsData, isLoading: overviewLoading } = useAnalyticsOverview();
+    const { data: mrrData } = useMRR();
+    const { data: churnData } = useChurnRate();
+
+    const stats = [
+        {
+            title: 'Total Revenue',
+            value: analyticsData?.revenue?.total ? `$${(analyticsData.revenue.total / 1000000).toFixed(2)}` : '$0.00',
+            change: '+0.0%', // Placeholder until historical data logic is added
+            isPositive: true,
+            icon: DollarSign,
+            loading: overviewLoading
+        },
+        {
+            title: 'Active Subscriptions',
+            value: analyticsData?.subscriptions?.active?.toString() || '0',
+            change: '+0.0%',
+            isPositive: true,
+            icon: Users,
+            loading: overviewLoading
+        },
+        {
+            title: 'Monthly Recurring Revenue',
+            value: mrrData?.mrr ? `$${mrrData.mrr}` : '$0.00',
+            change: '+0.0%',
+            isPositive: true,
+            icon: CreditCard,
+            loading: overviewLoading
+        },
+        {
+            title: 'Churn Rate',
+            value: churnData?.churnRate ? `${churnData.churnRate}%` : '0.00%',
+            change: '0.0%',
+            isPositive: false,
+            icon: Activity,
+            loading: overviewLoading
+        },
+    ];
+
     return (
         <div className="space-y-8 max-w-[1600px] mx-auto pb-12">
             {/* Header Area */}
@@ -92,7 +132,7 @@ export default function DashboardPage() {
                             <h2 className="text-lg font-bold text-black uppercase tracking-tight mb-1">Revenue Overview</h2>
                             <div className="flex items-center gap-2 text-xs font-mono font-bold text-green-600">
                                 <TrendingUp className="w-3 h-3" />
-                                <span>+12.5% vs last month</span>
+                                <span>Real-time Data</span>
                             </div>
                         </div>
                         <select className="bg-transparent border border-[#a3a3a3] px-4 py-2 text-xs font-mono font-bold text-black outline-none focus:border-black transition-colors cursor-pointer uppercase">
@@ -120,31 +160,43 @@ export default function DashboardPage() {
                     </div>
 
                     <div className="divide-y divide-[#EAEAEA]">
-                        {[1, 2, 3, 4, 5].map((_, i) => (
-                            <div key={i} className="flex items-center justify-between p-4 hover:bg-[#fafafa] transition-colors cursor-pointer group">
-                                <div className="flex items-center gap-4">
-                                    <div className={`w-10 h-10 border border-[#a3a3a3] flex items-center justify-center transition-colors ${i % 2 === 0 ? 'bg-blue-50 text-blue-600' : 'bg-purple-50 text-purple-600'}`}>
-                                        {i % 2 === 0 ? <Users className="w-4 h-4" /> : <CreditCard className="w-4 h-4" />}
+                        {analyticsData?.recentActivity?.length > 0 ? (
+                            analyticsData.recentActivity.map((activity: any, i: number) => (
+                                <div key={i} className="flex items-center justify-between p-4 hover:bg-[#fafafa] transition-colors cursor-pointer group">
+                                    <div className="flex items-center gap-4">
+                                        <div className={`w-10 h-10 border border-[#a3a3a3] flex items-center justify-center transition-colors ${i % 2 === 0 ? 'bg-blue-50 text-blue-600' : 'bg-purple-50 text-purple-600'}`}>
+                                            {i % 2 === 0 ? <Users className="w-4 h-4" /> : <CreditCard className="w-4 h-4" />}
+                                        </div>
+                                        <div>
+                                            <p className="text-sm font-bold text-black uppercase tracking-tight group-hover:underline">
+                                                {activity.subscriber_pubkey.slice(0, 4)}...{activity.subscriber_pubkey.slice(-4)}
+                                            </p>
+                                            <p className="text-xs text-[#999] font-mono">
+                                                {new Date(activity.created_at * 1000).toLocaleDateString()}
+                                            </p>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <p className="text-sm font-bold text-black uppercase tracking-tight group-hover:underline">Orbit Studio Pro</p>
-                                        <p className="text-xs text-[#999] font-mono">2 mins ago</p>
+                                    <div className="text-right">
+                                        <span className="block text-sm font-bold text-black">{activity.plan_name}</span>
+                                        <span className={`text-[10px] font-mono font-bold uppercase ${activity.status === 'active' ? 'text-green-600' : 'text-[#999]'}`}>
+                                            {activity.status}
+                                        </span>
                                     </div>
                                 </div>
-                                <div className="text-right">
-                                    <span className="block text-sm font-bold text-black">$250.00</span>
-                                    <span className="text-[10px] font-mono font-bold text-[#999] uppercase">
-                                        Subscribed
-                                    </span>
-                                </div>
+                            ))
+                        ) : (
+                            <div className="p-8 text-center text-[#999] font-mono text-sm uppercase">
+                                No recent activity
                             </div>
-                        ))}
+                        )}
                     </div>
 
                     <div className="p-4 border-t border-[#a3a3a3] bg-[#f5f5f5]">
-                        <button className="w-full py-3 border border-black text-black font-mono font-bold text-xs uppercase hover:bg-black hover:text-white transition-all flex items-center justify-center gap-2">
-                            View All Transactions <ArrowRight className="w-3 h-3" />
-                        </button>
+                        <Link href="/dashboard/subscriptions">
+                            <button className="w-full py-3 border border-black text-black font-mono font-bold text-xs uppercase hover:bg-black hover:text-white transition-all flex items-center justify-center gap-2">
+                                View All Transactions <ArrowRight className="w-3 h-3" />
+                            </button>
+                        </Link>
                     </div>
                 </motion.div>
             </div>
