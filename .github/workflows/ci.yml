@@ -30,6 +30,8 @@ jobs:
 
     - name: Run API Tests
       run: cd api && npm test
+      env:
+        JWT_SECRET: "test_secret_for_ci"
 
     # Frontend Build & Test
     - name: Install Frontend Dependencies
