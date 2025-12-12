@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
+import { ArrowDownRight } from 'lucide-react';
 
 export default function Hero() {
   return (
@@ -61,14 +62,7 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* CTA - Above Grid */}
-        <div className="w-full py-4 md:py-8 flex justify-start relative z-20 hidden md:flex">
-          <div>
-            <Link href="/register" className="flex items-center gap-2 font-semibold text-sm hover:gap-3 transition-all underline decoration-1 underline-offset-4">
-              Start engineering <span className="text-lg">↘</span>
-            </Link>
-          </div>
-        </div>
+
 
         {/* Main Grid Content */}
         <div className="flex-1 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-12 min-h-0 relative z-20 items-end md:items-center content-end pb-12 md:pb-0">
@@ -76,12 +70,17 @@ export default function Hero() {
           {/* Left: Square Gray Box with Gradient */}
           {/* Left: Square Gray Box with Gradient */}
           <div className="flex md:col-span-4 lg:col-span-3 items-center justify-center md:justify-end py-4 order-none w-full">
-            <div className="relative h-64 w-64 md:w-auto md:h-60 lg:h-72 xl:h-[22rem] aspect-square">
-              <img
-                src="/hero-graphic.png"
-                alt="Abstract Hero Graphic"
-                className="w-full h-full object-contain brightness-[0.25]"
-              />
+            <div className="flex flex-col gap-2">
+              <Link href="/register" className="hidden md:flex items-center gap-1 font-semibold text-sm hover:gap-2 transition-all underline decoration-1 underline-offset-4 self-start">
+                Start engineering <ArrowDownRight className="w-4 h-4 ml-0.5" />
+              </Link>
+              <div className="relative h-64 w-64 md:w-auto md:h-60 lg:h-72 xl:h-[22rem] aspect-square">
+                <img
+                  src="/hero-graphic.png"
+                  alt="Abstract Hero Graphic"
+                  className="w-full h-full object-contain brightness-[0.25]"
+                />
+              </div>
             </div>
           </div>
 
