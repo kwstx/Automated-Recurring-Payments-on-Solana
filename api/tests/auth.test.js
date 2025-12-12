@@ -11,7 +11,7 @@ describe('Auth Endpoints', () => {
     const testUser = {
         username: `testuser_${Date.now()}`,
         password: 'TestPassword123!',
-        walletAddress: 'TestWalletAddress123'
+        email: 'test@example.com'
     };
 
     afterAll(() => {
@@ -27,7 +27,8 @@ describe('Auth Endpoints', () => {
 
             expect(response.status).toBe(201);
             expect(response.body).toHaveProperty('message', 'Merchant registered successfully');
-            expect(response.body).toHaveProperty('merchantId');
+            expect(response.body).toHaveProperty('merchant');
+            expect(response.body.merchant).toHaveProperty('id');
         });
 
         it('should reject duplicate username', async () => {
