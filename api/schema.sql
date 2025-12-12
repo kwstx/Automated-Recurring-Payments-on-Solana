@@ -142,6 +142,18 @@ CREATE INDEX IF NOT EXISTS idx_webhook_deliveries_endpoint ON webhook_deliveries
 CREATE INDEX IF NOT EXISTS idx_webhook_deliveries_status ON webhook_deliveries(status);
 CREATE INDEX IF NOT EXISTS idx_webhook_deliveries_retry ON webhook_deliveries(next_retry_at) WHERE status = 'pending';
 
+-- Audit Logs
+CREATE TABLE IF NOT EXISTS audit_logs (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  merchant_id INTEGER NOT NULL,
+  action TEXT NOT NULL, -- e.g., 'create_plan', 'update_settings'
+  target_type TEXT, -- e.g., 'plan', 'subscription'
+  target_id TEXT,
+  details TEXT, -- JSON details of change
+  ip_address TEXT,
+  timestamp INTEGER DEFAULT (strftime('%s', 'now')),
+  FOREIGN KEY (merchant_id) REFERENCES merchants (id)
+);
 
 
 -- Merchant settings table

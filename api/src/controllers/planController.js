@@ -1,6 +1,4 @@
-import db from '../database.js';
-import logger from '../logger.js';
-import { verifyPlanOnChain } from '../solana-client.js';
+import { auditService } from '../services/auditService.js';
 
 export const createPlan = async (req, res) => {
     const { planPda, name, description, amount, currency, currencyMint, decimals, interval, verifyOnChain } = req.body;
@@ -29,6 +27,8 @@ export const createPlan = async (req, res) => {
     `).run(merchantId, planPda, name, description || null, amount, currency || 'USDC', currencyMint || null, decimals || 6, interval);
 
         logger.info('Plan created', { planId: result.lastInsertRowid, merchantId, planPda });
+
+        auditService.log(merchantId, 'create_plan', 'plan', result.lastInsertRowid, { name, amount, interval });
 
         res.status(201).json({
             message: 'Plan created successfully',
@@ -94,6 +94,7 @@ export const updatePlan = (req, res) => {
         db.prepare(query).run(...values);
 
         logger.info('Plan updated', { planId, merchantId });
+        auditService.log(merchantId, 'update_plan', 'plan', planId, { name, amount, isActive });
 
         res.json({ message: 'Plan updated successfully' });
     } catch (error) {

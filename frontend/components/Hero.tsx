@@ -6,13 +6,13 @@ import Image from 'next/image';
 
 export default function Hero() {
   return (
-    <div className="relative h-screen flex flex-col pt-2 px-4 pb-4 md:pt-4 md:px-6 md:pb-6 font-sans text-[#1a1a1a] overflow-hidden">
+    <div className="relative h-screen flex flex-col pt-2 px-4 pb-4 md:pt-4 md:px-6 md:pb-6 font-sans text-[#1a1a1a] overflow-hidden w-full max-w-[100vw]">
 
       {/* Top Black Line */}
       <div className="w-full border-t border-black mb-4 md:mb-6"></div>
 
       {/* Wrapper for Content Below Top Line */}
-      <div className="relative flex-1 flex flex-col min-h-0">
+      <div className="relative flex-1 flex flex-col min-h-0 w-full">
         {/* Background Grid Lines Layer */}
         <div className="absolute inset-x-0 bottom-0 -top-4 md:-top-6 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-12 pointer-events-none z-0">
           {/* Left Spacer (matches col-span-4) */}
@@ -26,14 +26,14 @@ export default function Hero() {
 
         {/* Top Bar / Navigation Line */}
         <div className="w-full pb-2 mb-0 relative z-20">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-12 items-start">
+          <div className="flex flex-col md:grid md:grid-cols-12 gap-6 md:gap-12 items-start">
             {/* Left: Brand */}
-            <div className="md:col-span-4 lg:col-span-3 flex justify-between">
+            <div className="md:col-span-4 lg:col-span-3 flex justify-between w-full md:w-auto">
               <h1 className="font-bold text-xl md:text-2xl tracking-tight">W3.</h1>
             </div>
 
             {/* Center: Mission Statement - Aligned with Typography Column */}
-            <div className="md:col-span-4 lg:col-span-5 pl-4 md:pl-0">
+            <div className="md:col-span-4 lg:col-span-5 pl-0 md:pl-0 w-full md:w-auto mt-4 md:mt-0">
               <h3 className="font-bold text-lg md:text-xl lg:text-2xl leading-tight uppercase text-left">
                 AUTOMATED RECURRING<br />
                 REVENUE INFRASTRUCTURE<br />
@@ -43,7 +43,7 @@ export default function Hero() {
             </div>
 
             {/* Right: Navigation - Aligned with 'WHAT' */}
-            <div className="md:col-span-4 lg:col-span-4 flex flex-col items-start text-left text-xs md:text-sm font-medium leading-relaxed gap-1 pl-4 md:pl-12 lg:pl-16">
+            <div className="md:col-span-4 lg:col-span-4 flex flex-col items-start text-left text-xs md:text-sm font-medium leading-relaxed gap-1 pl-0 md:pl-12 lg:pl-16 w-full md:w-auto mt-4 md:mt-0">
               <div className="w-full flex justify-between">
                 <div>
                   <Link href="/sdks" className="block hover:underline">SDKs</Link>
@@ -62,7 +62,7 @@ export default function Hero() {
         </div>
 
         {/* CTA - Above Grid */}
-        <div className="w-full py-4 md:py-8 flex justify-start relative z-20">
+        <div className="w-full py-4 md:py-8 flex justify-start relative z-20 hidden md:flex">
           <div>
             <Link href="/register" className="flex items-center gap-2 font-semibold text-sm hover:gap-3 transition-all underline decoration-1 underline-offset-4">
               Start engineering <span className="text-lg">↘</span>
@@ -71,13 +71,12 @@ export default function Hero() {
         </div>
 
         {/* Main Grid Content */}
-        <div className="flex-1 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-12 min-h-0 relative z-20 items-end md:items-center">
-
-
+        <div className="flex-1 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-12 min-h-0 relative z-20 items-end md:items-center content-end pb-12 md:pb-0">
 
           {/* Left: Square Gray Box with Gradient */}
-          <div className="md:col-span-4 lg:col-span-3 flex items-center justify-end py-4">
-            <div className="relative h-48 md:h-60 lg:h-72 xl:h-[22rem] aspect-square">
+          {/* Left: Square Gray Box with Gradient */}
+          <div className="flex md:col-span-4 lg:col-span-3 items-center justify-center md:justify-end py-4 order-none w-full">
+            <div className="relative h-64 w-64 md:w-auto md:h-60 lg:h-72 xl:h-[22rem] aspect-square">
               <img
                 src="/hero-graphic.png"
                 alt="Abstract Hero Graphic"
@@ -87,9 +86,9 @@ export default function Hero() {
           </div>
 
           {/* Right: Massive Typography */}
-          <div className="md:col-span-8 lg:col-span-9 flex items-center justify-start py-4 pl-4 md:pl-0 relative overflow-visible">
+          <div className="md:col-span-8 lg:col-span-9 flex items-center justify-start py-4 pl-0 md:pl-0 relative overflow-visible w-full">
 
-            <h2 className="text-[3.5rem] md:text-[4.5rem] lg:text-[5.5rem] xl:text-[7rem] font-bold tracking-tighter leading-[0.8] relative z-10 w-full">
+            <h2 className="text-[1.8rem] xs:text-[2.2rem] sm:text-[3.5rem] md:text-[4.5rem] lg:text-[5.5rem] xl:text-[7rem] font-bold tracking-tighter leading-[0.9] md:leading-[0.8] relative z-10 w-full break-words">
               <div className="flex justify-between w-full">
                 <span className="text-[#999]">AUTOMATE</span>
                 <span className="text-[#999]">YOUR</span>
@@ -101,7 +100,7 @@ export default function Hero() {
                 <span className="text-[#999]">CHAIN</span>
               </div>
 
-              <span className="text-[#999]">WITH</span> <AnimatedText text="SOLANA" className="text-black ml-[0.3em]" delay={1.5} /><br />
+              <span className="text-[#999] whitespace-nowrap">WITH <AnimatedText text="SOLANA" className="text-black ml-[0.2em] md:ml-[0.3em]" delay={1.5} /></span><br />
               <AnimatedText text="SUBSCRIPTIONS." className="text-black" delay={2.5} />
             </h2>
           </div>

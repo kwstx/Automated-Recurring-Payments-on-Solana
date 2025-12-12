@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  api:
+    build: ./api
+    ports:
+      - "4000:4000"
+    environment:
+      - PORT=4000
+      - NODE_ENV=production
+      # Add other env vars here or use .env file
+      # - JWT_SECRET=...
+      # - DATABASE_URL=...
+    volumes:
+      - ./api/billing.db:/app/billing.db
+    restart: always
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:4000 # Client-side access
+      # Server-side access to API inside docker network usually needs service name "http://api:4000"
+      # But Next.js client-side fetch needs public URL.
+    restart: always
+    depends_on:
+      - api

@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import AppWalletProvider from "@/components/AppWalletProvider";
 import { QueryProvider } from "@/components/QueryProvider";
+import { CSPostHogProvider } from "@/components/PostHogProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,9 +21,11 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className={`${inter.className} bg-black text-white antialiased overflow-x-hidden`}>
         <QueryProvider>
-          <AppWalletProvider>
-            {children}
-          </AppWalletProvider>
+          <CSPostHogProvider>
+            <AppWalletProvider>
+              {children}
+            </AppWalletProvider>
+          </CSPostHogProvider>
         </QueryProvider>
       </body>
     </html>

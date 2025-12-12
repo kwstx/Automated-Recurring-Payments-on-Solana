@@ -1,6 +1,6 @@
 import express from 'express';
 import * as planController from '../controllers/planController.js';
-import { verifyToken } from '../middleware/auth.js';
+import { verifyToken } from '../auth.js';
 import { validate } from '../middleware/validation.js';
 import { createPlanSchema, updatePlanSchema } from '../validation/schemas.js';
 

@@ -1,6 +1,7 @@
 import db from '../database.js';
 import logger from '../logger.js';
 import crypto from 'crypto';
+import { auditService } from '../services/auditService.js';
 
 // Get company details
 export const getCompanyDetails = (req, res) => {
@@ -59,6 +60,8 @@ export const updateCompanyDetails = (req, res) => {
         `).run(merchantId, companyName, companyWebsite, supportEmail, brandColor, logoUrl);
 
         logger.info('Company details updated', { merchantId });
+        auditService.log(merchantId, 'update_company', 'settings', merchantId, { companyName, companyWebsite });
+
         res.json({ message: 'Company details updated successfully' });
     } catch (error) {
         logger.error('Update company details error', { error: error.message, merchantId });
@@ -112,6 +115,7 @@ export const generateAPIKey = (req, res) => {
         `).run(merchantId, keyHash, keyPrefix, name || 'Default Key');
 
         logger.info('API key generated', { merchantId, keyId: result.lastInsertRowid });
+        auditService.log(merchantId, 'generate_api_key', 'api_key', result.lastInsertRowid, { name: name || 'Default' });
 
         // Return the full key only once (never stored in plain text)
         res.json({
@@ -142,6 +146,8 @@ export const revokeAPIKey = (req, res) => {
         }
 
         logger.info('API key revoked', { merchantId, keyId: id });
+        auditService.log(merchantId, 'revoke_api_key', 'api_key', id, {});
+
         res.json({ message: 'API key revoked successfully' });
     } catch (error) {
         logger.error('Revoke API key error', { error: error.message, merchantId });

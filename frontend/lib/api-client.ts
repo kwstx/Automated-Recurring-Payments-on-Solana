@@ -85,6 +85,16 @@ export const webhooksAPI = {
     getLogs: (id: number) => apiClient.get(`/webhooks/${id}/deliveries`),
     getDelivery: (id: number) => apiClient.get(`/webhooks/delivery/${id}`),
     retryDelivery: (id: number) => apiClient.post(`/webhooks/delivery/${id}/retry`),
+    async retryWebhookDelivery(deliveryId: number) {
+        const { data } = await apiClient.post(`/webhooks/deliveries/${deliveryId}/retry`);
+        return data;
+    },
+
+    // Audit Logs
+    async getAuditLogs() {
+        const { data } = await apiClient.get('/audit');
+        return data;
+    }
 };
 
 // Subscriptions API (Merchant side)

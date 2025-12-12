@@ -1,6 +1,6 @@
 import express from 'express';
 import * as usageController from '../controllers/usageController.js';
-import { verifyToken, verifyApiKey } from '../middleware/auth.js';
+import { verifyToken, verifyApiKey } from '../auth.js';
 
 const router = express.Router();
 

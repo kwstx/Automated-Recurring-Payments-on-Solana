@@ -15,11 +15,15 @@ import webhookRoutes from './routes/webhookRoutes.js';
 import portalRoutes from './routes/portalRoutes.js';
 import settingsRoutes from './routes/settingsRoutes.js';
 import usageRoutes from './routes/usageRoutes.js';
+import invoiceRoutes from './routes/invoiceRoutes.js';
+import auditRoutes from './routes/auditRoutes.js';
 import { apiLimiter, authLimiter, subscriptionLimiter } from './middleware/rateLimiter.js';
 import { startMetadataSyncScheduler } from './metadata-scheduler.js';
 import { startWebhookRetryScheduler } from './webhook-retry-scheduler.js';
 import { startBalanceMonitor } from './balance-monitor.js';
 import { startKeeperScheduler } from './services/keeperService.js';
+import db from './database.js';
+import { connection } from './solana-client.js';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -60,6 +64,8 @@ app.use('/webhooks', apiLimiter, webhookRoutes);
 app.use('/portal', apiLimiter, portalRoutes);
 app.use('/settings', apiLimiter, settingsRoutes);
 app.use('/usage', apiLimiter, usageRoutes);
+app.use('/invoices', apiLimiter, invoiceRoutes);
+app.use('/audit', apiLimiter, auditRoutes);
 
 // Debug Sentry
 app.get('/debug-sentry', function mainHandler(req, res) {
@@ -67,8 +73,37 @@ app.get('/debug-sentry', function mainHandler(req, res) {
 });
 
 // Health check
-app.get('/health', (req, res) => {
-    res.json({ status: 'ok', timestamp: new Date().toISOString() });
+// Deep Health Check
+
+app.get('/health', async (req, res) => {
+    const health = {
+        api: 'operational',
+        database: 'unknown',
+        solana: 'unknown',
+        timestamp: new Date().toISOString()
+    };
+
+    // Check Database
+    try {
+        db.prepare('SELECT 1').get();
+        health.database = 'operational';
+    } catch (e) {
+        health.database = 'outage';
+        health.db_error = e.message;
+    }
+
+    // Check Solana
+    try {
+        const version = await connection.getVersion();
+        health.solana = 'operational';
+        health.solana_version = version['solana-core'];
+    } catch (e) {
+        health.solana = 'outage';
+        health.solana_error = e.message;
+    }
+
+    const statusCode = (health.database === 'outage' || health.solana === 'outage') ? 503 : 200;
+    res.status(statusCode).json(health);
 });
 
 // Sentry Error Handler must be before any other error middleware and after all controllers

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Save, Bell, Shield, Key, Building2, CreditCard, Palette, Globe, Mail, Webhook, Check, Copy, DollarSign, AlertTriangle } from 'lucide-react';
 import { useCompanyDetails, useUpdateCompany, useAPIKeys, useGenerateAPIKey, useRevokeAPIKey, useNotificationPreferences, useUpdateNotifications } from '@/hooks/useSettings';
+import AuditLogTable from '@/components/dashboard/AuditLogTable';
 
 export default function SettingsPage() {
     const [activeTab, setActiveTab] = useState('company');
@@ -377,25 +378,9 @@ function DeveloperSettings() {
                 <div className="pt-6 border-t border-[#a3a3a3] mt-8">
                     <h3 className="text-black font-bold text-xs uppercase mb-4 flex items-center gap-2">
                         <Shield className="w-4 h-4" />
-                        Recent Access Logs
+                        Audit Logs
                     </h3>
-                    <div className="border border-[#a3a3a3] bg-[#f9f9f9] p-4 text-xs font-mono space-y-2">
-                        <div className="flex justify-between text-[#666]">
-                            <span>192.168.1.104</span>
-                            <span>GET /api/plans</span>
-                            <span>2s ago</span>
-                        </div>
-                        <div className="flex justify-between text-[#666]">
-                            <span>10.0.0.52</span>
-                            <span>POST /api/subscription</span>
-                            <span>45s ago</span>
-                        </div>
-                        <div className="flex justify-between text-[#666]">
-                            <span>192.168.1.104</span>
-                            <span>GET /api/me</span>
-                            <span>1m ago</span>
-                        </div>
-                    </div>
+                    <AuditLogTable />
                 </div>
             </div>
         </SettingsSection>

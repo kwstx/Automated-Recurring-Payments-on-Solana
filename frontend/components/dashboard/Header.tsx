@@ -2,15 +2,20 @@
 
 import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
-import { Bell, Search } from 'lucide-react';
+import { Bell, Search, Menu } from 'lucide-react';
 
-export default function Header({ title }: { title: string }) {
+export default function Header({ title, onMenuClick }: { title: string; onMenuClick?: () => void }) {
     return (
-        <header className="fixed top-0 right-0 left-0 md:left-[280px] h-24 z-30 px-8 flex items-center justify-between bg-[#EAEAEA] border-b border-[#a3a3a3]">
-            {/* Page Title */}
-            <div>
-                <span className="text-xs font-mono font-bold text-[#666] uppercase tracking-wider block mb-1">Area</span>
-                <h1 className="text-2xl font-bold text-black uppercase tracking-tight leading-none">{title}</h1>
+        <header className="fixed top-0 right-0 left-0 md:left-[280px] h-24 z-30 px-4 md:px-8 flex items-center justify-between bg-[#EAEAEA] border-b border-[#a3a3a3]">
+            {/* Page Title & Mobile Toggle */}
+            <div className="flex items-center gap-4">
+                <button onClick={onMenuClick} className="md:hidden text-black">
+                    <Menu className="w-6 h-6" />
+                </button>
+                <div>
+                    <span className="text-xs font-mono font-bold text-[#666] uppercase tracking-wider block mb-1">Area</span>
+                    <h1 className="text-xl md:text-2xl font-bold text-black uppercase tracking-tight leading-none">{title}</h1>
+                </div>
             </div>
 
             {/* Right Actions */}
