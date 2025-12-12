@@ -1,7 +1,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { ApiClient } from '@/lib/api-client';
+import { auditAPI } from '@/lib/api-client';
 import { format } from 'date-fns';
 import { Loader2, ShieldAlert } from 'lucide-react';
 
@@ -18,7 +18,7 @@ interface AuditLog {
 export default function AuditLogTable() {
     const { data: logs, isLoading } = useQuery({
         queryKey: ['audit-logs'],
-        queryFn: ApiClient.getAuditLogs
+        queryFn: auditAPI.getLogs
     });
 
     if (isLoading) {

@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { apiClient } from '@/lib/api-client';
+import apiClient from '@/lib/api-client';
 import SubscribeButton from '@/components/SubscribeButton';
 import { Loader2, AlertCircle, CheckCircle2 } from 'lucide-react';
 

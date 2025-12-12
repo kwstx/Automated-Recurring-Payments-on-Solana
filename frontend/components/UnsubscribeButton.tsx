@@ -17,7 +17,7 @@ interface UnsubscribeButtonProps {
 }
 
 export default function UnsubscribeButton({ subscriptionPda, subscriptionId, className, disabled }: UnsubscribeButtonProps) {
-    const { connected } = useWallet();
+    const { connected, publicKey } = useWallet();
     const { program } = useProgram();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -29,7 +29,7 @@ export default function UnsubscribeButton({ subscriptionPda, subscriptionId, cla
             // But here we want to demonstrate the code.
         }
 
-        if (!connected || !program) {
+        if (!connected || !program || !publicKey) {
             setError("Wallet not connected");
             return;
         }
@@ -47,7 +47,7 @@ export default function UnsubscribeButton({ subscriptionPda, subscriptionId, cla
                 .cancelSubscription()
                 .accounts({
                     subscription: new PublicKey(subscriptionPda),
-                    subscriber: program.provider.publicKey,
+                    subscriber: publicKey,
                 })
                 .rpc();
 

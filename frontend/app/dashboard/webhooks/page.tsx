@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Plus, Trash2, Key, RefreshKw, Activity, CheckCircle, XCircle, AlertTriangle } from 'lucide-react';
+import { Plus, Trash2, Key, RefreshCw, Activity, CheckCircle, XCircle, AlertTriangle } from 'lucide-react';
 import { useWebhooks, useCreateWebhook, useDeleteWebhook, useWebhookLogs, useUpdateWebhook } from '@/hooks/useWebhooks';
 import { motion, AnimatePresence } from 'framer-motion';
 import WebhookDebugger from '@/components/WebhookDebugger';

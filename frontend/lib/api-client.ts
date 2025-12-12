@@ -90,8 +90,11 @@ export const webhooksAPI = {
         return data;
     },
 
-    // Audit Logs
-    async getAuditLogs() {
+};
+
+// Audit Logs API
+export const auditAPI = {
+    getLogs: async () => {
         const { data } = await apiClient.get('/audit');
         return data;
     }
@@ -124,4 +127,5 @@ export const invoicesAPI = {
     get: (id: number) => apiClient.get(`/merchant/invoices/${id}`),
 };
 
+export { apiClient };
 export default apiClient;

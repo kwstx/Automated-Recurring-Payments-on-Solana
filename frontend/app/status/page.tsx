@@ -5,9 +5,9 @@ import { Loader2, CheckCircle, XCircle, AlertTriangle } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface HealthStatus {
-    api: 'operational' | 'outage';
-    database: 'operational' | 'outage';
-    solana: 'operational' | 'outage';
+    api: 'operational' | 'outage' | 'unknown';
+    database: 'operational' | 'outage' | 'unknown';
+    solana: 'operational' | 'outage' | 'unknown';
     timestamp: string;
     db_error?: string;
     solana_error?: string;
