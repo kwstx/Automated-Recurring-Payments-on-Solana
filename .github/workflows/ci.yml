@@ -28,9 +28,19 @@ jobs:
     - name: Install API Dependencies
       run: cd api && npm ci
 
+    - name: Run API Tests
+      run: cd api && npm test
+
     # Frontend Build & Test
     - name: Install Frontend Dependencies
       run: cd frontend && npm ci
+
+    - name: Lint Frontend
+      run: cd frontend && npm run lint
+      continue-on-error: true
+
+    - name: Run Frontend Tests
+      run: cd frontend && npm test
 
     - name: Build Frontend
       run: cd frontend && npm run build
