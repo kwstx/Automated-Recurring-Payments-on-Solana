@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowUpRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -11,7 +12,7 @@ const insights = [
         date: 'May 19, 2025',
         title: 'Optimizing High-Frequency Payment Streams on Mainnet',
         description: 'Best practices for reducing latency in high-volume recurring transaction loops.',
-        imageColor: 'bg-[#1a1a1a]' // Placeholder color
+        image: '/blog-1.jpg'
     },
     {
         id: 2,
@@ -19,7 +20,7 @@ const insights = [
         date: 'May 28, 2025',
         title: 'Token Gating: Designing Permissionless Access Tiers',
         description: 'Strategies for implementing tier-based access control using SPL tokens.',
-        imageColor: 'bg-[#333333]' // Placeholder color
+        image: '/blog-2.png'
     },
     {
         id: 3,
@@ -27,7 +28,7 @@ const insights = [
         date: 'May 30, 2025',
         title: 'Scaling Subscription Infrastructure: A Case Study',
         description: 'How we scaled our subscription infrastructure to handle 1M+ active users.',
-        imageColor: 'bg-[#555555]' // Placeholder color
+        image: '/blog-3.png'
     }
 ];
 
@@ -68,13 +69,13 @@ export default function InsightsSection() {
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.8, delay: index * 0.2, ease: "easeOut" }}
                             >
-                                <div className={`w-full aspect-square ${insight.imageColor} relative overflow-hidden group-hover:opacity-90 transition-opacity duration-300`}>
-                                    {/* Placeholder Content */}
-                                    <div className="absolute inset-0 flex items-center justify-center">
-                                        <div className="w-12 h-12 border border-white/20 rounded-full flex items-center justify-center text-white/20 font-mono text-xs">
-                                            IMG
-                                        </div>
-                                    </div>
+                                <div className="w-full aspect-square relative overflow-hidden group-hover:opacity-90 transition-opacity duration-300 bg-gray-200">
+                                    <Image
+                                        src={insight.image}
+                                        alt={insight.title}
+                                        fill
+                                        className="object-cover"
+                                    />
                                 </div>
                             </motion.div>
 
