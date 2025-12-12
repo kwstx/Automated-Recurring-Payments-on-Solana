@@ -71,7 +71,7 @@ export default function Hero() {
           {/* Left: Square Gray Box with Gradient */}
           <div className="flex md:col-span-4 lg:col-span-3 items-center justify-center md:justify-end py-4 order-none w-full">
             <div className="flex flex-col gap-2">
-              <Link href="/register" className="hidden md:flex items-center gap-1 font-semibold text-sm hover:gap-2 transition-all underline decoration-1 underline-offset-4 self-start">
+              <Link href="/register" className="hidden md:flex items-center gap-1 font-semibold text-sm hover:gap-2 transition-all underline decoration-1 underline-offset-4 self-start -ml-1">
                 Start engineering <ArrowDownRight className="w-4 h-4 ml-0.5" />
               </Link>
               <div className="relative h-64 w-64 md:w-auto md:h-60 lg:h-72 xl:h-[22rem] aspect-square">
