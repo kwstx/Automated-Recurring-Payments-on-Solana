@@ -89,12 +89,12 @@ export default function Hero() {
           <div className="md:col-span-8 lg:col-span-9 flex items-center justify-start py-4 pl-0 md:pl-0 relative overflow-visible w-full">
 
             <h2 className="text-[1.8rem] xs:text-[2.2rem] sm:text-[3.5rem] md:text-[4.5rem] lg:text-[5.5rem] xl:text-[7rem] font-bold tracking-tighter leading-[0.9] md:leading-[0.8] relative z-10 w-full break-words">
-              <div className="flex justify-start gap-3 md:justify-between md:gap-0 w-full">
+              <div className="flex justify-between w-full max-w-[85%] md:max-w-none">
                 <span className="text-[#999]">AUTOMATE</span>
                 <span className="text-[#999]">YOUR</span>
               </div>
 
-              <div className="flex justify-start gap-3 md:justify-between md:gap-0 w-full">
+              <div className="flex justify-between w-full max-w-[85%] md:max-w-none">
                 <AnimatedText text="BILLING" className="text-black" delay={0.5} />
                 <span className="text-[#999]">ON</span>
                 <span className="text-[#999]">CHAIN</span>
