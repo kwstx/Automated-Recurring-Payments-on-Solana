@@ -21,7 +21,7 @@ export default function DocsPage() {
                         <div className="mb-12">
                             <h1 className="text-4xl md:text-5xl font-bold uppercase tracking-tight mb-6">Introduction</h1>
                             <p className="text-lg leading-relaxed font-mono text-[#333]">
-                                W3 Infra provides the primitives for building recurring revenue businesses on Solana.
+                                ZyoPay Infra provides the primitives for building recurring revenue businesses on Solana.
                                 Our protocol handles the complexities of on-chain scheduling, token gating, and automated settlement.
                             </p>
                         </div>

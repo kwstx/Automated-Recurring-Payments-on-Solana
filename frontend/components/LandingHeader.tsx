@@ -12,8 +12,8 @@ export default function LandingHeader() {
             <div className="max-w-[1600px] mx-auto px-4 md:px-6">
                 <div className="h-16 flex items-center justify-between">
                     {/* Brand */}
-                    <Link href="/" className="font-bold text-2xl tracking-tight text-black flex items-center gap-2 z-50 relative">
-                        W3. <span className="text-xs px-2 py-0.5 border border-black rounded-full font-mono uppercase">Infra</span>
+                    <Link href="/" className="text-black flex items-center gap-2 z-50 relative">
+                        <div className="font-bold text-xl tracking-wide">ZyoPay.</div> <span className="text-xs px-2 py-0.5 border border-black rounded-full font-mono uppercase">Infra</span>
                     </Link>
 
                     {/* Desktop Navigation */}

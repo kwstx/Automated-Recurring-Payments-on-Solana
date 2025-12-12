@@ -42,7 +42,7 @@ export default function OpenSourcePage() {
                     <div className="h-1 w-24 bg-black mb-12"></div>
 
                     <p className="font-mono text-lg text-[#333] mb-16 leading-relaxed border-l-4 border-black pl-6 py-2">
-                        W3 Infra is committed to decentralization. Our core protocol and tooling are fully open source and community-governed.
+                        Built by ZyoPay Infra is committed to decentralization. Our core protocol and tooling are fully open source and community-governed.
                     </p>
 
                     <div className="grid gap-6">

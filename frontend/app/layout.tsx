@@ -8,7 +8,7 @@ import { CSPostHogProvider } from "@/components/PostHogProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Solana Subscription Billing | Automated Recurring Payments",
+  title: "ZyoPay | Automated Recurring Payments on Solana",
   description: "Next-generation automated recurring payments on Solana. Lightning-fast transactions with near-zero fees.",
 };
 

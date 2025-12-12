@@ -30,7 +30,7 @@ export default function Hero() {
           <div className="flex flex-col md:grid md:grid-cols-12 gap-6 md:gap-12 items-start">
             {/* Left: Brand */}
             <div className="md:col-span-4 lg:col-span-3 flex justify-between w-full md:w-auto">
-              <h1 className="font-bold text-xl md:text-2xl tracking-tight">W3.</h1>
+              <h1 className="font-bold text-xl md:text-2xl tracking-tight">ZyoPay.</h1>
             </div>
 
             {/* Center: Mission Statement - Aligned with Typography Column */}
