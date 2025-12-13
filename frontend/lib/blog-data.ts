@@ -21,7 +21,7 @@ export const BLOG_POSTS: BlogPost[] = [
             <p class="mb-6">Sending USDC is easy. Generating a compliant receipt with VAT details, customer addresses, and itemized breakdowns is not. Most DAOs and Web3 companies rely on manual spreadsheets or expensive third-party tools that don't talk to the blockchain.</p>
 
             <h3 class="text-2xl font-bold uppercase mb-4">The Solution</h3>
-            <p class="mb-6">Solanasub Smart Invoices generates a PDF automatically whenever a subscription charge clears. It pulls data directly from the on-chain metadata and emails it to both the merchant and the subscriber.</p>
+            <p class="mb-6">ZyoPay Smart Invoices generates a PDF automatically whenever a subscription charge clears. It pulls data directly from the on-chain metadata and emails it to both the merchant and the subscriber.</p>
 
             <ul class="list-disc pl-5 mb-8 space-y-2">
                 <li><strong>Automatic Generation:</strong> No manual clicks required.</li>
@@ -66,18 +66,18 @@ export const BLOG_POSTS: BlogPost[] = [
             <p class="mb-6"><strong>1. Tree-Shaking Support:</strong> The new SDK is fully modular. Only import what you need. This reduces the bundle size impact by up to 60%.</p>
             <p class="mb-6"><strong>2. Improved TypeScript Types:</strong> We've tightened our strict options. No more guessing what arguments an instruction requires. IntelliSense now works perfectly.</p>
             <pre class="bg-[#EAEAEA] p-4 font-mono text-sm mb-6 border border-black">
-import { createSubscription } from '@solanasub/sdk';
+import { createSubscription } from '@zyopay/sdk';
 
 // Fully typed response
 const tx = await createSubscription(connection, wallet, planId);
             </pre>
-            <p>Upgrade today by running <code>npm install @solanasub/sdk@latest</code>.</p>
+            <p>Upgrade today by running <code>npm install @zyopay/sdk@latest</code>.</p>
         `
     },
     {
         slug: 'optimizing-payment-streams',
         title: 'Optimizing High-Frequency Payment Streams on Mainnet',
-        date: 'May 19, 2025',
+        date: 'Dec 02, 2024',
         category: 'Engineering',
         excerpt: 'Best practices for reducing latency in high-volume recurring transaction loops.',
         content: `
@@ -95,7 +95,7 @@ const tx = await createSubscription(connection, wallet, planId);
     {
         slug: 'token-gating',
         title: 'Token Gating: Designing Permissionless Access Tiers',
-        date: 'May 28, 2025',
+        date: 'Dec 08, 2024',
         category: 'Product',
         excerpt: 'Strategies for implementing tier-based access control using SPL tokens.',
         content: `
@@ -107,12 +107,12 @@ const tx = await createSubscription(connection, wallet, planId);
     },
     {
         slug: 'scaling-infrastructure',
-        title: 'Scaling Subscription Infrastructure: A Case Study',
-        date: 'May 30, 2025',
-        category: 'Case Study',
-        excerpt: 'How we scaled our subscription infrastructure to handle 1M+ active users.',
+        title: 'Designing Scalable Subscription Infrastructure',
+        date: 'Dec 12, 2024',
+        category: 'Engineering',
+        excerpt: 'How we architected our subscription infrastructure to handle high throughput.',
         content: `
-            <p class="mb-6">Scaling to 1 million active users on Solana required a fundamental rethink of our indexing and database layer.</p>
+            <p class="mb-6">Designing for scale on Solana requires a fundamental rethink of our indexing and database layer.</p>
             <h3 class="text-2xl font-bold uppercase mb-4">Horizontal Scaling</h3>
             <p class="mb-6">We moved from a monolithic indexer to a distributed system. We now have dedicated indexers for different program instructions (create, cancel, renew).</p>
             <p class="mb-6">This separation of concerns allows us to handle spikes in traffic—like during a popular NFT mint or a major product launch—without degrading performance for other users.</p>

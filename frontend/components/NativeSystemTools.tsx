@@ -7,8 +7,8 @@ const tools = [
         id: 'access',
         title: 'MONITOR ACTIVE SUBSCRIPTION ACCOUNTS',
         description: 'Scan and filter subscriber accounts with deep precision. Track active statuses and payment history on-chain.',
-        metric: '50K Active',
-        metricLabel: 'Subscribers'
+        metric: 'Live',
+        metricLabel: 'Status'
     },
     {
         id: 'automate',
