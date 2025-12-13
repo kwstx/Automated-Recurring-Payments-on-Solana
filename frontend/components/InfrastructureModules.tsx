@@ -143,6 +143,12 @@ export default function InfrastructureModules() {
                                                             alt="Smart Invoicing"
                                                             className="object-cover w-full h-full"
                                                         />
+                                                    ) : module.id === 'analytics' ? (
+                                                        <img
+                                                            src="/analytics.png"
+                                                            alt="Data Analytics"
+                                                            className="object-cover w-full h-full"
+                                                        />
                                                     ) : (
                                                         <>
                                                             <div className="absolute inset-0 bg-gradient-to-tr from-purple-600 to-blue-500 opacity-80 mix-blend-screen blur-xl md:blur-2xl"></div>
