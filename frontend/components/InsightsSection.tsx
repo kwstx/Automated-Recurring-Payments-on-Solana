@@ -9,7 +9,7 @@ const insights = [
     {
         id: 1,
         slug: 'optimizing-payment-streams',
-        date: 'Dec 02, 2024',
+        date: 'Dec 02, 2025',
         title: 'Optimizing High-Frequency Payment Streams on Mainnet',
         description: 'Best practices for reducing latency in high-volume recurring transaction loops.',
         image: '/blog-1.jpg'
@@ -17,7 +17,7 @@ const insights = [
     {
         id: 2,
         slug: 'token-gating',
-        date: 'Dec 08, 2024',
+        date: 'Dec 08, 2025',
         title: 'Token Gating: Designing Permissionless Access Tiers',
         description: 'Strategies for implementing tier-based access control using SPL tokens.',
         image: '/blog-2.png'
@@ -25,7 +25,7 @@ const insights = [
     {
         id: 3,
         slug: 'scaling-infrastructure',
-        date: 'Dec 12, 2024',
+        date: 'Dec 12, 2025',
         title: 'Designing Scalable Subscription Infrastructure',
         description: 'How we architected our subscription infrastructure to handle high throughput.',
         image: '/blog-3.png'

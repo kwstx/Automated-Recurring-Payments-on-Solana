@@ -11,7 +11,7 @@ export const BLOG_POSTS: BlogPost[] = [
     {
         slug: 'smart-invoices',
         title: 'Introducing Smart Invoices',
-        date: 'Dec 10, 2024',
+        date: 'Dec 10, 2025',
         category: 'Product',
         excerpt: 'Automatically generate tax-compliant PDF invoices for every on-chain transaction.',
         content: `
@@ -35,7 +35,7 @@ export const BLOG_POSTS: BlogPost[] = [
     {
         slug: 'solana-defi-2025',
         title: 'The State of Solana DeFi 2025',
-        date: 'Nov 24, 2024',
+        date: 'Nov 24, 2025',
         category: 'Research',
         excerpt: 'Analyzing the growth of recurring payment models in the decentralized ecosystem.',
         content: `
@@ -57,7 +57,7 @@ export const BLOG_POSTS: BlogPost[] = [
     {
         slug: 'v2-sdk-release',
         title: 'v2 SDK Release Notes',
-        date: 'Oct 15, 2024',
+        date: 'Oct 15, 2025',
         category: 'Engineering',
         excerpt: 'Faster instruction building, improved type safety, and reduced bundle size.',
         content: `
@@ -77,7 +77,7 @@ const tx = await createSubscription(connection, wallet, planId);
     {
         slug: 'optimizing-payment-streams',
         title: 'Optimizing High-Frequency Payment Streams on Mainnet',
-        date: 'Dec 02, 2024',
+        date: 'Dec 02, 2025',
         category: 'Engineering',
         excerpt: 'Best practices for reducing latency in high-volume recurring transaction loops.',
         content: `
@@ -95,7 +95,7 @@ const tx = await createSubscription(connection, wallet, planId);
     {
         slug: 'token-gating',
         title: 'Token Gating: Designing Permissionless Access Tiers',
-        date: 'Dec 08, 2024',
+        date: 'Dec 08, 2025',
         category: 'Product',
         excerpt: 'Strategies for implementing tier-based access control using SPL tokens.',
         content: `
@@ -108,7 +108,7 @@ const tx = await createSubscription(connection, wallet, planId);
     {
         slug: 'scaling-infrastructure',
         title: 'Designing Scalable Subscription Infrastructure',
-        date: 'Dec 12, 2024',
+        date: 'Dec 12, 2025',
         category: 'Engineering',
         excerpt: 'How we architected our subscription infrastructure to handle high throughput.',
         content: `
