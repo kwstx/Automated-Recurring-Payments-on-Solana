@@ -21,11 +21,11 @@ export default function ContactPage() {
                         <div className="space-y-8 font-mono text-sm">
                             <div>
                                 <h3 className="font-bold uppercase mb-1">General Inquiries</h3>
-                                <a href="mailto:hello@solanasub.com" className="hover:underline">hello@solanasub.com</a>
+                                <a href="mailto:hello@zyopay.com" className="hover:underline">hello@zyopay.com</a>
                             </div>
                             <div>
                                 <h3 className="font-bold uppercase mb-1">Support</h3>
-                                <a href="mailto:support@solanasub.com" className="hover:underline">support@solanasub.com</a>
+                                <a href="mailto:support@zyopay.com" className="hover:underline">support@zyopay.com</a>
                             </div>
                             <div>
                                 <h3 className="font-bold uppercase mb-1">Office</h3>

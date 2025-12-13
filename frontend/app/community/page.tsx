@@ -19,7 +19,7 @@ export default function CommunityPage() {
                     <div className="grid md:grid-cols-3 gap-8 mb-20">
                         <Link href="#" className="group bg-[#5865F2] text-white border border-black p-8 hover:translate-x-[-4px] hover:translate-y-[-4px] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all">
                             <h3 className="text-3xl font-bold uppercase mb-4">Discord</h3>
-                            <p className="font-mono text-sm opacity-80 mb-8">Join 5,000+ developers building on Solanasub.</p>
+                            <p className="font-mono text-sm opacity-80 mb-8">Join the growing community of developers building on ZyoPay.</p>
                             <span className="flex items-center gap-2 font-bold uppercase text-xs">Join Server <ArrowUpRight size={14} /></span>
                         </Link>
 
