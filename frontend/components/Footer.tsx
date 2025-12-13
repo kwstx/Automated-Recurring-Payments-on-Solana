@@ -48,7 +48,7 @@ export default function Footer() {
                                 transition={{ duration: 0.8 }}
                                 className="text-xl font-bold tracking-tight mb-20"
                             >
-                                SOLANASUB.
+                                ZYOPAY.
                             </motion.h2>
 
                             <motion.h3
