@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className={`${inter.className} bg-black text-white antialiased overflow-x-hidden`}>
+      <body className={`${inter.className} bg-black text-white antialiased overflow-x-hidden`} suppressHydrationWarning>
         <QueryProvider>
           <CSPostHogProvider>
             <AppWalletProvider>

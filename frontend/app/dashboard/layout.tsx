@@ -12,8 +12,8 @@ export default function DashboardLayout({
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     return (
-        <div className="min-h-screen bg-[#EAEAEA] flex font-sans text-[#1a1a1a]">
-            {/* Desktop Sidebar */}
+        <div className="min-h-screen bg-[#F8F9FA] flex font-sans text-black">
+            {/* Desktop Sidebar - Fixed */}
             <Sidebar />
 
             {/* Mobile Sidebar */}
@@ -25,7 +25,7 @@ export default function DashboardLayout({
                 <Header title="Dashboard" onMenuClick={() => setIsSidebarOpen(true)} />
 
                 {/* Scrollable Content */}
-                <main className="flex-1 mt-24 p-4 md:p-8 overflow-y-auto no-scrollbar w-full max-w-[100vw] overflow-x-hidden">
+                <main className="flex-1 mt-24 p-6 md:p-10 overflow-y-auto w-full max-w-[1920px] mx-auto">
                     {children}
                 </main>
             </div>

@@ -42,7 +42,7 @@ export default function AuditLogTable() {
     return (
         <div className="overflow-x-auto border border-[#a3a3a3] rounded-lg">
             <table className="w-full text-sm text-left">
-                <thead className="text-xs text-gray-500 uppercase bg-gray-50 border-b border-[#a3a3a3]">
+                <thead className="text-xs text-gray-500 bg-gray-50 border-b border-[#a3a3a3]">
                     <tr>
                         <th className="px-6 py-3">Action</th>
                         <th className="px-6 py-3">Target</th>

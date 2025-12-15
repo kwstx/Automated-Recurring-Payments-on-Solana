@@ -59,7 +59,7 @@ function RegisterContent() {
                 className="w-full max-w-[900px] relative z-10"
             >
                 {/* Back Link */}
-                <Link href="/" className="inline-flex items-center gap-2 text-[#666] hover:text-[#1a1a1a] transition-colors text-xs font-mono font-bold tracking-wider uppercase mb-8">
+                <Link href="/" className="inline-flex items-center gap-2 text-[#666] hover:text-[#1a1a1a] transition-colors text-xs font-mono font-bold mb-8">
                     <ArrowLeft className="w-3 h-3" />
                     Back
                 </Link>
@@ -68,8 +68,8 @@ function RegisterContent() {
                     {/* Left Column: Header */}
                     <div className="relative p-8 md:p-10 border-b md:border-b-0 md:border-r border-[#a3a3a3] flex flex-col justify-between">
                         <div>
-                            <span className="text-xs font-mono font-bold tracking-wider mb-6 block">[01] REGISTER</span>
-                            <h1 className="text-3xl md:text-4xl font-bold uppercase tracking-tight leading-[0.9] text-black mb-4">
+                            <span className="text-xs font-mono font-bold mb-6 block">[01] REGISTER</span>
+                            <h1 className="text-3xl md:text-4xl font-bold leading-[0.9] text-black mb-4">
                                 CREATE<br />
                                 ACCOUNT
                             </h1>
@@ -84,7 +84,7 @@ function RegisterContent() {
                         <form onSubmit={handleRegister} className="space-y-6">
                             {/* Username Input */}
                             <div className="space-y-2">
-                                <label className="text-xs font-mono font-bold tracking-wider uppercase text-[#666]">Username</label>
+                                <label className="text-xs font-mono font-bold text-[#666]">Username</label>
                                 <input
                                     type="text"
                                     value={username}
@@ -97,7 +97,7 @@ function RegisterContent() {
 
                             {/* Email Input */}
                             <div className="space-y-2">
-                                <label className="text-xs font-mono font-bold tracking-wider uppercase text-[#666]">Email Address</label>
+                                <label className="text-xs font-mono font-bold text-[#666]">Email Address</label>
                                 <input
                                     type="email"
                                     value={email}
@@ -110,7 +110,7 @@ function RegisterContent() {
 
                             {/* Password Input */}
                             <div className="space-y-2">
-                                <label className="text-xs font-mono font-bold tracking-wider uppercase text-[#666]">Password</label>
+                                <label className="text-xs font-mono font-bold text-[#666]">Password</label>
                                 <input
                                     type="password"
                                     value={password}
@@ -135,7 +135,7 @@ function RegisterContent() {
                             <button
                                 type="submit"
                                 disabled={isLoading}
-                                className="w-full py-4 bg-black text-white font-bold text-sm uppercase tracking-wide hover:bg-[#1a1a1a] active:scale-[0.99] transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                                className="w-full py-4 bg-black text-white font-bold text-sm hover:bg-[#1a1a1a] active:scale-[0.99] transition-all disabled:opacity-50 flex items-center justify-center gap-2"
                             >
                                 {isLoading ? (
                                     <Loader2 className="w-5 h-5 animate-spin" />

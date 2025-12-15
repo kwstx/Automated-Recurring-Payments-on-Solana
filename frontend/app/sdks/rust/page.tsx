@@ -19,21 +19,21 @@ export default function RustSDKPage() {
             <LandingHeader />
 
             <main className="max-w-[1600px] mx-auto px-4 md:px-6 py-12 lg:py-24">
-                <Link href="/sdks" className="inline-flex items-center gap-2 font-mono text-xs uppercase mb-8 hover:underline">
+                <Link href="/sdks" className="inline-flex items-center gap-2 font-mono text-xs mb-8 hover:underline">
                     <ArrowLeft size={14} /> Back to SDKs
                 </Link>
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
                     {/* Left Column: Documentation */}
                     <div className="lg:col-span-12">
-                        <h1 className="text-5xl md:text-7xl font-bold uppercase tracking-tighter leading-[0.9] mb-8">
+                        <h1 className="text-5xl md:text-7xl font-bold leading-[0.9] mb-8">
                             Rust<br />Crate
                         </h1>
                         <div className="h-1 w-24 bg-black mb-12"></div>
 
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
                             <div>
-                                <h3 className="text-2xl font-bold uppercase mb-6">Installation</h3>
+                                <h3 className="text-2xl font-bold mb-6">Installation</h3>
                                 <div className="p-4 border border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mb-12">
                                     <div className="flex items-center justify-between font-mono text-sm bg-[#EAEAEA] p-3 border border-[#ccc]">
                                         <code>cargo add w3-billing-client</code>
@@ -43,7 +43,7 @@ export default function RustSDKPage() {
                                     </div>
                                 </div>
 
-                                <h3 className="text-2xl font-bold uppercase mb-6">Overview</h3>
+                                <h3 className="text-2xl font-bold mb-6">Overview</h3>
                                 <p className="font-mono text-sm text-[#666] mb-6 leading-relaxed">
                                     The Rust crate is designed for On-Chain Program (CPI) integrations and high-performance off-chain bots.
                                     It includes strict type definitions for all instruction arguments and account structures.
@@ -51,7 +51,7 @@ export default function RustSDKPage() {
                             </div>
 
                             <div className="border border-black bg-[#1a1a1a] text-white p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
-                                <h3 className="font-mono text-xs uppercase text-[#666] mb-4 flex items-center gap-2">
+                                <h3 className="font-mono text-xs text-[#666] mb-4 flex items-center gap-2">
                                     <Box size={14} /> lib.rs
                                 </h3>
                                 <pre className="font-mono text-sm overflow-x-auto">
@@ -75,7 +75,7 @@ export default function RustSDKPage() {
                         </div>
 
                         <div className="mt-24">
-                            <h3 className="text-2xl font-bold uppercase mb-8">Modules</h3>
+                            <h3 className="text-2xl font-bold mb-8">Modules</h3>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="p-6 border border-[#ccc] bg-white hover:border-black hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all cursor-pointer group">
                                     <h4 className="font-mono font-bold text-lg mb-2 group-hover:underline">w3_billing_client::instructions</h4>

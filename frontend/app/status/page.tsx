@@ -43,7 +43,7 @@ export default function StatusPage() {
             return (
                 <div className="flex items-center gap-2 text-green-600 bg-green-50 px-3 py-1 rounded-full border border-green-200">
                     <CheckCircle className="w-4 h-4" />
-                    <span className="text-xs font-bold uppercase tracking-wider">Operational</span>
+                    <span className="text-xs font-bold">Operational</span>
                 </div>
             );
         }
@@ -51,14 +51,14 @@ export default function StatusPage() {
             return (
                 <div className="flex items-center gap-2 text-red-600 bg-red-50 px-3 py-1 rounded-full border border-red-200">
                     <XCircle className="w-4 h-4" />
-                    <span className="text-xs font-bold uppercase tracking-wider">Outage</span>
+                    <span className="text-xs font-bold">Outage</span>
                 </div>
             );
         }
         return (
             <div className="flex items-center gap-2 text-gray-500 bg-gray-50 px-3 py-1 rounded-full border border-gray-200">
                 <AlertTriangle className="w-4 h-4" />
-                <span className="text-xs font-bold uppercase tracking-wider">Unknown</span>
+                <span className="text-xs font-bold">Unknown</span>
             </div>
         );
     };
@@ -83,15 +83,15 @@ export default function StatusPage() {
                 className="w-full max-w-lg"
             >
                 <div className="text-center mb-8">
-                    <h1 className="text-3xl font-bold uppercase tracking-tighter mb-2">System Status</h1>
-                    <p className="text-[#666] font-mono uppercase text-sm">Real-time platform monitoring</p>
+                    <h1 className="text-3xl font-bold mb-2">System Status</h1>
+                    <p className="text-[#666] font-mono text-sm">Real-time platform monitoring</p>
                 </div>
 
                 <div className="bg-white border border-[#a3a3a3] shadow-lg overflow-hidden">
                     {/* Header Status */}
                     <div className={`p-8 text-center border-b border-[#a3a3a3] ${overallStatus === 'All Systems Operational' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}>
-                        <h2 className="text-2xl font-bold uppercase tracking-tight">{overallStatus}</h2>
-                        <p className="opacity-90 mt-2 font-mono text-xs uppercase">
+                        <h2 className="text-2xl font-bold">{overallStatus}</h2>
+                        <p className="opacity-90 mt-2 font-mono text-xs">
                             Last Updated: {new Date(status?.timestamp || Date.now()).toLocaleTimeString()}
                         </p>
                     </div>
@@ -100,7 +100,7 @@ export default function StatusPage() {
                     <div className="divide-y divide-[#a3a3a3]">
                         <div className="flex items-center justify-between p-6">
                             <div>
-                                <h3 className="font-bold uppercase tracking-tight">API Gateway</h3>
+                                <h3 className="font-bold">API Gateway</h3>
                                 <p className="text-xs text-[#666] font-mono mt-1">Core backend services</p>
                             </div>
                             <StatusBadge state={status?.api || 'unknown'} />
@@ -108,7 +108,7 @@ export default function StatusPage() {
 
                         <div className="flex items-center justify-between p-6">
                             <div>
-                                <h3 className="font-bold uppercase tracking-tight">Database</h3>
+                                <h3 className="font-bold">Database</h3>
                                 <p className="text-xs text-[#666] font-mono mt-1">Merchant data storage</p>
                             </div>
                             <StatusBadge state={status?.database || 'unknown'} />
@@ -116,7 +116,7 @@ export default function StatusPage() {
 
                         <div className="flex items-center justify-between p-6">
                             <div>
-                                <h3 className="font-bold uppercase tracking-tight">Solana Network</h3>
+                                <h3 className="font-bold">Solana Network</h3>
                                 <p className="text-xs text-[#666] font-mono mt-1">RPC Connection & Transaction processing</p>
                             </div>
                             <StatusBadge state={status?.solana || 'unknown'} />
@@ -125,7 +125,7 @@ export default function StatusPage() {
                 </div>
 
                 <div className="mt-8 text-center">
-                    <a href="/" className="text-xs font-bold uppercase tracking-wider text-[#666] hover:text-black underline decoration-dashed underline-offset-4">
+                    <a href="/" className="text-xs font-bold text-[#666] hover:text-black underline decoration-dashed underline-offset-4">
                         &larr; Return to Homepage
                     </a>
                 </div>

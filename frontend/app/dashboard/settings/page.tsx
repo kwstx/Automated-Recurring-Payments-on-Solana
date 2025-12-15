@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Save, Bell, Shield, Key, Building2, CreditCard, Palette, Globe, Mail, Webhook, Check, Copy, DollarSign, AlertTriangle } from 'lucide-react';
+import { Save, Bell, Shield, Key, Building2, CreditCard, Palette, Globe, Mail, Webhook, Check, Copy, DollarSign, AlertTriangle, Plus, Trash2 } from 'lucide-react';
 import { useCompanyDetails, useUpdateCompany, useAPIKeys, useGenerateAPIKey, useRevokeAPIKey, useNotificationPreferences, useUpdateNotifications } from '@/hooks/useSettings';
 import AuditLogTable from '@/components/dashboard/AuditLogTable';
 
@@ -20,24 +20,24 @@ export default function SettingsPage() {
     return (
         <div className="space-y-8 max-w-[1600px] mx-auto pb-12">
             {/* Header */}
-            <div className="border-b border-[#a3a3a3] pb-6">
-                <h1 className="text-3xl font-bold uppercase tracking-tight text-black">Settings</h1>
-                <p className="text-[#666] mt-1 text-sm font-mono uppercase">Manage account preferences & integrations.</p>
+            <div className="pb-6">
+                <h1 className="text-2xl font-bold tracking-tight text-black">Settings</h1>
+                <p className="text-[#666] mt-1 text-sm">Manage account preferences and integrations.</p>
             </div>
 
             {/* Tabs Navigation */}
-            <div className="flex flex-wrap gap-[-1px] border-b border-[#a3a3a3]">
+            <div className="flex flex-wrap gap-2 pb-2">
                 {tabs.map((tab) => (
                     <button
                         key={tab.id}
                         onClick={() => setActiveTab(tab.id)}
-                        className={`relative px-6 py-3 text-xs font-mono font-bold uppercase tracking-wider transition-all duration-200 border-t border-r border-l border-[#a3a3a3] -mb-[1px] ${activeTab === tab.id ? 'bg-black text-white border-black z-10' : 'bg-white text-[#666] hover:bg-[#f5f5f5]'
+                        className={`px-5 py-2.5 text-sm font-bold rounded-full transition-all duration-200 flex items-center gap-2 ${activeTab === tab.id
+                            ? 'bg-black text-white shadow-md'
+                            : 'bg-white text-[#666] hover:bg-[#F5F5F5] hover:text-black border border-transparent shadow-sm'
                             }`}
                     >
-                        <div className="flex items-center gap-2">
-                            <tab.icon className="w-4 h-4" />
-                            {tab.label}
-                        </div>
+                        <tab.icon className="w-4 h-4" />
+                        {tab.label}
                     </button>
                 ))}
             </div>
@@ -63,28 +63,28 @@ export default function SettingsPage() {
 
                     {/* Side Info / Quick Links */}
                     <div className="space-y-6">
-                        <div className="border border-[#a3a3a3] bg-white p-6 relative">
-                            <h3 className="text-sm font-bold text-black uppercase tracking-wider mb-4 flex items-center gap-2 border-b border-[#a3a3a3] pb-2">
-                                <Shield className="w-4 h-4" />
+                        <div className="bg-white p-6 rounded-2xl shadow-sm border border-transparent">
+                            <h3 className="text-sm font-bold text-black tracking-wider mb-4 flex items-center gap-2 border-b border-[#F5F5F5] pb-3">
+                                <Shield className="w-4 h-4 text-[#999]" />
                                 Security Status
                             </h3>
-                            <div className="space-y-4">
-                                <div className="flex items-center gap-3 p-3 border border-green-200 bg-green-50">
-                                    <div className="p-1.5 bg-green-100 rounded-none border border-green-300">
-                                        <Check className="w-4 h-4 text-green-700" />
+                            <div className="space-y-6">
+                                <div className="flex items-center gap-3 p-3 rounded-xl border border-green-100 bg-green-50/50">
+                                    <div className="p-1.5 bg-green-100 rounded-full border border-green-200">
+                                        <Check className="w-3.5 h-3.5 text-green-700" />
                                     </div>
                                     <div className="text-sm">
-                                        <p className="text-green-800 font-bold uppercase text-xs">2FA Enabled</p>
-                                        <p className="text-green-700 text-xs font-mono">Account secure.</p>
+                                        <p className="text-green-800 font-bold text-xs">2FA Enabled</p>
+                                        <p className="text-green-700 text-xs font-medium">Account secure.</p>
                                     </div>
                                 </div>
-                                <div className="flex items-center gap-3 p-3 border border-[#a3a3a3] bg-white">
-                                    <div className="p-1.5 bg-[#f5f5f5] border border-[#d4d4d4]">
-                                        <Mail className="w-4 h-4 text-[#666]" />
+                                <div className="flex items-center gap-3 p-3 rounded-xl border border-[#EAEAEA] bg-[#F8F9FA]">
+                                    <div className="p-1.5 bg-white rounded-full border border-[#EAEAEA] shadow-sm">
+                                        <Mail className="w-3.5 h-3.5 text-[#666]" />
                                     </div>
                                     <div className="text-sm">
-                                        <p className="text-black font-bold uppercase text-xs">Email Verified</p>
-                                        <p className="text-[#666] text-xs font-mono">admin@stellar.com</p>
+                                        <p className="text-black font-bold text-xs">Email Verified</p>
+                                        <p className="text-[#666] text-xs font-medium">admin@zyopay.com</p>
                                     </div>
                                 </div>
                             </div>
@@ -98,12 +98,12 @@ export default function SettingsPage() {
 
 function SettingsSection({ title, description, children }: { title: string, description: string, children: React.ReactNode }) {
     return (
-        <div className="border border-[#a3a3a3] bg-white p-8 relative">
-            <div className="mb-8 border-b border-[#a3a3a3] pb-4">
-                <h2 className="text-lg font-bold text-black uppercase tracking-tight mb-1">{title}</h2>
-                <p className="text-[#666] text-xs font-mono uppercase">{description}</p>
+        <div className="bg-white p-8 rounded-2xl shadow-sm border border-transparent hover:border-[#EAEAEA] transition-all">
+            <div className="mb-8 border-b border-[#F5F5F5] pb-4">
+                <h2 className="text-lg font-bold text-black mb-1">{title}</h2>
+                <p className="text-[#666] text-sm">{description}</p>
             </div>
-            <div className="space-y-6 relative z-10">
+            <div className="space-y-6">
                 {children}
             </div>
         </div>
@@ -113,16 +113,16 @@ function SettingsSection({ title, description, children }: { title: string, desc
 function InputGroup({ label, type = "text", placeholder, defaultValue, icon: Icon }: any) {
     return (
         <div className="space-y-2">
-            <label className="text-xs font-mono font-bold text-black uppercase">{label}</label>
+            <label className="text-xs font-bold text-[#666] tracking-wide">{label}</label>
             <div className="relative group">
-                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[#999] group-focus-within:text-black transition-colors">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-[#999] group-focus-within:text-black transition-colors">
                     {Icon && <Icon className="w-4 h-4" />}
                 </div>
                 <input
                     type={type}
                     defaultValue={defaultValue}
                     placeholder={placeholder}
-                    className={`w-full bg-transparent border border-[#a3a3a3] rounded-none py-2.5 ${Icon ? 'pl-10' : 'pl-4'} pr-4 text-black text-sm font-medium placeholder-[#999] focus:border-black focus:bg-white outline-none transition-all`}
+                    className={`w-full bg-[#F8F9FA] border border-[#EAEAEA] rounded-xl py-3 ${Icon ? 'pl-11' : 'pl-4'} pr-4 text-black text-sm font-medium placeholder-[#999] focus:border-black/20 focus:bg-white outline-none transition-all`}
                 />
             </div>
         </div>
@@ -134,14 +134,13 @@ function CompanySettings() {
     const updateCompany = useUpdateCompany();
     const [formData, setFormData] = useState<any>({});
 
-    // Initialize form data when company data loads
     useEffect(() => {
         if (company) {
             setFormData({
                 companyName: company.companyName,
                 companyWebsite: company.companyWebsite,
                 supportEmail: company.supportEmail,
-                address: company.address // Note: API doesn't seem to return address yet, but keeping for future
+                address: company.address
             });
         }
     }, [company]);
@@ -156,66 +155,66 @@ function CompanySettings() {
         }
     };
 
-    if (isLoading) return <div className="p-8 text-center uppercase font-mono text-sm">Loading company details...</div>;
+    if (isLoading) return <div className="p-8 text-center text-sm text-[#999]">Loading company details...</div>;
 
     return (
         <SettingsSection title="Company Profile" description="Update your company information.">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                    <label className="text-xs font-mono font-bold text-black uppercase">Company Name</label>
+                    <label className="text-xs font-bold text-[#666] tracking-wide">Company Name</label>
                     <div className="relative group">
-                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[#999] group-focus-within:text-black transition-colors">
+                        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-[#999] group-focus-within:text-black transition-colors">
                             <Building2 className="w-4 h-4" />
                         </div>
                         <input
                             type="text"
                             value={formData.companyName || ''}
                             onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
-                            placeholder="Stellar Inc."
-                            className="w-full bg-transparent border border-[#a3a3a3] rounded-none py-2.5 pl-10 pr-4 text-black text-sm font-medium placeholder-[#999] focus:border-black focus:bg-white outline-none transition-all"
+                            placeholder="ZyoPay Inc."
+                            className="w-full bg-[#F8F9FA] border border-[#EAEAEA] rounded-xl py-3 pl-11 pr-4 text-black text-sm font-medium placeholder-[#999] focus:border-black/20 focus:bg-white outline-none transition-all"
                         />
                     </div>
                 </div>
 
                 <div className="space-y-2">
-                    <label className="text-xs font-mono font-bold text-black uppercase">Website</label>
+                    <label className="text-xs font-bold text-[#666] tracking-wide">Website</label>
                     <div className="relative group">
-                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[#999] group-focus-within:text-black transition-colors">
+                        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-[#999] group-focus-within:text-black transition-colors">
                             <Globe className="w-4 h-4" />
                         </div>
                         <input
                             type="text"
                             value={formData.companyWebsite || ''}
                             onChange={(e) => setFormData({ ...formData, companyWebsite: e.target.value })}
-                            placeholder="https://stellar.com"
-                            className="w-full bg-transparent border border-[#a3a3a3] rounded-none py-2.5 pl-10 pr-4 text-black text-sm font-medium placeholder-[#999] focus:border-black focus:bg-white outline-none transition-all"
+                            placeholder="https://zyopay.com"
+                            className="w-full bg-[#F8F9FA] border border-[#EAEAEA] rounded-xl py-3 pl-11 pr-4 text-black text-sm font-medium placeholder-[#999] focus:border-black/20 focus:bg-white outline-none transition-all"
                         />
                     </div>
                 </div>
 
                 <div className="md:col-span-2 space-y-2">
-                    <label className="text-xs font-mono font-bold text-black uppercase">Contact Email</label>
+                    <label className="text-xs font-bold text-[#666] tracking-wide">Contact Email</label>
                     <div className="relative group">
-                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[#999] group-focus-within:text-black transition-colors">
+                        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-[#999] group-focus-within:text-black transition-colors">
                             <Mail className="w-4 h-4" />
                         </div>
                         <input
                             type="email"
                             value={formData.supportEmail || ''}
                             onChange={(e) => setFormData({ ...formData, supportEmail: e.target.value })}
-                            placeholder="contact@stellar.com"
-                            className="w-full bg-transparent border border-[#a3a3a3] rounded-none py-2.5 pl-10 pr-4 text-black text-sm font-medium placeholder-[#999] focus:border-black focus:bg-white outline-none transition-all"
+                            placeholder="contact@zyopay.com"
+                            className="w-full bg-[#F8F9FA] border border-[#EAEAEA] rounded-xl py-3 pl-11 pr-4 text-black text-sm font-medium placeholder-[#999] focus:border-black/20 focus:bg-white outline-none transition-all"
                         />
                     </div>
                 </div>
 
                 <div className="md:col-span-2">
-                    <label className="text-xs font-mono font-bold text-black uppercase mb-2 block">Company Address</label>
+                    <label className="text-xs font-bold text-[#666] tracking-wide mb-2 block">Company Address</label>
                     <textarea
                         rows={3}
                         value={formData.address || ''}
                         onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                        className="w-full bg-transparent border border-[#a3a3a3] rounded-none p-4 text-black text-sm font-medium placeholder-[#999] focus:border-black focus:bg-white outline-none transition-all resize-none"
+                        className="w-full bg-[#F8F9FA] border border-[#EAEAEA] rounded-xl p-4 text-black text-sm font-medium placeholder-[#999] focus:border-black/20 focus:bg-white outline-none transition-all resize-none"
                         placeholder="123 Solana Way, Crypto Valley, CA 94000"
                     />
                 </div>
@@ -224,7 +223,7 @@ function CompanySettings() {
                     <button
                         onClick={handleSave}
                         disabled={updateCompany.isPending}
-                        className="px-6 py-2.5 bg-black text-white font-mono font-bold text-xs uppercase hover:bg-[#1a1a1a] transition-all disabled:opacity-50 flex items-center gap-2"
+                        className="px-6 py-2.5 bg-black text-white font-bold text-sm rounded-xl hover:bg-[#1a1a1a] shadow-lg shadow-black/10 transition-all disabled:opacity-50 flex items-center gap-2"
                     >
                         {updateCompany.isPending ? (
                             <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -244,50 +243,48 @@ function BillingSettings() {
     const [autoWithdraw, setAutoWithdraw] = useState(true);
 
     const handleChangeWallet = () => {
-        // In a real app, this would open a wallet connector modal
         alert("To change your payout wallet, please connect a new wallet via the Connect Wallet button in the header.");
     };
 
     const handleToggleAutoWithdraw = () => {
         setAutoWithdraw(!autoWithdraw);
-        // Here we would call an API to update this setting
     };
 
-    if (isLoading) return <div className="p-8 text-center uppercase font-mono text-sm">Loading billing details...</div>;
+    if (isLoading) return <div className="p-8 text-center text-sm text-[#999]">Loading billing details...</div>;
 
     return (
         <SettingsSection title="Billing Preferences" description="Manage payouts and platform fees.">
-            <div className="p-4 border border-black bg-black/5 mb-6 flex items-start gap-4">
-                <div className="p-2 border border-black bg-white text-black">
+            <div className="p-5 border border-[#EAEAEA] rounded-xl bg-[#F8F9FA] mb-6 flex items-start gap-4">
+                <div className="p-2.5 bg-white rounded-lg shadow-sm text-black">
                     <CreditCard className="w-5 h-5" />
                 </div>
                 <div>
-                    <h4 className="text-black font-bold text-sm uppercase mb-1">Connected Wallet</h4>
-                    <p className="text-[#666] text-xs font-mono mb-2">Payouts are deposited here.</p>
-                    <code className="text-xs font-mono bg-white border border-[#a3a3a3] px-2 py-1 text-black font-bold">
+                    <h4 className="text-black font-bold text-sm mb-1">Connected Wallet</h4>
+                    <p className="text-[#666] text-xs font-medium mb-2">Payouts are deposited here automatically.</p>
+                    <code className="text-xs font-mono bg-white border border-[#EAEAEA] px-2 py-1 rounded text-black font-bold">
                         {company?.walletAddress ? `${company.walletAddress.substring(0, 6)}...${company.walletAddress.substring(company.walletAddress.length - 4)}` : 'No wallet connected'}
                     </code>
                 </div>
                 <button
                     onClick={handleChangeWallet}
-                    className="ml-auto text-xs font-bold font-mono text-black underline uppercase hover:no-underline"
+                    className="ml-auto text-xs font-bold text-black hover:text-[#666] underline hover:no-underline transition-colors"
                 >
                     Change
                 </button>
             </div>
 
-            <div className="space-y-4">
-                <h3 className="text-black font-bold text-xs uppercase">Withdrawal Settings</h3>
+            <div className="space-y-6">
+                <h3 className="text-black font-bold text-sm tracking-wide">Withdrawal Settings</h3>
                 <div
-                    className="flex items-center justify-between p-4 border border-[#a3a3a3] bg-white cursor-pointer hover:border-black transition-colors"
+                    className="flex items-center justify-between p-4 border border-[#EAEAEA] rounded-xl bg-white cursor-pointer hover:border-black/20 transition-all"
                     onClick={handleToggleAutoWithdraw}
                 >
                     <div>
-                        <p className="text-black font-bold text-sm uppercase">Auto-Withdraw</p>
-                        <p className="text-[#666] text-xs font-mono">Withdraw when balance exceeds threshold (Coming Soon).</p>
+                        <p className="text-black font-bold text-sm">Auto-Withdraw</p>
+                        <p className="text-[#666] text-xs">Automatically withdraw when balance exceeds threshold.</p>
                     </div>
-                    <div className={`w-10 h-6 border transition-colors relative ${autoWithdraw ? 'bg-black border-black' : 'bg-white border-[#a3a3a3]'}`}>
-                        <div className={`absolute top-0.5 w-4 h-4 bg-white shadow-sm transition-all duration-200 ${autoWithdraw ? 'right-0.5' : 'left-0.5'}`} />
+                    <div className={`w-11 h-6 rounded-full relative transition-colors duration-200 ${autoWithdraw ? 'bg-black' : 'bg-[#EAEAEA]'}`}>
+                        <div className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow-sm transition-all duration-200 ${autoWithdraw ? 'right-1' : 'left-1'}`} />
                     </div>
                 </div>
                 <InputGroup label="Minimum Withdrawal Amount (USDC)" type="number" defaultValue="100.00" icon={DollarSign} />
@@ -323,64 +320,40 @@ function DeveloperSettings() {
     };
 
     return (
-        <SettingsSection title="API Keys & Webhooks" description="Manage integration keys.">
+        <SettingsSection title="API Keys & Webhooks" description="Manage your integration credentials.">
             <div className="space-y-6">
-
-                {isLoading && <div>Loading keys...</div>}
-
-                {!isLoading && apiKeys.map((key: any) => (
-                    <div key={key.id} className="relative group">
-                        <label className="text-xs font-mono font-bold text-black uppercase mb-2 block">
-                            {key.name || 'Secret Key'}
-                            <span className="ml-2 text-[#666] font-normal">({key.prefix}...)</span>
-                        </label>
-                        <div className="flex gap-2">
-                            <code className="flex-1 bg-[#f5f5f5] border border-[#a3a3a3] px-4 py-3 text-xs text-black font-mono truncate transition-all select-all">
-                                {key.key}
-                            </code>
-                            <button
-                                onClick={() => handleRevoke(key.id)}
-                                disabled={revokeKey.isPending}
-                                className="p-3 border border-red-200 text-red-600 hover:bg-red-50 transition-colors"
-                                title="Revoke Key"
-                            >
-                                <AlertTriangle className="w-4 h-4" />
-                            </button>
-                        </div>
-                        <p className="text-[10px] text-[#999] mt-1 uppercase">Created: {new Date(key.created_at).toLocaleDateString()}</p>
-                    </div>
-                ))}
-
-                {apiKeys.length === 0 && !isLoading && (
-                    <div className="p-4 border border-dashed border-[#a3a3a3] text-center text-sm text-[#666] uppercase">
-                        No API Keys found.
-                    </div>
-                )}
-
-                <button
-                    onClick={handleGenerate}
-                    disabled={generateKey.isPending}
-                    className="w-full py-3 bg-black text-white font-mono font-bold text-xs uppercase hover:bg-[#1a1a1a] transition-all flex items-center justify-center gap-2"
-                >
-                    {generateKey.isPending ? 'Generating...' : '+ Generate New Secret Key'}
-                </button>
-
-                <div className="pt-6 border-t border-[#a3a3a3] mt-8">
-                    <h3 className="text-black font-bold text-xs uppercase mb-4 flex items-center gap-2">
-                        <Webhook className="w-4 h-4" />
-                        Webhook Endpoints
-                    </h3>
-                    <button className="w-full py-2.5 border border-dashed border-black hover:bg-[#f5f5f5] text-xs font-mono font-bold text-black uppercase transition-all flex items-center justify-center gap-2">
-                        + Add Endpoint
+                <div className="flex justify-end">
+                    <button
+                        onClick={handleGenerate}
+                        disabled={generateKey.isPending}
+                        className="px-4 py-2 bg-black text-white font-bold text-xs rounded-lg hover:bg-[#1a1a1a] transition-colors flex items-center gap-2"
+                    >
+                        {generateKey.isPending ? <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" /> : <Plus className="w-3 h-3" />}
+                        Generate New Key
                     </button>
                 </div>
 
-                <div className="pt-6 border-t border-[#a3a3a3] mt-8">
-                    <h3 className="text-black font-bold text-xs uppercase mb-4 flex items-center gap-2">
-                        <Shield className="w-4 h-4" />
-                        Audit Logs
-                    </h3>
-                    <AuditLogTable />
+                <div className="space-y-3">
+                    {apiKeys.length === 0 ? (
+                        <p className="text-sm text-[#999] text-center py-8">No API keys generated yet.</p>
+                    ) : (
+                        apiKeys.map((key: any) => (
+                            <div key={key.id} className="p-4 border border-[#EAEAEA] rounded-xl bg-[#F8F9FA] flex items-center justify-between">
+                                <div>
+                                    <p className="text-sm font-bold text-black mb-1">{key.name || 'Unnamed Key'}</p>
+                                    <code className="text-xs font-mono text-[#666] bg-white px-2 py-1 rounded border border-[#EAEAEA]">{key.key}</code>
+                                </div>
+                                <button
+                                    onClick={() => handleRevoke(key.id)}
+                                    disabled={revokeKey.isPending}
+                                    className="text-red-600 hover:text-red-700 p-2 transition-colors"
+                                    title="Revoke Key"
+                                >
+                                    <Trash2 className="w-4 h-4" />
+                                </button>
+                            </div>
+                        ))
+                    )}
                 </div>
             </div>
         </SettingsSection>
@@ -397,13 +370,12 @@ function BrandingSettings() {
             setFormData({
                 brandColor: company.brandColor || '#000000',
                 logoUrl: company.logoUrl,
-                companyName: company.companyName // preserve other fields when updating
+                companyName: company.companyName
             });
         }
     }, [company]);
 
     const handleUpload = () => {
-        // Trigger file input click
         document.getElementById('logo-upload')?.click();
     };
 
@@ -411,7 +383,6 @@ function BrandingSettings() {
         const file = e.target.files?.[0];
         if (file) {
             alert(`File "${file.name}" selected. (File upload to storage bucket is coming soon)`);
-            // In future: upload to S3, get URL, setFormData({ ...formData, logoUrl: url })
         }
     };
 
@@ -425,38 +396,38 @@ function BrandingSettings() {
         }
     };
 
-    if (isLoading) return <div className="p-8 text-center uppercase font-mono text-sm">Loading branding details...</div>;
+    if (isLoading) return <div className="p-8 text-center text-sm text-[#999]">Loading branding details...</div>;
 
     return (
-        <SettingsSection title="Branding" description="Checkout page appearance.">
-            <div className="grid grid-cols-2 gap-4 mb-6">
+        <SettingsSection title="Branding" description="Customize your checkout page appearance.">
+            <div className="grid grid-cols-2 gap-6 mb-6">
                 <div>
-                    <label className="text-xs font-mono font-bold text-black uppercase mb-2 block">Brand Color</label>
-                    <div className="flex items-center gap-2 p-2 border border-[#a3a3a3] bg-white">
-                        <div className="w-8 h-8 border border-black" style={{ backgroundColor: formData.brandColor }} />
+                    <label className="text-xs font-bold text-[#666] tracking-wide mb-2 block">Brand Color</label>
+                    <div className="flex items-center gap-3 p-2 bg-[#F8F9FA] border border-[#EAEAEA] rounded-xl">
+                        <div className="w-8 h-8 rounded-lg shadow-sm border border-black/10" style={{ backgroundColor: formData.brandColor }} />
                         <input
                             type="text"
                             value={formData.brandColor || ''}
                             onChange={(e) => setFormData({ ...formData, brandColor: e.target.value })}
-                            className="text-xs text-black font-mono font-bold w-full outline-none"
+                            className="bg-transparent text-sm text-black font-mono font-medium w-full outline-none"
                             placeholder="#000000"
                         />
                     </div>
                 </div>
                 <div>
-                    <label className="text-xs font-mono font-bold text-black uppercase mb-2 block">Logo</label>
+                    <label className="text-xs font-bold text-[#666] tracking-wide mb-2 block">Logo</label>
                     <div
-                        className="flex items-center gap-2 p-2 border border-[#a3a3a3] bg-white cursor-pointer hover:border-black transition-colors"
+                        className="flex items-center gap-3 p-2 bg-[#F8F9FA] border border-[#EAEAEA] rounded-xl cursor-pointer hover:border-black/20 transition-all"
                         onClick={handleUpload}
                     >
                         {formData.logoUrl ? (
-                            <img src={formData.logoUrl} alt="Logo" className="w-8 h-8 object-contain bg-gray-100" />
+                            <img src={formData.logoUrl} alt="Logo" className="w-8 h-8 object-contain rounded bg-white shadow-sm p-1" />
                         ) : (
-                            <div className="w-8 h-8 bg-black flex items-center justify-center">
+                            <div className="w-8 h-8 bg-black rounded flex items-center justify-center shadow-sm">
                                 <span className="text-xs font-bold text-white">S</span>
                             </div>
                         )}
-                        <span className="text-xs text-[#666] font-mono uppercase truncate max-w-[100px]">{formData.logoUrl ? 'Change' : 'Upload'}</span>
+                        <span className="text-xs text-[#666] font-medium truncate flex-1">{formData.logoUrl ? 'Change Logo' : 'Upload Logo'}</span>
                         <input
                             id="logo-upload"
                             type="file"
@@ -468,16 +439,16 @@ function BrandingSettings() {
                 </div>
                 {/* Logo URL Manual Entry */}
                 <div className="col-span-2">
-                    <label className="text-xs font-mono font-bold text-black uppercase mb-2 block">Logo URL</label>
+                    <label className="text-xs font-bold text-[#666] tracking-wide mb-2 block">Logo URL</label>
                     <div className="relative">
                         <input
                             type="url"
                             value={formData.logoUrl || ''}
                             onChange={(e) => setFormData({ ...formData, logoUrl: e.target.value })}
                             placeholder="https://example.com/logo.png"
-                            className="w-full bg-transparent border border-[#a3a3a3] rounded-none py-2 px-3 text-black text-xs font-mono placeholder-[#999] focus:border-black focus:bg-white outline-none transition-all"
+                            className="w-full bg-[#F8F9FA] border border-[#EAEAEA] rounded-xl py-3 pl-4 pr-10 text-black text-xs font-mono placeholder-[#999] focus:border-black/20 focus:bg-white outline-none transition-all"
                         />
-                        <div className="absolute right-2 top-1/2 -translate-y-1/2">
+                        <div className="absolute right-3 top-1/2 -translate-y-1/2">
                             {formData.logoUrl && (
                                 <img src={formData.logoUrl} alt="Preview" className="w-6 h-6 object-contain" onError={(e) => (e.currentTarget.style.display = 'none')} />
                             )}
@@ -485,22 +456,27 @@ function BrandingSettings() {
                     </div>
                 </div>
             </div>
-            {/* Headline is not yet in backend schema, so we treat it as visual only for now or map to existing field if appropriate */}
+
             <div className="space-y-2">
-                <label className="text-xs font-mono font-bold text-black uppercase">Checkout Headline (Preview)</label>
+                <label className="text-xs font-bold text-[#666] tracking-wide">Checkout Headline (Preview)</label>
                 <input
                     type="text"
                     defaultValue="Subscribe to Premium"
-                    className="w-full bg-transparent border border-[#a3a3a3] rounded-none py-2.5 px-4 text-black text-sm font-medium placeholder-[#999] focus:border-black focus:bg-white outline-none transition-all"
+                    className="w-full bg-[#F8F9FA] border border-[#EAEAEA] rounded-xl py-3 px-4 text-black text-sm font-medium placeholder-[#999] focus:border-black/20 focus:bg-white outline-none transition-all"
                 />
             </div>
 
-            <div className="mt-6 flex justify-end">
+            <div className="mt-8 flex justify-end">
                 <button
                     onClick={handleSave}
                     disabled={updateCompany.isPending}
-                    className="px-6 py-2.5 bg-black text-white font-mono font-bold text-xs uppercase hover:bg-[#1a1a1a] transition-all disabled:opacity-50 flex items-center gap-2"
+                    className="px-6 py-2.5 bg-black text-white font-bold text-sm rounded-xl hover:bg-[#1a1a1a] shadow-lg shadow-black/10 transition-all disabled:opacity-50 flex items-center gap-2"
                 >
+                    {updateCompany.isPending ? (
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    ) : (
+                        <Save className="w-4 h-4" />
+                    )}
                     {updateCompany.isPending ? 'Saving...' : 'Save Changes'}
                 </button>
             </div>
@@ -519,7 +495,6 @@ function NotificationSettings() {
         'Payout Processed': true
     });
 
-    // Sync with backend data
     useEffect(() => {
         if (preferences) {
             setToggles({
@@ -544,25 +519,24 @@ function NotificationSettings() {
             });
         } catch (error) {
             console.error('Failed to update notifications:', error);
-            // Revert on failure
             setToggles(toggles);
         }
     };
 
-    if (isLoading) return <div className="p-8 text-center uppercase font-mono text-sm">Loading preferences...</div>;
+    if (isLoading) return <div className="p-8 text-center text-sm text-[#999]">Loading preferences...</div>;
 
     return (
-        <SettingsSection title="Email Notifications" description="Select updates to receive.">
+        <SettingsSection title="Email Notifications" description="Select which activity updates to receive.">
             <div className="space-y-4">
                 {Object.keys(toggles).map((item) => (
                     <div
                         key={item}
-                        className="flex items-center justify-between p-4 border border-[#a3a3a3] bg-white hover:border-black transition-colors cursor-pointer"
+                        className="flex items-center justify-between p-4 border border-[#EAEAEA] bg-[#F8F9FA] rounded-xl hover:bg-white hover:border-black/20 hover:shadow-sm transition-all cursor-pointer"
                         onClick={() => handleToggle(item)}
                     >
-                        <span className="text-black font-bold text-sm uppercase">{item}</span>
-                        <div className={`w-10 h-6 border transition-colors relative ${toggles[item] ? 'bg-black border-black' : 'bg-white border-[#a3a3a3]'}`}>
-                            <div className={`absolute top-0.5 w-4 h-4 bg-white shadow-sm transition-all duration-200 ${toggles[item] ? 'right-0.5' : 'left-0.5'}`} />
+                        <span className="text-black font-bold text-sm">{item}</span>
+                        <div className={`w-11 h-6 rounded-full relative transition-colors duration-200 ${toggles[item] ? 'bg-black' : 'bg-[#EAEAEA]'}`}>
+                            <div className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow-sm transition-all duration-200 ${toggles[item] ? 'right-1' : 'left-1'}`} />
                         </div>
                     </div>
                 ))}

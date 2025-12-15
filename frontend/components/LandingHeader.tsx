@@ -4,20 +4,20 @@ import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 
-export default function LandingHeader() {
+export default function LandingHeader({ transparent = false }: { transparent?: boolean }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     return (
-        <div className="w-full border-b border-black bg-[#EAEAEA] sticky top-0 z-50">
+        <div className={`w-full ${transparent ? 'bg-transparent border-transparent' : 'border-b border-black bg-[#EAEAEA]'} sticky top-0 z-50 transition-colors duration-300`}>
             <div className="max-w-[1600px] mx-auto px-4 md:px-6">
                 <div className="h-16 flex items-center justify-between">
                     {/* Brand */}
                     <Link href="/" className="text-black flex items-center gap-2 z-50 relative">
-                        <div className="font-bold text-xl tracking-wide">ZyoPay.</div> <span className="text-xs px-2 py-0.5 border border-black rounded-full font-mono uppercase">Infra</span>
+                        <div className="font-bold text-xl">ZyoPay.</div> <span className="text-xs px-2 py-0.5 border border-black rounded-full font-mono">Infra</span>
                     </Link>
 
                     {/* Desktop Navigation */}
-                    <nav className="hidden md:flex items-center gap-8 text-sm font-bold uppercase tracking-wide">
+                    <nav className="hidden md:flex items-center gap-8 text-sm font-bold">
                         <Link href="/sdks" className="hover:underline decoration-2 underline-offset-4">SDKs</Link>
                         <Link href="/webhooks" className="hover:underline decoration-2 underline-offset-4">Webhooks</Link>
                         <Link href="/resources" className="hover:underline decoration-2 underline-offset-4">Resources</Link>
@@ -46,7 +46,7 @@ export default function LandingHeader() {
                         transition={{ duration: 0.2 }}
                         className="absolute top-0 left-0 right-0 bg-[#EAEAEA] border-b border-black md:hidden min-h-screen pt-20 px-4 flex flex-col gap-6 z-40"
                     >
-                        <nav className="flex flex-col gap-6 text-xl font-bold uppercase tracking-tight">
+                        <nav className="flex flex-col gap-6 text-xl font-bold">
                             <Link href="/sdks" onClick={() => setIsMenuOpen(false)}>SDKs</Link>
                             <Link href="/webhooks" onClick={() => setIsMenuOpen(false)}>Webhooks</Link>
                             <Link href="/resources" onClick={() => setIsMenuOpen(false)}>Resources</Link>

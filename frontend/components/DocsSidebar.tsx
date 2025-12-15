@@ -16,12 +16,12 @@ export default function DocsSidebar() {
                 <input
                     type="text"
                     placeholder="Search docs..."
-                    className="w-full pl-10 pr-4 py-2 bg-white border border-[#ccc] font-mono text-sm focus:border-black outline-none transition-colors"
+                    className="w-full pl-10 pr-4 py-2 bg-white border border-[#ccc] font-mono text-sm focus:border-black outline-none transition-colors rounded-xl"
                 />
             </div>
 
             <div className="space-y-1">
-                <h4 className="font-bold uppercase text-xs tracking-wider mb-4 text-[#666]">Getting Started</h4>
+                <h4 className="font-bold text-xs mb-4 text-[#666]">Getting Started</h4>
                 <Link
                     href="/docs"
                     className={`block py-1 transition-all pl-3 ${isActive('/docs') ? 'font-bold text-black border-l-2 border-black' : 'text-[#666] hover:text-black hover:border-l-2 hover:border-[#ccc]'}`}
@@ -43,7 +43,7 @@ export default function DocsSidebar() {
             </div>
 
             <div className="space-y-1">
-                <h4 className="font-bold uppercase text-xs tracking-wider mb-4 mt-8 text-[#666]">Core Concepts</h4>
+                <h4 className="font-bold text-xs mb-4 mt-8 text-[#666]">Core Concepts</h4>
                 <Link
                     href="/docs/concepts/plans"
                     className={`block py-1 transition-all pl-3 ${isActive('/docs/concepts/plans') ? 'font-bold text-black border-l-2 border-black' : 'text-[#666] hover:text-black hover:border-l-2 hover:border-[#ccc]'}`}

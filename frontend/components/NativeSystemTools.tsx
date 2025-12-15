@@ -1,105 +1,88 @@
 'use client';
 
 import { motion } from 'framer-motion';
-
-const tools = [
-    {
-        id: 'access',
-        title: 'MONITOR ACTIVE SUBSCRIPTION ACCOUNTS',
-        description: 'Scan and filter subscriber accounts with deep precision. Track active statuses and payment history on-chain.',
-        metric: 'Live',
-        metricLabel: 'Status'
-    },
-    {
-        id: 'automate',
-        title: 'AUTOMATE RECURRING PAYMENT TRIGGERS',
-        description: 'Deploy condition-based automation that executes charge instructions. Sync event outputs directly to your treasury logic.',
-        metric: '<1s',
-        metricLabel: 'Latency'
-    },
-    {
-        id: 'verify',
-        title: 'VERIFY ON-CHAIN SETTLEMENT INSTANTLY',
-        description: 'Gain proof of payment without trust assumptions. Track confirmation depth and settlement finality automatically.',
-        metric: '100%',
-        metricLabel: 'Finality'
-    }
-];
+import { Terminal, Zap, RefreshCw } from 'lucide-react';
 
 export default function NativeSystemTools() {
     return (
-        <section className="sticky top-0 z-0 w-full text-[#1a1a1a] bg-[#EAEAEA] h-screen overflow-hidden flex flex-col">
-            {/* Header Section */}
-            <div className="w-full py-6 relative shrink-0">
-                <div className="px-6 md:px-10 mb-4 md:mb-0 md:absolute md:top-6 md:left-0">
-                    <span className="text-xs font-mono font-bold tracking-wider block">[02] SYSTEM TOOLS</span>
-                </div>
-                <div className="flex justify-center px-6 md:px-10">
-                    <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tight leading-none text-left">
-                        TOOLS FOR SCALABLE<br />
-                        ON-CHAIN<br />
-                        BILLING
+        <section className="relative z-10 w-full py-24 px-4 md:px-8 bg-white text-[#1a1a1a]">
+            {/* Centered Container */}
+            <div className="max-w-7xl mx-auto">
+
+                {/* Headline */}
+                <div className="max-w-4xl mb-20 text-center md:text-left mx-auto md:mx-0">
+                    <h2 className="text-3xl md:text-5xl font-bold leading-[1.2] tracking-tight text-black">
+                        Native on-chain logic, instant settlement, and powerful{" "}
+                        <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#E699D9] to-[#80E0B0] font-bold">
+                            SDKs make ZyoPay
+                        </span>{" "}
+                        the ultimate infrastructure for recurring revenue.
                     </h2>
                 </div>
-                {/* Header Animated Separator */}
-                <motion.div
-                    className="absolute bottom-0 left-0 h-px bg-[#a3a3a3]"
-                    initial={{ width: 0 }}
-                    whileInView={{ width: "100%" }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1.0, ease: "easeInOut" }}
-                />
-            </div>
 
-            {/* List Row Items */}
-            <div className="flex flex-col flex-1 overflow-hidden">
-                {tools.map((tool, index) => (
-                    <div key={tool.id} className="group relative hover:bg-white/40 transition-colors duration-300 flex-1 flex flex-col justify-center min-h-0">
-                        {/* Item Animated Separator (Top) - Skip for first item */}
-                        {index !== 0 && (
-                            <motion.div
-                                className="absolute top-0 left-0 h-px bg-[#a3a3a3]"
-                                initial={{ width: 0 }}
-                                whileInView={{ width: "100%" }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 1.0, ease: "easeInOut", delay: index * 0.2 }}
-                            />
-                        )}
+                {/* 3-Column Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-                        <div className="grid grid-cols-1 md:grid-cols-12 h-full items-center">
-
-                            {/* Column 1: Bullet/Icon */}
-                            <div className="hidden md:flex col-span-1 items-center justify-center p-4">
-                                <div className="w-3 h-3 bg-black group-hover:scale-110 transition-transform duration-300" />
-                            </div>
-
-                            {/* Column 2: Title */}
-                            <div className="col-span-12 md:col-span-4 p-4 md:p-8 flex items-center">
-                                <h3 className="text-lg md:text-2xl font-bold uppercase leading-tight max-w-sm">
-                                    {tool.title}
-                                </h3>
-                            </div>
-
-                            {/* Column 3: Description */}
-                            <div className="col-span-6 md:col-span-5 p-4 md:p-8 flex items-center">
-                                <p className="text-sm leading-relaxed text-[#555] max-w-md line-clamp-3">
-                                    {tool.description}
-                                </p>
-                            </div>
-
-                            {/* Column 4: Metric */}
-                            <div className="col-span-6 md:col-span-2 p-4 md:p-8 flex flex-col items-end justify-center">
-                                <span className="text-[#999] text-[10px] font-mono uppercase mb-1">{tool.metricLabel}</span>
-                                <span className="text-xl md:text-2xl font-mono font-medium">{tool.metric}</span>
-                            </div>
-
+                    {/* Card 1: Developer SDKs */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5 }}
+                        className="bg-gray-50 rounded-2xl p-10 flex flex-col justify-between min-h-[300px]"
+                    >
+                        <div className="flex-1 flex items-center justify-center">
+                            <Terminal strokeWidth={1} size={80} className="text-black" />
                         </div>
-                    </div>
-                ))}
-            </div>
+                        <div className="mt-8">
+                            <h3 className="text-lg font-bold mb-2 text-black">Developer-First SDKs</h3>
+                            <p className="text-gray-500 text-sm leading-relaxed">
+                                Integrate recurring payments with just a few lines of code. Type-safe and built for speed.
+                            </p>
+                        </div>
+                    </motion.div>
 
-            {/* Bottom spacer line similar to reference - Moved to bottom edge or removed if overflowing */}
-            <div className="w-full border-t border-[#a3a3a3] mt-0 shrink-0"></div>
+                    {/* Card 2: Instant Settlement */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5, delay: 0.1 }}
+                        className="bg-gray-50 rounded-2xl p-10 flex flex-col justify-between min-h-[300px]"
+                    >
+                        <div className="flex-1 flex items-center justify-center">
+                            <Zap strokeWidth={1} size={80} className="text-black" />
+                        </div>
+                        <div className="mt-8">
+                            <h3 className="text-lg font-bold mb-2 text-black">Instant Settlement</h3>
+                            <p className="text-gray-500 text-sm leading-relaxed">
+                                Zero intermediates. Payments flow directly from subscribers to your wallet in seconds.
+                            </p>
+                        </div>
+                    </motion.div>
+
+                    {/* Card 3: Automated Recurring */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5, delay: 0.2 }}
+                        className="bg-gray-50 rounded-2xl p-10 flex flex-col justify-between min-h-[300px]"
+                    >
+                        <div className="flex-1 flex items-center justify-center">
+                            <RefreshCw strokeWidth={1} size={80} className="text-black" />
+                        </div>
+                        <div className="mt-8">
+                            <h3 className="text-lg font-bold mb-2 text-black">Automated Recurring</h3>
+                            <p className="text-gray-500 text-sm leading-relaxed">
+                                Smart contracts handle billing cycles, retries, and expirations automatically.
+                            </p>
+                        </div>
+                    </motion.div>
+
+                </div>
+            </div>
         </section>
     );
 }
+

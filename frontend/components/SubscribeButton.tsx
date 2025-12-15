@@ -97,7 +97,7 @@ export default function SubscribeButton({ planId, planAddress, planName, amount,
             <button
                 onClick={handleSubscribe}
                 disabled={isLoading}
-                className="w-full py-3 bg-black text-white font-bold uppercase hover:bg-[#1a1a1a] transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                className="w-full py-3 bg-black text-white font-bold hover:bg-[#1a1a1a] transition-all disabled:opacity-50 flex items-center justify-center gap-2"
             >
                 {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
                 {isLoading ? status : `Subscribe to ${planName}`}

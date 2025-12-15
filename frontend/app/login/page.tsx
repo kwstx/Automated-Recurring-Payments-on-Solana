@@ -5,7 +5,9 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Loader2, ArrowLeft, ShieldCheck, Wallet } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { authAPI } from '@/lib/api-client';
+import LandingHeader from '@/components/LandingHeader';
 
 const LoginForm = ({ role, isMerchant }: { role: string; isMerchant: boolean }) => {
     const router = useRouter();
@@ -42,7 +44,7 @@ const LoginForm = ({ role, isMerchant }: { role: string; isMerchant: boolean }) 
             className="w-full max-w-[900px] relative z-10"
         >
             {/* Back Link */}
-            <Link href="/login" className="inline-flex items-center gap-2 text-[#666] hover:text-[#1a1a1a] transition-colors text-xs font-mono font-bold tracking-wider uppercase mb-8">
+            <Link href="/login" className="inline-flex items-center gap-2 text-[#666] hover:text-[#1a1a1a] transition-colors text-xs font-mono font-bold mb-8">
                 <ArrowLeft className="w-3 h-3" />
                 Choose Role
             </Link>
@@ -51,8 +53,8 @@ const LoginForm = ({ role, isMerchant }: { role: string; isMerchant: boolean }) 
                 {/* Left Column: Header */}
                 <div className="relative p-8 md:p-10 border-b md:border-b-0 md:border-r border-[#a3a3a3] flex flex-col justify-between">
                     <div>
-                        <span className="text-xs font-mono font-bold tracking-wider mb-6 block">[01] LOGIN</span>
-                        <h1 className="text-3xl md:text-4xl font-bold uppercase tracking-tight leading-[0.9] text-black mb-4">
+                        <span className="text-xs font-mono font-bold mb-6 block">[01] LOGIN</span>
+                        <h1 className="text-3xl md:text-4xl font-bold leading-[0.9] text-black mb-4">
                             {title}
                         </h1>
                         <p className="text-sm text-[#666] leading-relaxed">
@@ -66,7 +68,7 @@ const LoginForm = ({ role, isMerchant }: { role: string; isMerchant: boolean }) 
                     <form onSubmit={handleLogin} className="space-y-6">
                         {/* Username Input */}
                         <div className="space-y-2">
-                            <label className="text-xs font-mono font-bold tracking-wider uppercase text-[#666]">Username</label>
+                            <label className="text-xs font-mono font-bold text-[#666]">Username</label>
                             <input
                                 type="text"
                                 value={username}
@@ -79,7 +81,7 @@ const LoginForm = ({ role, isMerchant }: { role: string; isMerchant: boolean }) 
 
                         {/* Password Input */}
                         <div className="space-y-2">
-                            <label className="text-xs font-mono font-bold tracking-wider uppercase text-[#666]">Password</label>
+                            <label className="text-xs font-mono font-bold text-[#666]">Password</label>
                             <input
                                 type="password"
                                 value={password}
@@ -104,7 +106,7 @@ const LoginForm = ({ role, isMerchant }: { role: string; isMerchant: boolean }) 
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className="w-full py-4 bg-black text-white font-bold text-sm uppercase tracking-wide hover:bg-[#1a1a1a] active:scale-[0.99] transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                            className="w-full py-4 bg-black text-white font-bold text-sm hover:bg-[#1a1a1a] active:scale-[0.99] transition-all disabled:opacity-50 flex items-center justify-center gap-2"
                         >
                             {isLoading ? (
                                 <Loader2 className="w-5 h-5 animate-spin" />
@@ -134,52 +136,61 @@ const RoleSelection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
-            className="w-full max-w-[1200px] relative z-10"
+            className="w-full max-w-[1000px] relative z-10 px-4"
         >
-            <div className="text-center mb-12">
-                <Link href="/" className="inline-flex items-center gap-2 text-[#666] hover:text-[#1a1a1a] transition-colors text-xs font-mono font-bold tracking-wider uppercase mb-8">
+            <div className="text-center mb-16">
+                <Link href="/" className="inline-flex items-center gap-2 text-[#666] hover:text-black transition-colors text-xs font-mono font-bold mb-8">
                     <ArrowLeft className="w-3 h-3" />
                     Back home
                 </Link>
-                <span className="text-xs font-mono font-bold tracking-wider mb-4 block">[01] ROLE SELECTION</span>
-                <h1 className="text-4xl md:text-5xl font-bold uppercase tracking-tight leading-[0.9] text-black mb-4">
-                    CHOOSE YOUR<br />ACCESS TYPE
+                <h1 className="text-4xl md:text-5xl font-bold leading-[1.1] mb-6 text-black">
+                    Choose Your Access Type
                 </h1>
-                <p className="text-base text-[#666] max-w-xl mx-auto">
-                    Select how you want to interact with the platform.
+                <p className="text-[#666] text-sm md:text-base font-medium tracking-normal max-w-xl mx-auto leading-relaxed">
+                    Select how you want to interact with the ZyoPay platform.
                 </p>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-0 border border-[#a3a3a3]">
-                {/* Merchant Card */}
-                <Link href="/login?role=merchant" className="group relative border-b md:border-b-0 md:border-r border-[#a3a3a3] hover:bg-[#f5f5f5] transition-colors">
-                    <div className="p-10 md:p-12">
-                        <div className="w-12 h-12 bg-black flex items-center justify-center mb-6">
-                            <ShieldCheck className="w-6 h-6 text-white" />
+            <div className="grid md:grid-cols-2 gap-8">
+                {/* Subscriber Card */}
+                <Link href="/portal" className="group relative bg-white border border-[#e5e5e5] rounded-xl p-10 hover:border-black hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center">
+                    <div className="relative w-32 h-32 mb-8 group-hover:scale-110 transition-transform overflow-hidden">
+                        <div className="absolute top-0 left-0 w-[200%] h-full scale-125 origin-left">
+                            <Image
+                                src="/icons-sprite.png"
+                                alt="Subscriber"
+                                fill
+                                className="object-contain object-left"
+                            />
                         </div>
-                        <h3 className="text-2xl md:text-3xl font-bold uppercase tracking-tight mb-3 text-black">MERCHANT</h3>
-                        <p className="text-[#666] leading-relaxed mb-6 text-sm">
-                            Create subscription plans, manage subscribers, and track revenue analytics.
-                        </p>
-                        <div className="flex items-center text-black font-bold text-xs uppercase tracking-wide group-hover:gap-2 transition-all">
-                            Continue <ArrowLeft className="w-3 h-3 rotate-180 ml-1" />
-                        </div>
+                    </div>
+                    <h3 className="text-2xl font-bold mb-3 text-black">Subscriber</h3>
+                    <p className="text-[#666] text-sm leading-relaxed mb-6 max-w-xs">
+                        Manage your active subscriptions, view billing history, and control payments.
+                    </p>
+                    <div className="flex items-center text-black font-bold text-xs group-hover:gap-2 transition-all mt-auto">
+                        Enter Portal <ArrowLeft className="w-3 h-3 rotate-180 ml-1" />
                     </div>
                 </Link>
 
-                {/* Subscriber Card */}
-                <Link href="/portal" className="group relative hover:bg-[#f5f5f5] transition-colors">
-                    <div className="p-10 md:p-12">
-                        <div className="w-12 h-12 bg-black flex items-center justify-center mb-6">
-                            <Wallet className="w-6 h-6 text-white" />
+                {/* Merchant Card */}
+                <Link href="/login?role=merchant" className="group relative bg-white border border-[#e5e5e5] rounded-xl p-10 hover:border-black hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center">
+                    <div className="relative w-32 h-32 mb-8 group-hover:scale-110 transition-transform overflow-hidden">
+                        <div className="absolute top-0 right-0 w-[200%] h-full scale-125 origin-right">
+                            <Image
+                                src="/icons-sprite.png"
+                                alt="Merchant"
+                                fill
+                                className="object-contain object-right"
+                            />
                         </div>
-                        <h3 className="text-2xl md:text-3xl font-bold uppercase tracking-tight mb-3 text-black">SUBSCRIBER</h3>
-                        <p className="text-[#666] leading-relaxed mb-6 text-sm">
-                            Subscribe to services, manage active plans, and view your billing history.
-                        </p>
-                        <div className="flex items-center text-black font-bold text-xs uppercase tracking-wide group-hover:gap-2 transition-all">
-                            Continue <ArrowLeft className="w-3 h-3 rotate-180 ml-1" />
-                        </div>
+                    </div>
+                    <h3 className="text-2xl font-bold mb-3 text-black">Merchant</h3>
+                    <p className="text-[#666] text-sm leading-relaxed mb-6 max-w-xs">
+                        Create plans, manage subscribers, and view revenue analytics.
+                    </p>
+                    <div className="flex items-center text-black font-bold text-xs group-hover:gap-2 transition-all mt-auto">
+                        Dashboard Login <ArrowLeft className="w-3 h-3 rotate-180 ml-1" />
                     </div>
                 </Link>
             </div>
@@ -192,12 +203,29 @@ function LoginContent() {
     const roleParam = searchParams.get('role');
 
     return (
-        <div className="relative min-h-screen flex items-center justify-center px-4 py-12 bg-[#EAEAEA] text-[#1a1a1a] font-sans">
-            {!roleParam ? (
-                <RoleSelection />
-            ) : (
-                <LoginForm role={roleParam} isMerchant={roleParam === 'merchant'} />
-            )}
+        <div className="relative min-h-screen flex flex-col text-black font-sans overflow-x-hidden">
+            {/* Background Image Gradient */}
+            <div className="fixed inset-0 -z-10 pointer-events-none">
+                <div className="relative w-full h-full">
+                    <Image
+                        src="/resources-bg-v2.png"
+                        alt="Background Gradient"
+                        fill
+                        className="object-cover opacity-100 object-top"
+                        priority
+                    />
+                </div>
+            </div>
+
+            <LandingHeader transparent={true} />
+
+            <div className="flex-1 flex items-center justify-center w-full">
+                {!roleParam ? (
+                    <RoleSelection />
+                ) : (
+                    <LoginForm role={roleParam} isMerchant={roleParam === 'merchant'} />
+                )}
+            </div>
         </div>
     );
 }
@@ -205,7 +233,7 @@ function LoginContent() {
 export default function LoginPage() {
     return (
         <Suspense fallback={
-            <div className="min-h-screen bg-[#EAEAEA] flex items-center justify-center">
+            <div className="min-h-screen bg-white flex items-center justify-center">
                 <Loader2 className="w-8 h-8 text-black animate-spin" />
             </div>
         }>

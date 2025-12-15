@@ -31,7 +31,7 @@ export default function WebhookDebugger({ webhookId, url, onClose }: WebhookDebu
             {/* Header */}
             <div className="p-6 border-b border-[#EAEAEA] flex items-center justify-between bg-black text-white">
                 <div>
-                    <h2 className="font-bold uppercase tracking-tight flex items-center gap-2">
+                    <h2 className="font-bold tracking-tight flex items-center gap-2">
                         <Terminal className="w-5 h-5" />
                         Webhook Debugger
                     </h2>
@@ -46,9 +46,9 @@ export default function WebhookDebugger({ webhookId, url, onClose }: WebhookDebu
                 {/* List Column */}
                 <div className={`${selectedLogId ? 'hidden md:flex w-1/3' : 'w-full'} flex-col border-r border-[#EAEAEA] bg-[#f9f9f9] overflow-y-auto duration-200`}>
                     {isLoading ? (
-                        <div className="p-8 text-center text-[#999] font-mono text-xs uppercase">Loading Logs...</div>
+                        <div className="p-8 text-center text-[#999] font-mono text-xs">Loading Logs...</div>
                     ) : logs.length === 0 ? (
-                        <div className="p-8 text-center text-[#999] font-mono text-xs uppercase">No deliveries yet.</div>
+                        <div className="p-8 text-center text-[#999] font-mono text-xs">No deliveries yet.</div>
                     ) : (
                         logs.map((log: any) => (
                             <button
@@ -57,7 +57,7 @@ export default function WebhookDebugger({ webhookId, url, onClose }: WebhookDebu
                                 className={`p-4 border-b border-[#EAEAEA] text-left hover:bg-white transition-colors group ${selectedLogId === log.id ? 'bg-white border-l-4 border-l-black' : 'border-l-4 border-l-transparent'}`}
                             >
                                 <div className="flex justify-between items-start mb-2">
-                                    <span className={`text-[10px] font-bold uppercase px-1.5 py-0.5 border ${log.status === 'success' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-red-50 text-red-700 border-red-200'}`}>
+                                    <span className={`text-[10px] font-bold px-1.5 py-0.5 border ${log.status === 'success' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-red-50 text-red-700 border-red-200'}`}>
                                         {log.status === 'success' ? '200 OK' : log.response_status_code || 'ERR'}
                                     </span>
                                     <span className="text-[10px] text-[#999] font-mono">
@@ -75,12 +75,12 @@ export default function WebhookDebugger({ webhookId, url, onClose }: WebhookDebu
                 <div className={`${selectedLogId ? 'w-full md:w-2/3' : 'hidden'} flex flex-col bg-white overflow-y-auto`}>
                     {selectedLogId ? (
                         isLoadingDetail ? (
-                            <div className="p-8 text-center text-[#999] font-mono text-xs uppercase">Loading Details...</div>
+                            <div className="p-8 text-center text-[#999] font-mono text-xs">Loading Details...</div>
                         ) : deliveryDetail ? (
                             <div className="p-6 space-y-6">
                                 <div className="flex justify-between items-start">
                                     <div>
-                                        <h3 className="text-lg font-bold uppercase mb-1">
+                                        <h3 className="text-lg font-bold mb-1">
                                             {deliveryDetail.event_type}
                                         </h3>
                                         <div className="flex items-center gap-2 text-xs text-[#666] font-mono">
@@ -92,7 +92,7 @@ export default function WebhookDebugger({ webhookId, url, onClose }: WebhookDebu
                                         <button
                                             onClick={() => retryMutation.mutate(deliveryDetail.id)}
                                             disabled={retryMutation.isPending}
-                                            className="px-3 py-1.5 border border-black text-xs font-mono font-bold uppercase hover:bg-black hover:text-white transition-colors flex items-center gap-2"
+                                            className="px-3 py-1.5 border border-black text-xs font-mono font-bold hover:bg-black hover:text-white transition-colors flex items-center gap-2"
                                         >
                                             <RefreshCw className={`w-3 h-3 ${retryMutation.isPending ? 'animate-spin' : ''}`} />
                                             Retry
@@ -105,7 +105,7 @@ export default function WebhookDebugger({ webhookId, url, onClose }: WebhookDebu
 
                                 {/* Status Box */}
                                 <div className={`p-4 border ${deliveryDetail.status === 'success' ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}>
-                                    <div className="flex items-center gap-2 font-bold uppercase text-sm mb-1">
+                                    <div className="flex items-center gap-2 font-bold text-sm mb-1">
                                         {deliveryDetail.status === 'success' ? <CheckCircle className="w-4 h-4 text-green-600" /> : <AlertTriangle className="w-4 h-4 text-red-600" />}
                                         {deliveryDetail.status}
                                     </div>
@@ -116,7 +116,7 @@ export default function WebhookDebugger({ webhookId, url, onClose }: WebhookDebu
 
                                 {/* Payload */}
                                 <div>
-                                    <h4 className="text-xs font-bold uppercase text-[#666] mb-2">Request Payload</h4>
+                                    <h4 className="text-xs font-bold text-[#666] mb-2">Request Payload</h4>
                                     <pre className="bg-[#f5f5f5] p-4 text-[10px] font-mono overflow-x-auto border border-[#EAEAEA]">
                                         {JSON.stringify(JSON.parse(deliveryDetail.payload || '{}'), null, 2)}
                                     </pre>
@@ -124,7 +124,7 @@ export default function WebhookDebugger({ webhookId, url, onClose }: WebhookDebu
 
                                 {/* Response */}
                                 <div>
-                                    <h4 className="text-xs font-bold uppercase text-[#666] mb-2">Response Body</h4>
+                                    <h4 className="text-xs font-bold text-[#666] mb-2">Response Body</h4>
                                     <pre className="bg-[#f5f5f5] p-4 text-[10px] font-mono overflow-x-auto border border-[#EAEAEA]">
                                         {deliveryDetail.response_body || '(No response body)'}
                                     </pre>
@@ -134,7 +134,7 @@ export default function WebhookDebugger({ webhookId, url, onClose }: WebhookDebu
                             <div className="p-8 text-center text-[#999]">Log not found</div>
                         )
                     ) : (
-                        <div className="flex-1 flex items-center justify-center text-[#999] font-mono text-xs uppercase">
+                        <div className="flex-1 flex items-center justify-center text-[#999] font-mono text-xs">
                             Select a log to view details
                         </div>
                     )}

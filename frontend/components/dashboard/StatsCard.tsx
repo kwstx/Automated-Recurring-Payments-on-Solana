@@ -1,44 +1,43 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { LucideIcon } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 interface StatsCardProps {
     title: string;
     value: string;
-    change?: string;
-    isPositive?: boolean;
+    change: string;
+    isPositive: boolean;
     icon: LucideIcon;
     delay?: number;
+    loading?: boolean;
 }
 
-export default function StatsCard({ title, value, change, isPositive, icon: Icon, delay = 0 }: StatsCardProps) {
+export default function StatsCard({ title, value, change, isPositive, icon: Icon, delay = 0, loading = false }: StatsCardProps) {
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay }}
-            className="bg-transparent border border-[#a3a3a3] p-6 hover:bg-white transition-all duration-300 group relative overflow-hidden"
+            transition={{ duration: 0.4, delay }}
+            className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300 border border-transparent hover:border-[#EAEAEA] group"
         >
-            <div className="relative z-10">
-                <div className="flex justify-between items-start mb-6">
-                    <div className="p-2 border border-[#a3a3a3] bg-transparent group-hover:bg-black group-hover:border-black transition-all duration-300">
-                        <Icon className="w-5 h-5 text-[#666] group-hover:text-white transition-colors" />
-                    </div>
-                    {change && (
-                        <div className={`px-2 py-0.5 text-xs font-mono font-bold border ${isPositive
-                            ? 'bg-green-100 text-green-700 border-green-200'
-                            : 'bg-red-100 text-red-700 border-red-200'
-                            } flex items-center gap-1`}>
-                            {isPositive ? '+' : ''}{change}
-                        </div>
-                    )}
+            <div className="flex justify-between items-start mb-4">
+                <div className={`p-3 rounded-xl bg-gray-50 group-hover:bg-black group-hover:text-white transition-colors duration-300`}>
+                    <Icon className="w-6 h-6" />
                 </div>
+                <div className={`px-2.5 py-1 rounded-full text-xs font-bold ${isPositive ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600'
+                    }`}>
+                    {change}
+                </div>
+            </div>
 
-                <div className="space-y-1">
-                    <h3 className="text-[#666] text-xs font-mono font-bold uppercase tracking-wider">{title}</h3>
-                    <p className="text-3xl font-bold text-black tracking-tight">{value}</p>
-                </div>
+            <div className="space-y-1">
+                <h3 className="text-sm font-medium text-[#666]">{title}</h3>
+                {loading ? (
+                    <div className="h-8 w-24 bg-gray-100 animate-pulse rounded-md" />
+                ) : (
+                    <p className="text-2xl font-bold text-black tracking-tight">{value}</p>
+                )}
             </div>
         </motion.div>
     );

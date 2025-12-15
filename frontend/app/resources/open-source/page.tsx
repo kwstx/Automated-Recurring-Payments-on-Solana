@@ -31,12 +31,12 @@ export default function OpenSourcePage() {
             <LandingHeader />
 
             <main className="max-w-[1600px] mx-auto px-4 md:px-6 py-12 lg:py-24">
-                <Link href="/resources" className="inline-flex items-center gap-2 font-mono text-xs uppercase mb-8 hover:underline">
+                <Link href="/resources" className="inline-flex items-center gap-2 font-mono text-xs mb-8 hover:underline">
                     <ArrowLeft size={14} /> Back to Resources
                 </Link>
 
                 <div className="max-w-4xl">
-                    <h1 className="text-5xl md:text-7xl font-bold uppercase tracking-tighter leading-[0.9] mb-8">
+                    <h1 className="text-5xl md:text-7xl font-bold leading-[0.9] mb-8">
                         Open<br />Source
                     </h1>
                     <div className="h-1 w-24 bg-black mb-12"></div>
@@ -58,7 +58,7 @@ export default function OpenSourcePage() {
 
                                 <p className="text-[#666] mb-6 font-mono text-sm">{repo.desc}</p>
 
-                                <div className="flex gap-6 text-xs font-bold uppercase">
+                                <div className="flex gap-6 text-xs font-bold">
                                     <div className="flex items-center gap-1">
                                         <Star size={14} /> {repo.stars} Stars
                                     </div>
@@ -71,11 +71,11 @@ export default function OpenSourcePage() {
                     </div>
 
                     <div className="mt-16 bg-[#1a1a1a] text-white p-8 border border-black text-center">
-                        <h3 className="text-2xl font-bold uppercase mb-4">Contribute</h3>
+                        <h3 className="text-2xl font-bold mb-4">Contribute</h3>
                         <p className="font-mono text-sm text-[#a3a3a3] mb-8 max-w-lg mx-auto">
                             We welcome contributions from the community. Check out our contribution guidelines and good first issues on GitHub.
                         </p>
-                        <button className="bg-white text-black px-8 py-3 font-bold uppercase hover:bg-[#ccc] transition-colors">
+                        <button className="bg-white text-black px-8 py-3 font-bold hover:bg-[#ccc] transition-colors">
                             Read Guidelines
                         </button>
                     </div>

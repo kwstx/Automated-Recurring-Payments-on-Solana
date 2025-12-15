@@ -1,7 +1,6 @@
 import Hero from '@/components/Hero';
 import InfrastructureModules from '@/components/InfrastructureModules';
 import NativeSystemTools from '@/components/NativeSystemTools';
-import InsightsSection from '@/components/InsightsSection';
 import Footer from '@/components/Footer';
 
 export default function Home() {
@@ -11,7 +10,6 @@ export default function Home() {
         <Hero />
         <InfrastructureModules />
         <NativeSystemTools />
-        <InsightsSection />
         <Footer />
       </div>
     </main>

@@ -1,75 +1,107 @@
 'use client';
 
 import LandingHeader from '@/components/LandingHeader';
-import { BookOpen, FileCode, Github, Youtube, ArrowRight } from 'lucide-react';
+import { User } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 export default function ResourcesPage() {
     return (
-        <div className="min-h-screen bg-[#F5F5F5] text-black font-sans">
-            <LandingHeader />
+        <div className="min-h-screen text-black font-sans relative overflow-x-hidden">
 
-            <main className="max-w-[1600px] mx-auto px-4 md:px-6 py-12 lg:py-24">
-                <h1 className="text-5xl md:text-7xl font-bold uppercase tracking-tighter leading-[0.9] mb-16">
-                    Developer<br />
-                    Resources
-                </h1>
+            {/* Background Image Gradient */}
+            <div className="fixed inset-0 -z-10 pointer-events-none">
+                <div className="relative w-full h-full">
+                    <Image
+                        src="/resources-bg-v2.png"
+                        alt="Background Gradient"
+                        fill
+                        className="object-cover opacity-100 object-top"
+                        priority
+                    />
+                </div>
+            </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {/* Documentation Card */}
-                    <Link href="/docs" className="group border border-black bg-white p-8 relative overflow-hidden cursor-pointer block">
-                        <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <ArrowRight size={24} />
-                        </div>
-                        <BookOpen className="w-8 h-8 mb-6" strokeWidth={1.5} />
-                        <h3 className="text-2xl font-bold uppercase mb-2">Documentation</h3>
-                        <p className="font-mono text-sm text-[#666] mb-8">
-                            Comprehensive guides, API references, and integration tutorials for all stacks.
-                        </p>
-                        <span className="text-xs font-bold uppercase underline">Start Reading</span>
-                    </Link>
+            <LandingHeader transparent={true} />
 
-                    {/* API Reference Card */}
-                    <Link href="/resources/api-reference" className="group border border-black bg-white p-8 relative overflow-hidden cursor-pointer block">
-                        <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <ArrowRight size={24} />
-                        </div>
-                        <FileCode className="w-8 h-8 mb-6" strokeWidth={1.5} />
-                        <h3 className="text-2xl font-bold uppercase mb-2">API Reference</h3>
-                        <p className="font-mono text-sm text-[#666] mb-8">
-                            OpenAPI 3.0 specification for our REST API. Interactive playground available.
-                        </p>
-                        <span className="text-xs font-bold uppercase underline">Explore API</span>
-                    </Link>
+            <main className="max-w-7xl mx-auto px-4 md:px-8 py-12 lg:py-16">
 
-                    {/* GitHub Card */}
-                    <Link href="/resources/open-source" className="group border border-black bg-white p-8 relative overflow-hidden cursor-pointer block">
-                        <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <ArrowRight size={24} />
-                        </div>
-                        <Github className="w-8 h-8 mb-6" strokeWidth={1.5} />
-                        <h3 className="text-2xl font-bold uppercase mb-2">Open Source</h3>
-                        <p className="font-mono text-sm text-[#666] mb-8">
-                            Explore our public repositories, SDKs, and example implementations.
-                        </p>
-                        <span className="text-xs font-bold uppercase underline">View on GitHub</span>
-                    </Link>
+                {/* Centered Hero-Style Header */}
+                <div className="text-center mb-16 relative z-10 max-w-4xl mx-auto">
+                    <h1 className="text-3xl md:text-5xl font-bold tracking-tight leading-[1.1] mb-6 text-black">
+                        What are Solana<br />
+                        Subscriptions?
+                    </h1>
+                    <p className="text-[#666] text-sm md:text-base font-medium tracking-normal max-w-2xl mx-auto leading-relaxed">
+                        ZyoPay enables automated, on-chain recurring revenue for the modern Web3 economy. Understand the core infrastructure that powers decentralized subscription models.
+                    </p>
                 </div>
 
-                <div className="mt-24 border-t border-black pt-16">
-                    <h2 className="text-3xl font-bold uppercase mb-8">Latest Guides</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <Link href="/resources/guides/token-gating" className="border border-[#a3a3a3] bg-white p-6 hover:border-black transition-colors cursor-pointer block">
-                            <span className="text-xs font-mono text-[#666] mb-2 block">GUIDE • 5 MIN READ</span>
-                            <h4 className="text-xl font-bold uppercase mb-2">Implementing Token Gating</h4>
-                            <p className="text-sm text-[#666]">Learn how to restrict access to your content based on NFT ownership.</p>
-                        </Link>
-                        <Link href="/resources/guides/subscription-cancellation" className="border border-[#a3a3a3] bg-white p-6 hover:border-black transition-colors cursor-pointer block">
-                            <span className="text-xs font-mono text-[#666] mb-2 block">TUTORIAL • 10 MIN READ</span>
-                            <h4 className="text-xl font-bold uppercase mb-2">Handling Subscription Cancellations</h4>
-                            <p className="text-sm text-[#666]">Best practices for managing user churn and off-boarding flows.</p>
-                        </Link>
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-12 text-left relative z-10">
+
+                    {/* Left Content Column (Main) */}
+                    <div className="md:col-span-8 lg:col-span-9">
+
+                        <hr className="border-black/10 mb-12" />
+
+                        {/* Section 1 */}
+                        <div className="mb-12">
+                            <h2 className="text-2xl font-bold mb-4">1. On-Chain Automation</h2>
+                            <div className="space-y-4">
+                                <p className="leading-relaxed text-[#1a1a1a]/80">
+                                    ZyoPay leverages Solana's high throughput to execute non-custodial recurring transactions. Our smart contracts handle the complexities of scheduling, retries, and failure management, ensuring your subscribers are billed accurately and on time without centralized intermediaries.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Section 2 (Web3 Revenue) */}
+                        <div className="mb-12">
+                            <h2 className="text-2xl font-bold mb-4">2. Web3 Revenue Infrastructure</h2>
+                            <div className="space-y-4">
+                                <p className="leading-relaxed text-[#1a1a1a]/80">
+                                    Beyond simple transfers, ZyoPay provides a full-stack revenue platform. From easy-to-integrate SDKs to comprehensive analytics dashboards, we provide the tooling necessary to scale your SaaS or content platform on Solana.
+                                </p>
+                                <p className="leading-relaxed text-[#1a1a1a]/80">
+                                    <span className="font-bold text-black">Sovereignty & Scale:</span> Compete with Web2 efficiency while retaining Web3 sovereignty. Our infrastructure modules are designed to be composable, allowing you to build custom billing flows that fit your protocol's needs.
+                                </p>
+                            </div>
+                        </div>
+
                     </div>
+
+                    {/* Right Sidebar */}
+                    <aside className="md:col-span-4 lg:col-span-3 hidden md:flex flex-col gap-8 text-right">
+                        <div className="flex flex-col gap-2 font-medium text-sm text-gray-500 underline underline-offset-4 decoration-gray-300">
+                            <Link href="/docs" className="hover:text-black">Documentation</Link>
+                            <Link href="/docs" className="hover:text-black">API Reference</Link>
+                            <Link href="/sdks" className="hover:text-black">SDKs</Link>
+                            <a href="https://github.com/kwstx/Automated-Recurring-Payments-on-Solana" target="_blank" rel="noopener noreferrer" className="hover:text-black">Github</a>
+                            <Link href="/community" className="hover:text-black">Community</Link>
+                            <Link href="/contact" className="hover:text-black">Support</Link>
+                        </div>
+
+                        {/* Floating Card Mimic */}
+                        <div className="mt-8 bg-white border border-black rounded-lg p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] text-left relative overflow-hidden">
+
+                            <div className="absolute -right-4 -top-4 w-16 h-16 bg-gradient-to-br from-pink-200 to-purple-200 rounded-full blur-xl opacity-50" />
+
+                            <div className="mb-6 pb-6 border-b border-gray-200">
+                                <div className="flex items-center gap-3 mb-2">
+                                    <div className="p-2 bg-gray-100 rounded-full"><User size={16} /></div>
+                                    <span className="font-bold text-sm leading-tight">Ready to start building?</span>
+                                </div>
+                            </div>
+
+                            <div className="text-sm">
+                                <p className="font-bold mb-2 text-pink-500">Developer Access</p>
+                                <p className="text-gray-600 mb-6 font-medium">Get your API keys and start integrating ZyoPay into your dApp today.</p>
+
+                                <button className="bg-black text-white px-6 py-2 rounded-full text-sm font-bold w-full hover:bg-gray-800 transition-colors">
+                                    Get Started
+                                </button>
+                            </div>
+                        </div>
+                    </aside>
                 </div>
             </main>
         </div>

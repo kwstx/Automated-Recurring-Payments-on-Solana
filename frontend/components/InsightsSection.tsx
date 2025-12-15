@@ -44,7 +44,7 @@ export default function InsightsSection() {
                 {/* Header Section (Row 1, Cols 1-2) */}
                 <div className="md:col-span-2 p-6 md:p-10 flex flex-col justify-center">
                     <span className="text-xs font-mono font-bold tracking-wider mb-4 block">[03] BLOG</span>
-                    <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tight leading-none max-w-lg mb-0 text-black">
+                    <h2 className="text-3xl md:text-5xl font-bold tracking-tight leading-none max-w-lg mb-0 text-black">
                         LATEST UPDATES &<br />
                         PROTOCOL<br />
                         UPGRADES
@@ -82,7 +82,7 @@ export default function InsightsSection() {
                             {/* Content */}
                             <div className="px-6 md:px-8 pt-6 pb-6 flex flex-col flex-1 justify-between">
                                 <div>
-                                    <span className="text-xs text-[#666] mb-2 block font-mono uppercase">{insight.date}</span>
+                                    <span className="text-xs text-[#666] mb-2 block font-mono">{insight.date}</span>
 
                                     <h3 className="text-sm md:text-base font-bold leading-tight mb-2 group-hover:underline decoration-1 underline-offset-4 line-clamp-2">
                                         {insight.title}
@@ -93,7 +93,7 @@ export default function InsightsSection() {
                                     </p>
                                 </div>
 
-                                <Link href={`/blog/${insight.slug}`} className="flex items-center gap-1 font-bold text-xs uppercase tracking-wide hover:gap-2 transition-all mt-auto shrink-0">
+                                <Link href={`/blog/${insight.slug}`} className="flex items-center gap-1 font-bold text-xs tracking-wide hover:gap-2 transition-all mt-auto shrink-0">
                                     [Read more]
                                 </Link>
                             </div>

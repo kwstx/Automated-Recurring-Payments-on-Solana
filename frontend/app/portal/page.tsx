@@ -49,8 +49,8 @@ export default function PortalPage() {
                         animate={{ opacity: 1, y: 0 }}
                         className="max-w-md w-full text-center"
                     >
-                        <span className="text-xs font-mono font-bold tracking-wider mb-6 block text-[#666]">[06] SUBSCRIBER PORTAL</span>
-                        <h1 className="text-4xl md:text-5xl font-bold uppercase tracking-tight leading-[0.9] mb-6">
+                        <span className="text-xs font-mono font-bold mb-6 block text-[#666]">[06] SUBSCRIBER PORTAL</span>
+                        <h1 className="text-4xl md:text-5xl font-bold leading-[0.9] mb-6">
                             Connect<br />Wallet
                         </h1>
                         <p className="text-sm font-mono text-[#666] mb-12 leading-relaxed">
@@ -63,7 +63,7 @@ export default function PortalPage() {
                                 color: '#ffffff',
                                 fontFamily: 'monospace',
                                 fontWeight: 'bold',
-                                textTransform: 'uppercase',
+                                textTransform: 'none',
                                 padding: '24px 32px',
                                 borderRadius: '0px',
                                 width: '100%',
@@ -100,8 +100,8 @@ export default function PortalPage() {
 
                     {/* Header Section: Centered */}
                     <div className="text-center mb-16 max-w-3xl">
-                        <span className="text-xs font-mono font-bold tracking-wider mb-4 block text-[#666]">[06] SUBSCRIBER PORTAL</span>
-                        <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold uppercase tracking-tighter leading-[0.9] mb-8">
+                        <span className="text-xs font-mono font-bold mb-4 block text-[#666]">[06] SUBSCRIBER PORTAL</span>
+                        <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold leading-[0.9] mb-8">
                             MY ACTIVE SUBS
                         </h1>
                         <p className="text-sm font-mono text-[#666] mb-8 max-w-xs mx-auto leading-relaxed">
@@ -126,11 +126,11 @@ export default function PortalPage() {
                         {isLoading ? (
                             <div className="text-center py-20">
                                 <Loader2 className="w-8 h-8 animate-spin mx-auto text-black" />
-                                <p className="mt-4 font-mono text-sm uppercase text-[#666]">Loading subscriptions...</p>
+                                <p className="mt-4 font-mono text-sm text-[#666]">Loading subscriptions...</p>
                             </div>
                         ) : subscriptions.length === 0 ? (
                             <div className="text-center py-20 border border-black bg-[#f5f5f5]">
-                                <p className="font-mono text-sm uppercase text-[#666]">No active subscriptions found for this wallet.</p>
+                                <p className="font-mono text-sm text-[#666]">No active subscriptions found for this wallet.</p>
                             </div>
                         ) : (
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -149,11 +149,11 @@ export default function PortalPage() {
                                                         {sub.logoUrl && (
                                                             <img src={sub.logoUrl} alt={sub.merchant} className="w-8 h-8 object-contain rounded-full border border-[#EAEAEA]" />
                                                         )}
-                                                        <h3 className="text-2xl font-bold uppercase leading-none">{sub.merchant}</h3>
+                                                        <h3 className="text-2xl font-bold leading-none">{sub.merchant}</h3>
                                                     </div>
-                                                    <span className="font-mono text-xs text-black border border-black px-1 uppercase">{sub.plan}</span>
+                                                    <span className="font-mono text-xs text-black border border-black px-1">{sub.plan}</span>
                                                 </div>
-                                                <div className={`px-2 py-0.5 text-[10px] font-bold uppercase border border-black ${sub.status === 'active' ? 'bg-[#EAEAEA] text-black' : 'bg-black text-white'}`}>
+                                                <div className={`px-2 py-0.5 text-[10px] font-bold border border-black ${sub.status === 'active' ? 'bg-[#EAEAEA] text-black' : 'bg-black text-white'}`}>
                                                     {sub.status}
                                                 </div>
                                             </div>
@@ -169,7 +169,7 @@ export default function PortalPage() {
                                                 </div>
                                                 <div className="flex justify-between items-center border-b border-[#EAEAEA] pb-2">
                                                     <span className="text-[#666]">Interval</span>
-                                                    <span className="font-bold uppercase">{sub.interval}</span>
+                                                    <span className="font-bold">{sub.interval}</span>
                                                 </div>
                                             </div>
 
@@ -179,7 +179,7 @@ export default function PortalPage() {
                                                         <button
                                                             onClick={() => handleAction('pause', sub.id)}
                                                             disabled={pause.isPending}
-                                                            className="py-2.5 border border-black text-xs font-bold uppercase hover:bg-[#EAEAEA] transition-colors disabled:opacity-50"
+                                                            className="py-2.5 border border-black text-xs font-bold hover:bg-[#EAEAEA] transition-colors disabled:opacity-50"
                                                         >
                                                             {pause.isPending ? 'Pausing...' : 'Pause'}
                                                         </button>
@@ -192,12 +192,12 @@ export default function PortalPage() {
                                                     <button
                                                         onClick={() => handleAction('resume', sub.id)}
                                                         disabled={resume.isPending}
-                                                        className="col-span-2 py-2.5 border border-black bg-black text-white text-xs font-bold uppercase hover:bg-[#333] transition-colors disabled:opacity-50"
+                                                        className="col-span-2 py-2.5 border border-black bg-black text-white text-xs font-bold hover:bg-[#333] transition-colors disabled:opacity-50"
                                                     >
                                                         {resume.isPending ? 'Resuming...' : 'Resume Subscription'}
                                                     </button>
                                                 ) : (
-                                                    <div className="col-span-2 text-center py-2.5 text-xs font-mono text-[#999] uppercase border border-[#EAEAEA] bg-[#f9f9f9]">
+                                                    <div className="col-span-2 text-center py-2.5 text-xs font-mono text-[#999] border border-[#EAEAEA] bg-[#f9f9f9]">
                                                         Subscription Cancelled
                                                     </div>
                                                 )}

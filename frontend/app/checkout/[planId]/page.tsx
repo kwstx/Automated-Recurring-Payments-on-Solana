@@ -72,7 +72,7 @@ export default function CheckoutPage() {
                     {logoUrl && (
                         <img src={logoUrl} alt="Logo" className="h-12 mx-auto mb-6 object-contain" />
                     )}
-                    <h2 className="text-lg uppercase text-gray-500 font-mono tracking-widest mb-2">{plan.company_name || 'Merchant'}</h2>
+                    <h2 className="text-lg text-gray-500 font-mono mb-2">{plan.company_name || 'Merchant'}</h2>
                     <h1 className="text-3xl font-bold text-black mb-2">{plan.name}</h1>
                     <div className="text-4xl font-bold text-black my-6">
                         ${plan.amount} <span className="text-lg text-gray-400 font-medium">{plan.currency}</span>

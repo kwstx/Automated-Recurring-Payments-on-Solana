@@ -33,7 +33,7 @@ const itemVariants: Variants = {
 
 export default function Footer() {
     return (
-        <footer className="relative bg-[#EAEAEA] text-[#1a1a1a] pt-20 pb-20 border-t border-[#a3a3a3]">
+        <footer className="relative z-10 bg-[#EAEAEA] text-[#1a1a1a] pt-20 pb-20 border-t border-[#a3a3a3]">
             <div className="max-w-[1920px] mx-auto px-4 md:px-6">
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 lg:gap-0">
@@ -56,9 +56,9 @@ export default function Footer() {
                                 whileInView={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.8, delay: 0.2 }}
-                                className="text-3xl md:text-4xl font-bold uppercase leading-tight max-w-md"
+                                className="text-3xl md:text-4xl font-bold leading-tight max-w-md"
                             >
-                                POWERING THE NEXT GENERATION OF RECURRING ON-CHAIN REVENUE.
+                                Powering the next generation of recurring on-chain revenue.
                             </motion.h3>
                         </div>
 
@@ -70,7 +70,7 @@ export default function Footer() {
                                     suppressHydrationWarning
                                     className="flex-1 bg-transparent outline-none text-[#1a1a1a] placeholder:text-[#888] pb-1"
                                 />
-                                <button type="submit" className="font-bold text-sm uppercase tracking-wide hover:opacity-70 transition-opacity pb-1">
+                                <button type="submit" className="font-bold text-sm hover:opacity-70 transition-opacity pb-1">
                                     Subscribe
                                 </button>
                             </form>

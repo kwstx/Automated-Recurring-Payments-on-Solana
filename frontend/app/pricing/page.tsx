@@ -11,7 +11,7 @@ export default function PricingPage() {
 
             <main className="max-w-[1600px] mx-auto px-4 md:px-6 py-12 lg:py-24">
                 <div className="text-center max-w-3xl mx-auto mb-20">
-                    <h1 className="text-5xl md:text-7xl font-bold uppercase tracking-tighter leading-[0.9] mb-6">
+                    <h1 className="text-5xl md:text-7xl font-bold leading-[0.9] mb-6">
                         Transparent<br />
                         Pricing
                     </h1>
@@ -23,7 +23,7 @@ export default function PricingPage() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-black bg-white">
                     {/* Starter */}
                     <div className="p-8 border-b md:border-b-0 md:border-r border-black relative group hover:bg-[#fafafa] transition-colors">
-                        <h3 className="text-2xl font-bold uppercase mb-2">Starter</h3>
+                        <h3 className="text-2xl font-bold mb-2">Starter</h3>
                         <div className="flex items-baseline gap-1 mb-8">
                             <span className="text-4xl font-bold">0%</span>
                             <span className="font-mono text-sm text-[#666]"> / transaction</span>
@@ -49,10 +49,10 @@ export default function PricingPage() {
 
                     {/* Pro */}
                     <div className="p-8 border-b md:border-b-0 md:border-r border-black relative bg-[#1a1a1a] text-white transform md:-translate-y-4 md:shadow-[0px_4px_0px_0px_rgba(0,0,0,1)]">
-                        <div className="absolute top-0 right-0 bg-white text-black text-[10px] font-bold uppercase px-2 py-1 border-l border-b border-black">
+                        <div className="absolute top-0 right-0 bg-white text-black text-[10px] font-bold px-2 py-1 border-l border-b border-black">
                             Most Popular
                         </div>
-                        <h3 className="text-2xl font-bold uppercase mb-2">Growth</h3>
+                        <h3 className="text-2xl font-bold mb-2">Growth</h3>
                         <div className="flex items-baseline gap-1 mb-8">
                             <span className="text-4xl font-bold">0.5%</span>
                             <span className="font-mono text-sm text-[#999]"> / transaction</span>
@@ -79,7 +79,7 @@ export default function PricingPage() {
 
                     {/* Enterprise */}
                     <div className="p-8 relative group hover:bg-[#fafafa] transition-colors">
-                        <h3 className="text-2xl font-bold uppercase mb-2">Enterprise</h3>
+                        <h3 className="text-2xl font-bold mb-2">Enterprise</h3>
                         <div className="flex items-baseline gap-1 mb-8">
                             <span className="text-4xl font-bold">Custom</span>
                         </div>
@@ -94,7 +94,7 @@ export default function PricingPage() {
                             <li className="flex items-center gap-2"><Check size={16} /> On-chain Governance</li>
                         </ul>
 
-                        <button className="w-full py-3 bg-white border border-black text-black font-bold uppercase hover:bg-black hover:text-white transition-all">
+                        <button className="w-full py-3 bg-white border border-black text-black font-bold hover:bg-black hover:text-white transition-all">
                             Contact Sales
                         </button>
                     </div>

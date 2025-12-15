@@ -79,7 +79,7 @@ export default function UnsubscribeButton({ subscriptionPda, subscriptionId, cla
             <button
                 onClick={handleUnsubscribe}
                 disabled={loading || disabled || !connected}
-                className={className || "py-2.5 border border-black bg-black text-white text-xs font-bold uppercase hover:bg-[#333] transition-colors disabled:opacity-50 flex justify-center items-center gap-2"}
+                className={className || "py-2.5 border border-black bg-black text-white text-xs font-bold hover:bg-[#333] transition-colors disabled:opacity-50 flex justify-center items-center gap-2"}
             >
                 {loading ? <Loader2 className="w-3 h-3 animate-spin" /> : null}
                 {loading ? 'Cancelling...' : 'Cancel'}

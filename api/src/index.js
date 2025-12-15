@@ -1,7 +1,9 @@
-import './instrument.js'; // Must be first import
+// import './instrument.js'; // Must be first import
 import 'dotenv/config';
 import express from 'express';
-import * as Sentry from '@sentry/node';
+// // import * as Sentry from '@sentry/node';
+// app.use(Sentry.Handlers.requestHandler());
+// app.use(Sentry.Handlers.tracingHandler());
 import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './swagger.js';
@@ -34,7 +36,7 @@ const PORT = process.env.PORT || 4000;
 
 // Middleware
 app.use(cors({
-    origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],
+    origin: ['http://localhost:3000', 'http://127.0.0.1:3000', 'http://localhost:4000', 'http://127.0.0.1:4000'],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
@@ -107,7 +109,7 @@ app.get('/health', async (req, res) => {
 });
 
 // Sentry Error Handler must be before any other error middleware and after all controllers
-app.use(Sentry.expressErrorHandler());
+// app.use(Sentry.expressErrorHandler());
 
 // Error handling
 app.use((err, req, res, next) => {

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Download, TrendingUp, TrendingDown, DollarSign, Users, Clock, PieChart, Activity, Loader2, ArrowUpRight } from 'lucide-react';
+import { Download, TrendingUp, TrendingDown, DollarSign, Users, Clock, PieChart, Activity, Loader2, ArrowUpRight, ChevronDown } from 'lucide-react';
 import { useMRR, useChurnRate, useRevenueByPlan } from '@/hooks/useAnalytics';
 import { analyticsAPI } from '@/lib/api-client';
 import MRRChart from '@/components/charts/MRRChart';
@@ -74,7 +74,7 @@ export default function AnalyticsPage() {
     const [showDetailedReport, setShowDetailedReport] = useState(false);
 
     return (
-        <div className="space-y-8 max-w-[1600px] mx-auto pb-12">
+        <div className="space-y-8 pb-12">
             {/* Detailed Report Modal */}
             <AnimatePresence>
                 {showDetailedReport && (
@@ -82,47 +82,47 @@ export default function AnalyticsPage() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+                        className="fixed inset-0 bg-black/20 backdrop-blur-sm z-50 flex items-center justify-center p-4"
                         onClick={() => setShowDetailedReport(false)}
                     >
                         <motion.div
-                            initial={{ scale: 0.95, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            exit={{ scale: 0.95, opacity: 0 }}
+                            initial={{ scale: 0.95, opacity: 0, y: 20 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            exit={{ scale: 0.95, opacity: 0, y: 20 }}
                             onClick={(e) => e.stopPropagation()}
-                            className="bg-white p-8 max-w-2xl w-full border border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] relative"
+                            className="bg-white p-8 max-w-2xl w-full rounded-2xl shadow-xl relative"
                         >
                             <button
                                 onClick={() => setShowDetailedReport(false)}
-                                className="absolute top-4 right-4 text-black hover:bg-black hover:text-white p-1 border border-transparent hover:border-black transition-all"
+                                className="absolute top-6 right-6 text-[#999] hover:text-black p-2 bg-[#F8F9FA] rounded-full transition-colors"
                             >
                                 <ArrowUpRight className="w-5 h-5 rotate-180" />
                             </button>
 
-                            <h2 className="text-2xl font-bold uppercase mb-4 flex items-center gap-2">
-                                <Activity className="w-6 h-6" />
+                            <h2 className="text-2xl font-bold mb-6 flex items-center gap-3 text-black">
+                                <Activity className="w-6 h-6 text-[#999]" />
                                 Detailed Performance Report
                             </h2>
 
-                            <div className="space-y-6 font-mono text-sm">
-                                <div className="p-4 bg-[#f5f5f5] border border-[#a3a3a3]">
-                                    <h3 className="font-bold uppercase mb-2">Revenue Breakdown</h3>
-                                    <p className="text-[#666]">Detailed revenue streams show a 15% increase in "Pro Plan" adoptions.</p>
+                            <div className="space-y-4">
+                                <div className="p-5 bg-[#F8F9FA] rounded-xl border border-[#EAEAEA]">
+                                    <h3 className="font-bold text-sm text-black mb-2">Revenue Breakdown</h3>
+                                    <p className="text-[#666] text-sm leading-relaxed">Detailed revenue streams show a <span className="font-bold text-green-600">15% increase</span> in "Pro Plan" adoptions.</p>
                                 </div>
-                                <div className="p-4 bg-[#f5f5f5] border border-[#a3a3a3]">
-                                    <h3 className="font-bold uppercase mb-2">Churn Analysis</h3>
-                                    <p className="text-[#666]">Most cancellations occur after the 3rd month. Consider adding a 3-month loyalty discount.</p>
+                                <div className="p-5 bg-[#F8F9FA] rounded-xl border border-[#EAEAEA]">
+                                    <h3 className="font-bold text-sm text-black mb-2">Churn Analysis</h3>
+                                    <p className="text-[#666] text-sm leading-relaxed">Most cancellations occur after the 3rd month. Consider adding a <span className="font-bold text-black">3-month loyalty discount</span>.</p>
                                 </div>
-                                <div className="p-4 bg-[#f5f5f5] border border-[#a3a3a3]">
-                                    <h3 className="font-bold uppercase mb-2">Customer Acquisition</h3>
-                                    <p className="text-[#666]">Direct traffic is your top source. Social referrals have dropped by 5%.</p>
+                                <div className="p-5 bg-[#F8F9FA] rounded-xl border border-[#EAEAEA]">
+                                    <h3 className="font-bold text-sm text-black mb-2">Customer Acquisition</h3>
+                                    <p className="text-[#666] text-sm leading-relaxed">Direct traffic is your top source. Social referrals have dropped by <span className="font-bold text-red-500">5%</span>.</p>
                                 </div>
                             </div>
 
                             <div className="mt-8 flex justify-end">
                                 <button
                                     onClick={() => setShowDetailedReport(false)}
-                                    className="px-6 py-2 bg-black text-white font-mono font-bold uppercase hover:bg-[#1a1a1a]"
+                                    className="px-6 py-2.5 bg-black text-white font-bold text-sm rounded-xl hover:bg-[#1a1a1a] shadow-lg shadow-black/10 transition-all"
                                 >
                                     Close Report
                                 </button>
@@ -133,23 +133,26 @@ export default function AnalyticsPage() {
             </AnimatePresence>
 
             {/* Header */}
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#a3a3a3] pb-6">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold uppercase tracking-tight text-black">Analytics</h1>
-                    <p className="text-[#666] mt-1 text-sm font-mono uppercase">Insights & business performance.</p>
+                    <h1 className="text-2xl font-bold tracking-tight text-black">Analytics</h1>
+                    <p className="text-[#666] mt-1 text-sm">Real-time insights and performance metrics.</p>
                 </div>
 
                 <div className="flex items-center gap-4">
-                    <select className="bg-white border border-[#a3a3a3] px-4 py-2.5 text-xs font-mono font-bold text-black outline-none focus:border-black transition-colors uppercase cursor-pointer">
-                        <option>Last 30 Days</option>
-                        <option>Last 3 Months</option>
-                        <option>Last Year</option>
-                        <option>All Time</option>
-                    </select>
+                    <div className="relative">
+                        <select className="appearance-none bg-white border border-[#EAEAEA] pl-4 pr-10 py-2.5 rounded-xl text-sm font-bold text-black outline-none focus:border-black/20 focus:shadow-sm transition-all cursor-pointer hover:border-[#d4d4d4]">
+                            <option>Last 30 Days</option>
+                            <option>Last 3 Months</option>
+                            <option>Last Year</option>
+                            <option>All Time</option>
+                        </select>
+                        <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#999] pointer-events-none" />
+                    </div>
 
                     <button
                         onClick={handleExportCSV}
-                        className="flex items-center gap-2 px-6 py-2.5 bg-white border border-[#a3a3a3] text-black font-mono font-bold text-xs uppercase hover:bg-black hover:text-white transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px]"
+                        className="flex items-center gap-2 px-5 py-2.5 bg-white border border-[#EAEAEA] text-black font-bold text-sm rounded-xl hover:bg-[#F8F9FA] hover:border-[#d4d4d4] transition-all shadow-sm"
                     >
                         <Download className="w-4 h-4" />
                         Export CSV
@@ -165,15 +168,15 @@ export default function AnalyticsPage() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.1 }}
-                        className="bg-white border border-[#a3a3a3] p-6 hover:border-black transition-colors duration-200"
+                        className="bg-white rounded-2xl p-6 shadow-sm border border-transparent hover:border-[#EAEAEA] transition-all"
                     >
                         <div className="flex justify-between items-start mb-6">
-                            <div className={`p-2 border border-[#EAEAEA] ${metric.bg} ${metric.color}`}>
+                            <div className={`p-2.5 rounded-xl ${metric.bg} ${metric.color}`}>
                                 {metric.loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <metric.icon className="w-5 h-5" />}
                             </div>
-                            <div className={`flex items-center gap-1 text-xs font-mono font-bold px-2 py-1 border ${metric.isPositive
-                                ? 'bg-green-50 border-green-200 text-green-700'
-                                : 'bg-red-50 border-red-200 text-red-700'
+                            <div className={`flex items-center gap-1 text-xs font-bold px-2.5 py-1 rounded-full ${metric.isPositive
+                                ? 'bg-green-50 text-green-700'
+                                : 'bg-red-50 text-red-700'
                                 }`}>
                                 {metric.isPositive ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
                                 {metric.change}
@@ -181,8 +184,8 @@ export default function AnalyticsPage() {
                         </div>
 
                         <div>
-                            <h3 className="text-3xl font-bold text-black mb-1 tracking-tight">{metric.value}</h3>
-                            <p className="text-xs text-[#666] font-mono font-bold uppercase tracking-wider">{metric.title}</p>
+                            <h3 className="text-2xl font-bold text-black mb-1">{metric.value}</h3>
+                            <p className="text-xs text-[#999] font-medium tracking-wider">{metric.title}</p>
                         </div>
                     </motion.div>
                 ))}
@@ -195,15 +198,15 @@ export default function AnalyticsPage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
-                    className="bg-white border border-[#a3a3a3] p-0 flex flex-col h-[300px]"
+                    className="bg-white rounded-2xl shadow-sm border border-transparent p-6 h-[340px] flex flex-col"
                 >
-                    <div className="p-4 border-b border-[#EAEAEA] flex justify-between items-center">
-                        <h3 className="font-bold uppercase text-sm tracking-tight text-black flex items-center gap-2">
-                            <TrendingUp className="w-4 h-4" />
+                    <div className="mb-6 flex justify-between items-center">
+                        <h3 className="font-bold text-black flex items-center gap-2">
+                            <TrendingUp className="w-5 h-5 text-[#999]" />
                             Revenue Trend
                         </h3>
                     </div>
-                    <div className="flex-1 p-4">
+                    <div className="flex-1 w-full h-full">
                         <MRRChart data={mrrData?.history || []} />
                     </div>
                 </motion.div>
@@ -213,15 +216,15 @@ export default function AnalyticsPage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3 }}
-                    className="bg-white border border-[#a3a3a3] p-0 flex flex-col h-[300px]"
+                    className="bg-white rounded-2xl shadow-sm border border-transparent p-6 h-[340px] flex flex-col"
                 >
-                    <div className="p-4 border-b border-[#EAEAEA] flex justify-between items-center">
-                        <h3 className="font-bold uppercase text-sm tracking-tight text-black flex items-center gap-2">
-                            <Users className="w-4 h-4" />
+                    <div className="mb-6 flex justify-between items-center">
+                        <h3 className="font-bold text-black flex items-center gap-2">
+                            <Users className="w-5 h-5 text-[#999]" />
                             Churn Trend
                         </h3>
                     </div>
-                    <div className="flex-1 p-4">
+                    <div className="flex-1 w-full h-full">
                         <ChurnChart data={churnData?.history || []} />
                     </div>
                 </motion.div>
@@ -233,54 +236,54 @@ export default function AnalyticsPage() {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.4 }}
-                    className="lg:col-span-2 p-0 border border-[#a3a3a3] bg-white flex flex-col relative overflow-hidden"
+                    className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-transparent overflow-hidden flex flex-col"
                 >
-                    <div className="flex justify-between items-center p-8 border-b border-[#a3a3a3] bg-[#f5f5f5]">
+                    <div className="flex justify-between items-center p-6 border-b border-[#F5F5F5]">
                         <div>
-                            <h2 className="text-lg font-bold text-black uppercase tracking-tight">Revenue by Plan</h2>
-                            <p className="text-xs text-[#666] font-mono mt-1">Distribution across tiers</p>
+                            <h2 className="text-lg font-bold text-black">Revenue by Plan</h2>
+                            <p className="text-sm text-[#999] mt-0.5">Distribution across subscription tiers</p>
                         </div>
-                        <div className="p-2 border border-[#a3a3a3] bg-white text-black">
+                        <div className="p-2 bg-[#F8F9FA] rounded-lg text-black">
                             <PieChart className="w-5 h-5" />
                         </div>
                     </div>
 
                     {revenueLoading ? (
                         <div className="flex-1 flex items-center justify-center min-h-[300px]">
-                            <Loader2 className="w-8 h-8 text-black animate-spin" />
+                            <Loader2 className="w-8 h-8 text-[#EAEAEA] animate-spin" />
                         </div>
                     ) : revenueByPlan.length === 0 ? (
-                        <div className="flex-1 flex items-center justify-center text-[#999] font-mono uppercase text-sm min-h-[300px]">
+                        <div className="flex-1 flex items-center justify-center text-[#999] font-medium text-sm min-h-[300px]">
                             No revenue data available
                         </div>
                     ) : (
-                        <div className="flex-1 flex flex-col justify-center gap-8 p-8">
+                        <div className="flex-1 flex flex-col justify-center gap-6 p-8">
                             {revenueByPlan.map((item: any, idx: number) => {
                                 const totalRevenue = revenueByPlan.reduce((sum: number, p: any) => sum + parseFloat(p.revenue), 0);
                                 const percentage = totalRevenue > 0 ? ((parseFloat(item.revenue) / totalRevenue) * 100).toFixed(1) : 0;
-                                const colors = ['bg-black', 'bg-[#666]', 'bg-[#999]', 'bg-[#ccc]'];
+                                const colors = ['bg-black', 'bg-gray-600', 'bg-gray-400', 'bg-gray-200'];
 
                                 return (
                                     <div key={item.name} className="space-y-2 group">
-                                        <div className="flex justify-between text-xs font-mono font-bold uppercase">
+                                        <div className="flex justify-between text-sm font-bold">
                                             <span className="text-black flex items-center gap-3">
-                                                <div className={`w-3 h-3 ${colors[idx % colors.length]} border border-black`} />
+                                                <div className={`w-3 h-3 rounded-full ${colors[idx % colors.length]}`} />
                                                 {item.name}
                                             </span>
                                             <div className="text-right">
-                                                <span className="text-black block">${item.revenue}</span>
+                                                <span className="text-black">${item.revenue}</span>
                                             </div>
                                         </div>
-                                        <div className="h-4 w-full bg-[#EAEAEA] border border-[#a3a3a3] relative">
+                                        <div className="h-2.5 w-full bg-[#F5F5F5] rounded-full overflow-hidden">
                                             <motion.div
                                                 initial={{ width: 0 }}
                                                 animate={{ width: `${percentage}%` }}
                                                 transition={{ duration: 1, delay: 0.5 + (idx * 0.2), ease: "easeOut" }}
-                                                className={`h-full ${colors[idx % colors.length]} absolute left-0 top-0`}
+                                                className={`h-full ${colors[idx % colors.length]} rounded-full`}
                                             />
                                         </div>
                                         <div className="text-right">
-                                            <span className="text-[10px] font-mono text-[#666]">{percentage}%</span>
+                                            <span className="text-xs font-medium text-[#999]">{percentage}% Share</span>
                                         </div>
                                     </div>
                                 );
@@ -294,40 +297,40 @@ export default function AnalyticsPage() {
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.5 }}
-                    className="p-0 border border-[#a3a3a3] bg-white relative overflow-hidden flex flex-col"
+                    className="bg-white rounded-2xl shadow-sm border border-transparent overflow-hidden flex flex-col h-full"
                 >
-                    <div className="p-8 border-b border-[#a3a3a3] bg-[#f5f5f5]">
-                        <h2 className="text-lg font-bold text-black uppercase tracking-tight flex items-center gap-2">
-                            <Activity className="w-5 h-5" />
+                    <div className="p-6 border-b border-[#F5F5F5] bg-gradient-to-r from-white to-[#F8F9FA]">
+                        <h2 className="text-lg font-bold text-black flex items-center gap-2">
+                            <Activity className="w-5 h-5 text-black" />
                             AI Insights
                         </h2>
                     </div>
 
-                    <div className="space-y-4 flex-1 p-8">
-                        <div className="p-5 border border-green-200 bg-green-50 hover:border-green-400 transition-colors group">
-                            <h4 className="text-green-800 font-bold text-xs uppercase tracking-wider mb-2 flex items-center justify-between">
+                    <div className="space-y-4 flex-1 p-6">
+                        <div className="p-4 rounded-xl border border-green-100 bg-green-50/50 hover:bg-green-50 transition-colors">
+                            <h4 className="text-green-800 font-bold text-xs tracking-wider mb-2 flex items-center justify-between">
                                 Growth Trend
                                 <TrendingUp className="w-4 h-4" />
                             </h4>
                             <p className="text-black text-sm leading-relaxed font-medium">
-                                Your MRR has increased by <span className="font-bold underlinedecoration-green-500">12.5%</span> this month. Great job!
+                                Your MRR has increased by <span className="font-bold text-green-600">12.5%</span> this month. Great job!
                             </p>
                         </div>
-                        <div className="p-5 border border-blue-200 bg-blue-50 hover:border-blue-400 transition-colors group">
-                            <h4 className="text-blue-800 font-bold text-xs uppercase tracking-wider mb-2 flex items-center justify-between">
+                        <div className="p-4 rounded-xl border border-blue-100 bg-blue-50/50 hover:bg-blue-50 transition-colors">
+                            <h4 className="text-blue-800 font-bold text-xs tracking-wider mb-2 flex items-center justify-between">
                                 Retention
                                 <Users className="w-4 h-4" />
                             </h4>
                             <p className="text-black text-sm leading-relaxed font-medium">
-                                Churn rate is at <span className="font-bold">{churnData?.churnRate || '0'}%</span>. Keep monitoring for trends.
+                                Churn rate is at <span className="font-bold text-black">{churnData?.churnRate || '0'}%</span>. Keep monitoring for trends.
                             </p>
                         </div>
                     </div>
 
-                    <div className="p-6 border-t border-[#a3a3a3] bg-[#f5f5f5]">
+                    <div className="p-6 pt-0">
                         <button
                             onClick={() => setShowDetailedReport(true)}
-                            className="w-full py-3.5 border border-black bg-white hover:bg-black hover:text-white text-xs font-mono font-bold uppercase transition-all flex items-center justify-center gap-2 group"
+                            className="w-full py-3.5 border border-[#EAEAEA] rounded-xl bg-white hover:border-black hover:bg-black hover:text-white text-xs font-bold transition-all flex items-center justify-center gap-2 group shadow-sm"
                         >
                             View Detailed Report
                             <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />

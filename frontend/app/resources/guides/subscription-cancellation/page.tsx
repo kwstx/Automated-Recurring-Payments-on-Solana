@@ -10,14 +10,14 @@ export default function CancellationsGuide() {
             <LandingHeader />
 
             <main className="max-w-[1600px] mx-auto px-4 md:px-6 py-12 lg:py-24">
-                <Link href="/resources" className="inline-flex items-center gap-2 font-mono text-xs uppercase mb-8 hover:underline">
+                <Link href="/resources" className="inline-flex items-center gap-2 font-mono text-xs mb-8 hover:underline">
                     <ArrowLeft size={14} /> Back to Resources
                 </Link>
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
                     <div className="lg:col-span-8">
-                        <span className="text-xs font-mono font-bold tracking-wider mb-4 block text-[#666]">TUTORIAL • 10 MIN READ</span>
-                        <h1 className="text-4xl md:text-6xl font-bold uppercase tracking-tighter leading-[0.9] mb-8">
+                        <span className="text-xs font-mono font-bold mb-4 block text-[#666]">TUTORIAL • 10 MIN READ</span>
+                        <h1 className="text-4xl md:text-6xl font-bold leading-[0.9] mb-8">
                             Handling<br />Cancellations
                         </h1>
                         <div className="h-1 w-24 bg-black mb-12"></div>
@@ -29,7 +29,7 @@ export default function CancellationsGuide() {
 
                             <hr className="border-black my-12" />
 
-                            <h3 className="text-2xl font-bold uppercase mb-6 flex items-center gap-3">
+                            <h3 className="text-2xl font-bold mb-6 flex items-center gap-3">
                                 <XCircle className="w-6 h-6" /> 1. The Cancel Instruction
                             </h3>
                             <p className="mb-6 text-sm text-[#333]">
@@ -47,14 +47,14 @@ export default function CancellationsGuide() {
                                 </pre>
                             </div>
 
-                            <h3 className="text-2xl font-bold uppercase mb-6 flex items-center gap-3">
+                            <h3 className="text-2xl font-bold mb-6 flex items-center gap-3">
                                 <MessageSquare className="w-6 h-6" /> 2. Exit Surveys
                             </h3>
                             <p className="mb-6 text-sm text-[#333]">
                                 How to integrate a feedback form before the on-chain transaction is signed to understand churn reasons.
                             </p>
 
-                            <h3 className="text-2xl font-bold uppercase mb-6 flex items-center gap-3">
+                            <h3 className="text-2xl font-bold mb-6 flex items-center gap-3">
                                 <RotateCcw className="w-6 h-6" /> 3. Win-Back Strategies
                             </h3>
                             <p className="mb-6 text-sm text-[#333]">
@@ -65,7 +65,7 @@ export default function CancellationsGuide() {
 
                     <div className="lg:col-span-4">
                         <div className="sticky top-24 border border-black p-6 bg-white">
-                            <h4 className="font-bold uppercase mb-4">In this tutorial</h4>
+                            <h4 className="font-bold mb-4">In this tutorial</h4>
                             <ul className="space-y-3 font-mono text-sm text-[#666]">
                                 <li className="hover:text-black cursor-pointer">1. The Cancel Instruction</li>
                                 <li className="hover:text-black cursor-pointer">2. Exit Surveys</li>

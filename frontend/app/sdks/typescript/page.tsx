@@ -19,21 +19,21 @@ export default function TypeScriptSDKPage() {
             <LandingHeader />
 
             <main className="max-w-[1600px] mx-auto px-4 md:px-6 py-12 lg:py-24">
-                <Link href="/sdks" className="inline-flex items-center gap-2 font-mono text-xs uppercase mb-8 hover:underline">
+                <Link href="/sdks" className="inline-flex items-center gap-2 font-mono text-xs mb-8 hover:underline">
                     <ArrowLeft size={14} /> Back to SDKs
                 </Link>
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
                     {/* Left Column: Documentation */}
                     <div className="lg:col-span-12">
-                        <h1 className="text-5xl md:text-7xl font-bold uppercase tracking-tighter leading-[0.9] mb-8">
+                        <h1 className="text-5xl md:text-7xl font-bold leading-[0.9] mb-8">
                             TypeScript<br />SDK
                         </h1>
                         <div className="h-1 w-24 bg-black mb-12"></div>
 
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
                             <div>
-                                <h3 className="text-2xl font-bold uppercase mb-6">Installation</h3>
+                                <h3 className="text-2xl font-bold mb-6">Installation</h3>
                                 <div className="p-4 border border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mb-12">
                                     <div className="flex items-center justify-between font-mono text-sm bg-[#EAEAEA] p-3 border border-[#ccc]">
                                         <code>npm i @w3-infra/solana-billing-sdk</code>
@@ -43,7 +43,7 @@ export default function TypeScriptSDKPage() {
                                     </div>
                                 </div>
 
-                                <h3 className="text-2xl font-bold uppercase mb-6">Quick Start</h3>
+                                <h3 className="text-2xl font-bold mb-6">Quick Start</h3>
                                 <p className="font-mono text-sm text-[#666] mb-6 leading-relaxed">
                                     The SDK provides a `SubscriptionClient` that wraps all interaction with the on-chain Anchor program.
                                     It handles PDA derivation, transaction building, and error parsing.
@@ -51,7 +51,7 @@ export default function TypeScriptSDKPage() {
                             </div>
 
                             <div className="border border-black bg-[#1a1a1a] text-white p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
-                                <h3 className="font-mono text-xs uppercase text-[#666] mb-4 flex items-center gap-2">
+                                <h3 className="font-mono text-xs text-[#666] mb-4 flex items-center gap-2">
                                     <Terminal size={14} /> client_setup.ts
                                 </h3>
                                 <pre className="font-mono text-sm overflow-x-auto">
@@ -76,7 +76,7 @@ export default function TypeScriptSDKPage() {
                         </div>
 
                         <div className="mt-24">
-                            <h3 className="text-2xl font-bold uppercase mb-8">API Reference</h3>
+                            <h3 className="text-2xl font-bold mb-8">API Reference</h3>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 {[
                                     { title: 'createPlan', desc: 'Initialize a new recurring payment plan.' },

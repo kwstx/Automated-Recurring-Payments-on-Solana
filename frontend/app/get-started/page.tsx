@@ -24,7 +24,7 @@ export default function GetStartedPage() {
                 className="w-full max-w-4xl relative z-10"
             >
                 {/* Back Link */}
-                <Link href="/" className="absolute -top-16 left-0 inline-flex items-center gap-2 text-white/40 hover:text-white transition-colors text-xs font-medium tracking-wide uppercase">
+                <Link href="/" className="absolute -top-16 left-0 inline-flex items-center gap-2 text-white/40 hover:text-white transition-colors text-xs font-medium tracking-wide">
                     <ArrowLeft className="w-3 h-3" />
                     Back
                 </Link>
