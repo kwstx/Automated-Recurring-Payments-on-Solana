@@ -1,6 +1,17 @@
 import db from '../database.js';
 import logger from '../logger.js';
-import { verifySubscriptionOnChain, verifyTransaction } from '../solana-client.js';
+import { verifySubscriptionOnChain, verifyTransaction, connection } from '../solana-client.js';
+import { Keypair, PublicKey } from '@solana/web3.js';
+import { Program, AnchorProvider, Wallet } from '@coral-xyz/anchor';
+import { getAssociatedTokenAddress, TOKEN_PROGRAM_ID } from '@solana/spl-token';
+import fs from 'fs';
+import path from 'path';
+
+// Load IDL
+const idl = JSON.parse(fs.readFileSync(path.resolve('../frontend/utils/idl.json'), 'utf-8'));
+
+// Configuration for server wallet (Keeper)
+const KEYPAIR_PATH = process.env.KEYPAIR_PATH || '../subscription_billing/target/deploy/subscription_billing-keypair.json';
 
 export const activateSubscription = async (req, res) => {
     const {
@@ -257,5 +268,101 @@ export const getMerchantSubscriptions = (req, res) => {
     } catch (error) {
         logger.error('Get merchant subscriptions error', { error: error.message, merchantId });
         res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
+// NEW: Charge subscription (Keeper/Admin trigger)
+export const chargeSubscription = async (req, res) => {
+    const { subscriptionPda } = req.body;
+
+    if (!subscriptionPda) {
+        return res.status(400).json({ error: 'Subscription PDA is required' });
+    }
+
+    try {
+        // 1. Get Subscription Details
+        const sub = db.prepare(`
+            SELECT 
+                s.id, 
+                s.subscription_pda,
+                s.subscriber_token_account,
+                p.plan_pda,
+                p.merchant_pubkey,
+                p.token_mint
+            FROM subscriptions s
+            JOIN plans p ON s.plan_id = p.id
+            WHERE s.subscription_pda = ?
+        `).get(subscriptionPda);
+
+        if (!sub) {
+            return res.status(404).json({ error: 'Subscription not found' });
+        }
+
+        // 2. Load Server Wallet
+        let keypair;
+        try {
+            // Check if absolute or relative path
+            const keypairPath = path.resolve(KEYPAIR_PATH);
+            if (!fs.existsSync(keypairPath)) {
+                // Return mock success if on mock chain/no wallet
+                if (process.env.MOCK_CHAIN === 'true') {
+                    logger.info('MOCK_CHAIN: Simulating charge success');
+                    return res.json({ message: 'Charge triggered successfully (MOCK)', transactionSignature: 'mock-tx-sig' });
+                }
+                throw new Error(`Keypair not found at ${keypairPath}`);
+            }
+            const keypairData = JSON.parse(fs.readFileSync(keypairPath, 'utf-8'));
+            keypair = Keypair.fromSecretKey(new Uint8Array(keypairData));
+        } catch (e) {
+            logger.error('Server wallet missing', { error: e.message });
+            return res.status(503).json({ error: 'Server wallet not configured for charges' });
+        }
+
+        const wallet = new Wallet(keypair);
+        const provider = new AnchorProvider(connection, wallet, { preflightCommitment: 'confirmed' });
+        const program = new Program(idl, provider);
+
+        // 3. Prepare Accounts
+        const tokenMint = new PublicKey(sub.token_mint);
+        const merchantPubkey = new PublicKey(sub.merchant_pubkey);
+        const merchantTokenAccount = await getAssociatedTokenAddress(tokenMint, merchantPubkey);
+
+        logger.info(`Processing manual charge for ${subscriptionPda}...`);
+
+        // 4. Execute Transaction
+        // Note: For real environment, we should check if due.
+        // But for "Audit" validation, we force call. Smart contract will fail if not due.
+
+        try {
+            const tx = await program.methods
+                .processPayment()
+                .accounts({
+                    subscription: new PublicKey(sub.subscription_pda),
+                    plan: new PublicKey(sub.plan_pda),
+                    subscriberTokenAccount: new PublicKey(sub.subscriber_token_account),
+                    merchantTokenAccount: merchantTokenAccount,
+                    tokenProgram: TOKEN_PROGRAM_ID,
+                })
+                .rpc();
+
+            logger.info(`Charge successful! TX: ${tx}`, { subscriptionPda });
+
+            res.json({
+                message: 'Charge triggered successfully',
+                transactionSignature: tx
+            });
+        } catch (err) {
+            // Handle specific anchor errors if needed
+            throw err;
+        }
+
+    } catch (error) {
+        logger.error('Charge API error', { error: error.message, subscriptionPda });
+
+        if (error.message.includes('0x1771') || error.message.includes('PaymentNotDue')) {
+            return res.status(400).json({ error: 'Payment is not due yet' });
+        }
+
+        res.status(500).json({ error: 'Charge failed: ' + error.message });
     }
 };

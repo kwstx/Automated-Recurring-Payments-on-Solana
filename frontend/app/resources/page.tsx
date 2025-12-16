@@ -96,9 +96,11 @@ export default function ResourcesPage() {
                                 <p className="font-bold mb-2 text-pink-500">Developer Access</p>
                                 <p className="text-gray-600 mb-6 font-medium">Get your API keys and start integrating ZyoPay into your dApp today.</p>
 
-                                <button className="bg-black text-white px-6 py-2 rounded-full text-sm font-bold w-full hover:bg-gray-800 transition-colors">
-                                    Get Started
-                                </button>
+                                <Link href="/dashboard" className="block w-full">
+                                    <button className="bg-black text-white px-6 py-2 rounded-full text-sm font-bold w-full hover:bg-gray-800 transition-colors">
+                                        Get Started
+                                    </button>
+                                </Link>
                             </div>
                         </div>
                     </aside>

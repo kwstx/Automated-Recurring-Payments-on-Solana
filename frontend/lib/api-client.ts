@@ -104,6 +104,7 @@ export const auditAPI = {
 export const subscriptionsAPI = {
     list: () => apiClient.get('/merchant/subscriptions'),
     cancel: (subscriptionPda: string) => apiClient.post('/subscription/cancel', { subscriptionPda }),
+    charge: (subscriptionPda: string) => apiClient.post('/subscription/charge', { subscriptionPda }),
 };
 
 // Portal API (public, no auth required)

@@ -1,7 +1,7 @@
 'use client';
 
 import LandingHeader from '@/components/LandingHeader';
-import { Terminal, Copy, Check } from 'lucide-react';
+import { Terminal, Copy, Check, ArrowRight } from 'lucide-react';
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -96,23 +96,27 @@ export default function SDKsPage() {
 
                         <div className="grid grid-cols-2 gap-4 mt-8">
                             <Link href="/sdks/typescript" className="block">
-                                <div className="p-6 border border-black bg-white hover:translate-x-1 hover:-translate-y-1 transition-transform cursor-pointer h-full rounded-xl">
+                                <div className="p-6 border border-black bg-white hover:translate-x-1 hover:-translate-y-1 transition-transform cursor-pointer h-full rounded-xl group">
                                     <div className="bg-black text-white w-8 h-8 flex items-center justify-center mb-4">
                                         <span className="font-bold text-xs">TS</span>
                                     </div>
                                     <h4 className="font-bold mb-2">TypeScript SDK</h4>
                                     <p className="text-xs text-[#666] font-mono mb-4">Full type safety for React & Node.js apps.</p>
-                                    <span className="text-xs font-bold underline">Read Docs ↗</span>
+                                    <span className="text-xs font-bold underline flex items-center gap-1 group-hover:gap-2 transition-all">
+                                        Read Docs <ArrowRight size={14} className="text-black" />
+                                    </span>
                                 </div>
                             </Link>
                             <Link href="/sdks/rust" className="block">
-                                <div className="p-6 border border-black bg-white hover:translate-x-1 hover:-translate-y-1 transition-transform cursor-pointer h-full rounded-xl">
+                                <div className="p-6 border border-black bg-white hover:translate-x-1 hover:-translate-y-1 transition-transform cursor-pointer h-full rounded-xl group">
                                     <div className="bg-black text-white w-8 h-8 flex items-center justify-center mb-4">
                                         <span className="font-bold text-xs">RS</span>
                                     </div>
                                     <h4 className="font-bold mb-2">Rust Crate</h4>
                                     <p className="text-xs text-[#666] font-mono mb-4">For CPI calls and on-chain integrations.</p>
-                                    <span className="text-xs font-bold underline">View Crate ↗</span>
+                                    <span className="text-xs font-bold underline flex items-center gap-1 group-hover:gap-2 transition-all">
+                                        View Crate <ArrowRight size={14} className="text-black" />
+                                    </span>
                                 </div>
                             </Link>
                         </div>

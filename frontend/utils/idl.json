@@ -1,6 +1,9 @@
 {
   "version": "0.1.0",
   "name": "subscription_billing",
+  "metadata": {
+    "address": "5F2mgGWf8jsJVrNYyvHx8qSTVTK9DdCd5YY77C7kK5H6"
+  },
   "instructions": [
     {
       "name": "initializePlan",

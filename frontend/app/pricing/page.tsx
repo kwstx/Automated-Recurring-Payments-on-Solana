@@ -1,102 +1,158 @@
 'use client';
 
 import LandingHeader from '@/components/LandingHeader';
-import { Check } from 'lucide-react';
+import { Check, Zap, TrendingUp, Building2 } from 'lucide-react';
 import SubscribeButton from '@/components/SubscribeButton';
 
 export default function PricingPage() {
     return (
-        <div className="min-h-screen bg-[#F5F5F5] text-black font-sans">
+        <div className="min-h-screen bg-white text-black font-sans selection:bg-[#F2D7EE]">
             <LandingHeader />
 
-            <main className="max-w-[1600px] mx-auto px-4 md:px-6 py-12 lg:py-24">
+            <main className="max-w-7xl mx-auto px-4 md:px-6 py-12 lg:py-20">
                 <div className="text-center max-w-3xl mx-auto mb-20">
-                    <h1 className="text-5xl md:text-7xl font-bold leading-[0.9] mb-6">
-                        Transparent<br />
-                        Pricing
+                    <h1 className="text-6xl md:text-8xl font-bold tracking-tighter mb-8 text-black">
+                        PRICING
                     </h1>
-                    <p className="text-lg font-mono text-[#666]">
-                        Pay only for what you use. No hidden fees. No surprises.
+                    <p className="text-xl md:text-2xl font-medium text-[#666] max-w-2xl mx-auto leading-relaxed">
+                        Simple, transparent pricing for every stage of your growth.
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-black bg-white">
-                    {/* Starter */}
-                    <div className="p-8 border-b md:border-b-0 md:border-r border-black relative group hover:bg-[#fafafa] transition-colors">
-                        <h3 className="text-2xl font-bold mb-2">Starter</h3>
-                        <div className="flex items-baseline gap-1 mb-8">
-                            <span className="text-4xl font-bold">0%</span>
-                            <span className="font-mono text-sm text-[#666]"> / transaction</span>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    {/* Starter Plan */}
+                    <div className="border border-black flex flex-col h-full bg-white relative group">
+                        <div className="bg-[#C1F0DC] p-6 border-b border-black">
+                            <div className="flex justify-between items-start mb-4">
+                                <div className="p-3 bg-black text-white rounded-none inline-flex">
+                                    <Zap size={24} />
+                                </div>
+                            </div>
+                            <h3 className="text-3xl font-bold tracking-tight">Starter</h3>
+                            <p className="font-mono text-xs mt-2 text-black/80">PERFECT FOR PROTOTYPING</p>
                         </div>
-                        <p className="font-mono text-xs text-[#666] mb-8 h-10">
-                            Perfect for hackathons and early-stage prototypes.
-                        </p>
 
-                        <ul className="space-y-4 mb-8 font-mono text-sm">
-                            <li className="flex items-center gap-2"><Check size={16} /> Up to 100 subscribers</li>
-                            <li className="flex items-center gap-2"><Check size={16} /> Standard Analytics</li>
-                            <li className="flex items-center gap-2"><Check size={16} /> Email Support</li>
-                        </ul>
+                        <div className="p-8 flex-1 flex flex-col">
+                            <div className="mb-8">
+                                <span className="text-5xl font-bold tracking-tighter">0%</span>
+                                <span className="text-lg font-medium text-black/60 ml-2">transaction fee</span>
+                            </div>
 
-                        <SubscribeButton
-                            planId="StarterXX11111111111111111111111111"
-                            planName="Starter"
-                            amount={0}
-                            tokenMint="7XSjE8CZaabDrkP3MxKqL5zJwJtiK1CSuJbHHx9dgv9k"
-                            merchantPubkey="5F2mgGWf8jsJVrNYyvHx8qSTVTK9DdCd5YY77C7kK5H6"
-                        />
+                            <ul className="space-y-4 mb-8 flex-1">
+                                <li className="flex items-start gap-3 text-sm font-medium">
+                                    <Check className="w-5 h-5 shrink-0" />
+                                    <span>Up to 100 subscribers</span>
+                                </li>
+                                <li className="flex items-start gap-3 text-sm font-medium">
+                                    <Check className="w-5 h-5 shrink-0" />
+                                    <span>Standard Analytics</span>
+                                </li>
+                                <li className="flex items-start gap-3 text-sm font-medium">
+                                    <Check className="w-5 h-5 shrink-0" />
+                                    <span>Community Support</span>
+                                </li>
+                            </ul>
+
+                            <SubscribeButton
+                                planId="StarterXX11111111111111111111111111"
+                                planName="Starter"
+                                amount={0}
+                                tokenMint="7XSjE8CZaabDrkP3MxKqL5zJwJtiK1CSuJbHHx9dgv9k"
+                                merchantPubkey="5F2mgGWf8jsJVrNYyvHx8qSTVTK9DdCd5YY77C7kK5H6"
+                            />
+                        </div>
                     </div>
 
-                    {/* Pro */}
-                    <div className="p-8 border-b md:border-b-0 md:border-r border-black relative bg-[#1a1a1a] text-white transform md:-translate-y-4 md:shadow-[0px_4px_0px_0px_rgba(0,0,0,1)]">
-                        <div className="absolute top-0 right-0 bg-white text-black text-[10px] font-bold px-2 py-1 border-l border-b border-black">
-                            Most Popular
+                    {/* Growth Plan */}
+                    <div className="border border-black flex flex-col h-full bg-white relative group md:-mt-8 md:mb-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+                        <div className="absolute top-0 right-0 bg-black text-white text-xs font-bold px-3 py-1.5 border-l border-b border-black">
+                            MOST POPULAR
                         </div>
-                        <h3 className="text-2xl font-bold mb-2">Growth</h3>
-                        <div className="flex items-baseline gap-1 mb-8">
-                            <span className="text-4xl font-bold">0.5%</span>
-                            <span className="font-mono text-sm text-[#999]"> / transaction</span>
+                        <div className="bg-[#F2D7EE] p-6 border-b border-black">
+                            <div className="flex justify-between items-start mb-4">
+                                <div className="p-3 bg-black text-white rounded-none inline-flex">
+                                    <TrendingUp size={24} />
+                                </div>
+                            </div>
+                            <h3 className="text-3xl font-bold tracking-tight">Growth</h3>
+                            <p className="font-mono text-xs mt-2 text-black/80">FOR SCALING DAPPS</p>
                         </div>
-                        <p className="font-mono text-xs text-[#999] mb-8 h-10">
-                            For scaling dApps with active revenue streams.
-                        </p>
 
-                        <ul className="space-y-4 mb-8 font-mono text-sm">
-                            <li className="flex items-center gap-2"><Check size={16} /> Unlimited subscribers</li>
-                            <li className="flex items-center gap-2"><Check size={16} /> Advanced Analytics</li>
-                            <li className="flex items-center gap-2"><Check size={16} /> Priority Support</li>
-                            <li className="flex items-center gap-2"><Check size={16} /> Custom Domain</li>
-                        </ul>
+                        <div className="p-8 flex-1 flex flex-col">
+                            <div className="mb-8">
+                                <span className="text-5xl font-bold tracking-tighter">0.5%</span>
+                                <span className="text-lg font-medium text-black/60 ml-2">transaction fee</span>
+                            </div>
 
-                        <SubscribeButton
-                            planId="GrowthXXX22222222222222222222222222"
-                            planName="Growth"
-                            amount={0.5}
-                            tokenMint="7XSjE8CZaabDrkP3MxKqL5zJwJtiK1CSuJbHHx9dgv9k"
-                            merchantPubkey="5F2mgGWf8jsJVrNYyvHx8qSTVTK9DdCd5YY77C7kK5H6"
-                        />
+                            <ul className="space-y-4 mb-8 flex-1">
+                                <li className="flex items-start gap-3 text-sm font-medium">
+                                    <Check className="w-5 h-5 shrink-0" />
+                                    <span>Unlimited subscribers</span>
+                                </li>
+                                <li className="flex items-start gap-3 text-sm font-medium">
+                                    <Check className="w-5 h-5 shrink-0" />
+                                    <span>Advanced Analytics</span>
+                                </li>
+                                <li className="flex items-start gap-3 text-sm font-medium">
+                                    <Check className="w-5 h-5 shrink-0" />
+                                    <span>Priority Support</span>
+                                </li>
+                                <li className="flex items-start gap-3 text-sm font-medium">
+                                    <Check className="w-5 h-5 shrink-0" />
+                                    <span>Custom Domain</span>
+                                </li>
+                            </ul>
+
+                            <SubscribeButton
+                                planId="GrowthXXX22222222222222222222222222"
+                                planName="Growth"
+                                amount={0.5}
+                                tokenMint="7XSjE8CZaabDrkP3MxKqL5zJwJtiK1CSuJbHHx9dgv9k"
+                                merchantPubkey="5F2mgGWf8jsJVrNYyvHx8qSTVTK9DdCd5YY77C7kK5H6"
+                            />
+                        </div>
                     </div>
 
-                    {/* Enterprise */}
-                    <div className="p-8 relative group hover:bg-[#fafafa] transition-colors">
-                        <h3 className="text-2xl font-bold mb-2">Enterprise</h3>
-                        <div className="flex items-baseline gap-1 mb-8">
-                            <span className="text-4xl font-bold">Custom</span>
+                    {/* Enterprise Plan */}
+                    <div className="border border-black flex flex-col h-full bg-white relative group">
+                        <div className="bg-[#EBF5C6] p-6 border-b border-black">
+                            <div className="flex justify-between items-start mb-4">
+                                <div className="p-3 bg-black text-white rounded-none inline-flex">
+                                    <Building2 size={24} />
+                                </div>
+                            </div>
+                            <h3 className="text-3xl font-bold tracking-tight">Enterprise</h3>
+                            <p className="font-mono text-xs mt-2 text-black/80">MAXIMUM SCALE</p>
                         </div>
-                        <p className="font-mono text-xs text-[#666] mb-8 h-10">
-                            Volume discounts and dedicated infrastructure.
-                        </p>
 
-                        <ul className="space-y-4 mb-8 font-mono text-sm">
-                            <li className="flex items-center gap-2"><Check size={16} /> Dedicated Nodes</li>
-                            <li className="flex items-center gap-2"><Check size={16} /> SLA Guarantees</li>
-                            <li className="flex items-center gap-2"><Check size={16} /> 24/7 Phone Support</li>
-                            <li className="flex items-center gap-2"><Check size={16} /> On-chain Governance</li>
-                        </ul>
+                        <div className="p-8 flex-1 flex flex-col">
+                            <div className="mb-8">
+                                <span className="text-4xl font-bold tracking-tighter">Custom</span>
+                            </div>
 
-                        <button className="w-full py-3 bg-white border border-black text-black font-bold hover:bg-black hover:text-white transition-all">
-                            Contact Sales
-                        </button>
+                            <ul className="space-y-4 mb-8 flex-1">
+                                <li className="flex items-start gap-3 text-sm font-medium">
+                                    <Check className="w-5 h-5 shrink-0" />
+                                    <span>Dedicated Infrastructure</span>
+                                </li>
+                                <li className="flex items-start gap-3 text-sm font-medium">
+                                    <Check className="w-5 h-5 shrink-0" />
+                                    <span>SLA Guarantees</span>
+                                </li>
+                                <li className="flex items-start gap-3 text-sm font-medium">
+                                    <Check className="w-5 h-5 shrink-0" />
+                                    <span>24/7 Phone Support</span>
+                                </li>
+                                <li className="flex items-start gap-3 text-sm font-medium">
+                                    <Check className="w-5 h-5 shrink-0" />
+                                    <span>On-chain Governance</span>
+                                </li>
+                            </ul>
+
+                            <button className="w-full py-4 bg-transparent border-2 border-black text-black font-bold text-lg hover:bg-black hover:text-white transition-all">
+                                Contact Sales
+                            </button>
+                        </div>
                     </div>
                 </div>
             </main>

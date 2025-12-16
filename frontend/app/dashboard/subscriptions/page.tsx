@@ -3,26 +3,27 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Search, Calendar, AlertTriangle, Check, Pause, Zap, User, CreditCard } from 'lucide-react';
-import { useSubscriptions, useCancelSubscription } from '@/hooks/useSubscriptions';
+import { useSubscriptions, useCancelSubscription, useChargeSubscription } from '@/hooks/useSubscriptions';
 
 export default function SubscriptionsPage() {
     const [searchTerm, setSearchTerm] = useState('');
-    const [isCharging, setIsCharging] = useState<number | null>(null);
-
     const { data: subscribers = [], isLoading, error } = useSubscriptions();
     const cancelSubscription = useCancelSubscription();
+    const chargeSubscription = useChargeSubscription();
 
     const filteredSubs = subscribers.filter((sub: any) =>
         sub.wallet.toLowerCase().includes(searchTerm.toLowerCase()) ||
         sub.plan.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    const handleCharge = async (id: number) => {
-        setIsCharging(id);
-        // Mock Charge - We simulate an on-chain action
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        setIsCharging(null);
-        alert('Charge triggered successfully (Simulated)');
+    const handleCharge = async (pda: string) => {
+        try {
+            await chargeSubscription.mutateAsync(pda);
+            alert('Charge triggered successfully');
+        } catch (err: any) {
+            console.error(err);
+            alert(err.response?.data?.error || 'Failed to charge subscription');
+        }
     };
 
     const handleCancel = async (pda: string) => {
@@ -127,12 +128,12 @@ export default function SubscriptionsPage() {
                                     {sub.status === 'active' && (
                                         <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                             <button
-                                                onClick={() => handleCharge(sub.id)}
-                                                disabled={isCharging === sub.id}
+                                                onClick={() => handleCharge(sub.subscriptionPda)}
+                                                disabled={chargeSubscription.isPending}
                                                 className="p-2 text-black hover:bg-black hover:text-white rounded-lg transition-all"
                                                 title="Charge Subscription"
                                             >
-                                                {isCharging === sub.id ? (
+                                                {chargeSubscription.isPending && chargeSubscription.variables === sub.subscriptionPda ? (
                                                     <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
                                                 ) : (
                                                     <Zap className="w-4 h-4" />

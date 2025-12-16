@@ -1,5 +1,5 @@
 import express from 'express';
-import { activateSubscription, cancelSubscription, pauseSubscription, resumeSubscription, getSubscriptionStatus } from '../controllers/subscriptionController.js';
+import { activateSubscription, cancelSubscription, pauseSubscription, resumeSubscription, getSubscriptionStatus, chargeSubscription } from '../controllers/subscriptionController.js';
 import { validate, validateQuery } from '../middleware/validation.js';
 import { activateSubscriptionSchema, cancelSubscriptionSchema, pauseSubscriptionSchema, resumeSubscriptionSchema, subscriptionStatusQuerySchema } from '../validation/schemas.js';
 
@@ -9,6 +9,7 @@ router.post('/activate', validate(activateSubscriptionSchema), activateSubscript
 router.post('/cancel', validate(cancelSubscriptionSchema), cancelSubscription);
 router.post('/pause', validate(pauseSubscriptionSchema), pauseSubscription);
 router.post('/resume', validate(resumeSubscriptionSchema), resumeSubscription);
+router.post('/charge', chargeSubscription); // Keeping it simple without strict body validation for audit
 router.get('/status', validateQuery(subscriptionStatusQuerySchema), getSubscriptionStatus);
 
 export default router;

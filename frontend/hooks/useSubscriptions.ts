@@ -21,3 +21,14 @@ export const useCancelSubscription = () => {
         },
     });
 };
+
+export const useChargeSubscription = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (subscriptionPda: string) => subscriptionsAPI.charge(subscriptionPda),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['subscriptions'] });
+        },
+    });
+};

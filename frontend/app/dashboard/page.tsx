@@ -1,5 +1,7 @@
 'use client';
 
+import { useState } from 'react';
+
 import { Users, CreditCard, Activity, DollarSign, Plus, TrendingUp, ArrowRight, MoreHorizontal } from 'lucide-react';
 import StatsCard from '@/components/dashboard/StatsCard';
 import RevenueChart from '@/components/dashboard/RevenueChart';
@@ -8,6 +10,7 @@ import Link from 'next/link';
 import { useAnalyticsOverview, useMRR, useChurnRate } from '@/hooks/useAnalytics';
 
 export default function DashboardPage() {
+    const [revenuePeriod, setRevenuePeriod] = useState('Weekly');
     const { data: analyticsData, isLoading: overviewLoading } = useAnalyticsOverview();
     const { data: mrrData, isLoading: mrrLoading } = useMRR();
     const { data: churnData } = useChurnRate();
@@ -88,10 +91,13 @@ export default function DashboardPage() {
                             </div>
                         </div>
                         <div className="flex bg-[#F5F5F5] rounded-lg p-1">
-                            {['Daily', 'Weekly', 'Monthly'].map((period, i) => (
+                            {['Daily', 'Weekly', 'Monthly'].map((period) => (
                                 <button
                                     key={period}
-                                    className={`px-3 py-1 text-xs font-medium rounded-md transition-all ${i === 1 ? 'bg-white shadow-sm text-black' : 'text-[#666] hover:text-black'
+                                    onClick={() => setRevenuePeriod(period)}
+                                    className={`px-3 py-1 text-xs font-medium rounded-md transition-all ${revenuePeriod === period
+                                        ? 'bg-white shadow-sm text-black'
+                                        : 'text-[#666] hover:text-black'
                                         }`}
                                 >
                                     {period}
