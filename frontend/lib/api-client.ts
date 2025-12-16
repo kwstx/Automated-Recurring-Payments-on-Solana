@@ -53,7 +53,9 @@ export const plansAPI = {
     create: (data: any) => apiClient.post('/plan/create', data),
     update: (data: any) => apiClient.post('/plan/update', data),
     delete: (id: number) => apiClient.delete(`/plan/${id}`),
+    delete: (id: number) => apiClient.delete(`/plan/${id}`),
     getSubscribers: (id: number) => apiClient.get(`/plan/${id}/subscribers`),
+    getPublic: (planPda: string) => apiClient.get(`/plan/public/${planPda}`),
 };
 
 // Analytics API
@@ -74,6 +76,7 @@ export const settingsAPI = {
     revokeAPIKey: (id: number) => apiClient.delete(`/settings/api-keys/${id}`),
     getNotifications: () => apiClient.get('/settings/notifications'),
     updateNotifications: (data: any) => apiClient.put('/settings/notifications', data),
+    updateTier: (tier: string) => apiClient.put('/settings/tier', { tier }),
 };
 
 // Webhooks API
@@ -126,6 +129,10 @@ export const invoicesAPI = {
     list: (status?: string) => apiClient.get('/merchant/invoices', { params: { status } }),
     create: (data: any) => apiClient.post('/merchant/invoices', data),
     get: (id: number) => apiClient.get(`/merchant/invoices/${id}`),
+};
+// Notifications API
+export const notificationsAPI = {
+    getRecent: () => apiClient.get('/notifications'),
 };
 
 export { apiClient };

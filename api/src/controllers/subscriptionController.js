@@ -1,5 +1,6 @@
 import db from '../database.js';
 import logger from '../logger.js';
+import { emailService } from '../services/emailService.js';
 import { verifySubscriptionOnChain, verifyTransaction, connection } from '../solana-client.js';
 import { Keypair, PublicKey } from '@solana/web3.js';
 import { Program, AnchorProvider, Wallet } from '@coral-xyz/anchor';
@@ -84,6 +85,36 @@ export const activateSubscription = async (req, res) => {
             subscriptionPda,
             planId
         });
+
+        // Send Welcome Email
+        try {
+            const emailSettings = db.prepare(`
+                SELECT ms.resend_api_key, ms.email_sender, ms.notification_new_sub
+                FROM merchant_settings ms
+                JOIN plans p ON p.merchant_id = ms.merchant_id
+                WHERE p.id = ?
+            `).get(planId);
+
+            if (emailSettings && emailSettings.notification_new_sub) {
+                // Ideally prompt for email or fetch from DB if we had it. 
+                // Currently 'subscriber_email' column exists but isn't passed in body.
+                // Assuming we might have it or skip for now if not passed.
+                // NOTE: frontend needs to capture email.
+                // For now, I'll check if req.body has email, if not, skip.
+                if (req.body.email) {
+                    await emailService.sendWelcomeEmail(
+                        req.body.email,
+                        'Merchant', // TODO: Fetch Merchant Name
+                        plan.name,
+                        plan.amount / Math.pow(10, plan.decimals || 6),
+                        plan.currency,
+                        { apiKey: emailSettings.resend_api_key, fromEmail: emailSettings.email_sender }
+                    );
+                }
+            }
+        } catch (emailErr) {
+            logger.error('Failed to send welcome email', emailErr);
+        }
 
         res.status(201).json({
             message: 'Subscription activated successfully',

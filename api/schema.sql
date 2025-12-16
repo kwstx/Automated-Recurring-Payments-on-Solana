@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS merchants (
   password_hash TEXT NOT NULL,
   email TEXT NOT NULL,
   wallet_address TEXT NOT NULL,
+  tier TEXT DEFAULT 'starter',
   created_at INTEGER DEFAULT (strftime('%s', 'now')),
   updated_at INTEGER DEFAULT (strftime('%s', 'now'))
 );
@@ -168,6 +169,8 @@ CREATE TABLE IF NOT EXISTS merchant_settings (
   notification_new_sub INTEGER DEFAULT 1,
   notification_payment_failed INTEGER DEFAULT 1,
   notification_weekly_summary INTEGER DEFAULT 1,
+  resend_api_key TEXT,
+  email_sender TEXT,
   updated_at INTEGER DEFAULT (strftime('%s', 'now')),
   FOREIGN KEY (merchant_id) REFERENCES merchants(id)
 );

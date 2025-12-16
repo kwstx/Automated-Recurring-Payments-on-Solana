@@ -6,7 +6,9 @@ import {
     generateAPIKey,
     revokeAPIKey,
     getNotificationPreferences,
-    updateNotificationPreferences
+    getNotificationPreferences,
+    updateNotificationPreferences,
+    updateTier
 } from '../controllers/settingsController.js';
 import { authenticateToken } from '../auth.js';
 
@@ -22,5 +24,6 @@ router.delete('/api-keys/:id', authenticateToken, revokeAPIKey);
 
 router.get('/notifications', authenticateToken, getNotificationPreferences);
 router.put('/notifications', authenticateToken, updateNotificationPreferences);
+router.put('/tier', authenticateToken, updateTier);
 
 export default router;

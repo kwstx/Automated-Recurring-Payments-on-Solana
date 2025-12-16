@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Users, CreditCard, Receipt, Settings, Radio, ExternalLink, Activity } from 'lucide-react';
+import { LayoutDashboard, Users, CreditCard, Receipt, Settings, Radio, ExternalLink, Activity, Code } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCompanyDetails } from '@/hooks/useSettings';
 import { useWallet } from '@solana/wallet-adapter-react';
@@ -12,6 +12,7 @@ const menuItems = [
     { icon: CreditCard, label: 'Plans', href: '/dashboard/plans' },
     { icon: Users, label: 'Subscriptions', href: '/dashboard/subscriptions' },
     { icon: Receipt, label: 'Invoices', href: '/dashboard/invoices' },
+    { icon: Code, label: 'Developer Docs', href: '/docs' },
     { icon: Radio, label: 'Webhooks', href: '/dashboard/webhooks' },
     { icon: Activity, label: 'Analytics', href: '/dashboard/analytics' },
     { icon: Settings, label: 'Settings', href: '/dashboard/settings' },

@@ -1,10 +1,62 @@
 'use client';
 
 import LandingHeader from '@/components/LandingHeader';
-import { Check, Zap, TrendingUp, Building2 } from 'lucide-react';
-import SubscribeButton from '@/components/SubscribeButton';
+import { Check, Zap, TrendingUp, Building2, Loader2, ArrowRight } from 'lucide-react';
+import Link from 'next/link';
+import { useCompanyDetails, useUpdateTier } from '@/hooks/useSettings';
+import { useRouter } from 'next/navigation';
 
 export default function PricingPage() {
+    const { data: company, isLoading } = useCompanyDetails();
+    const updateTier = useUpdateTier();
+    const router = useRouter();
+
+    const currentTier = company?.tier || 'starter';
+
+    const handleTierChange = async (tier: string) => {
+        if (!company) {
+            router.push('/login');
+            return;
+        }
+        try {
+            await updateTier.mutateAsync(tier);
+        } catch (error) {
+            alert('Failed to update tier');
+        }
+    };
+
+    const PlanAction = ({ tier, label }: { tier: string, label: string }) => {
+        if (isLoading) return <div className="h-12 w-full bg-gray-100 rounded animate-pulse" />;
+
+        if (!company) {
+            return (
+                <Link href="/login" className="block w-full py-4 bg-black text-white font-bold text-center text-lg hover:opacity-80 transition-all">
+                    Get Started
+                </Link>
+            );
+        }
+
+        const isCurrent = currentTier === tier;
+
+        if (isCurrent) {
+            return (
+                <button disabled className="w-full py-4 bg-gray-100 text-gray-400 font-bold text-lg cursor-not-allowed">
+                    Current Plan
+                </button>
+            );
+        }
+
+        return (
+            <button
+                onClick={() => handleTierChange(tier)}
+                disabled={updateTier.isPending}
+                className="w-full py-4 bg-black text-white font-bold text-lg hover:opacity-80 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+            >
+                {updateTier.isPending ? <Loader2 className="animate-spin" /> : label}
+            </button>
+        );
+    };
+
     return (
         <div className="min-h-screen bg-white text-black font-sans selection:bg-[#F2D7EE]">
             <LandingHeader />
@@ -53,13 +105,7 @@ export default function PricingPage() {
                                 </li>
                             </ul>
 
-                            <SubscribeButton
-                                planId="StarterXX11111111111111111111111111"
-                                planName="Starter"
-                                amount={0}
-                                tokenMint="7XSjE8CZaabDrkP3MxKqL5zJwJtiK1CSuJbHHx9dgv9k"
-                                merchantPubkey="5F2mgGWf8jsJVrNYyvHx8qSTVTK9DdCd5YY77C7kK5H6"
-                            />
+                            <PlanAction tier="starter" label="Downgrade to Starter" />
                         </div>
                     </div>
 
@@ -80,7 +126,7 @@ export default function PricingPage() {
 
                         <div className="p-8 flex-1 flex flex-col">
                             <div className="mb-8">
-                                <span className="text-5xl font-bold tracking-tighter">0.5%</span>
+                                <span className="text-5xl font-bold tracking-tighter">5%</span>
                                 <span className="text-lg font-medium text-black/60 ml-2">transaction fee</span>
                             </div>
 
@@ -103,13 +149,7 @@ export default function PricingPage() {
                                 </li>
                             </ul>
 
-                            <SubscribeButton
-                                planId="GrowthXXX22222222222222222222222222"
-                                planName="Growth"
-                                amount={0.5}
-                                tokenMint="7XSjE8CZaabDrkP3MxKqL5zJwJtiK1CSuJbHHx9dgv9k"
-                                merchantPubkey="5F2mgGWf8jsJVrNYyvHx8qSTVTK9DdCd5YY77C7kK5H6"
-                            />
+                            <PlanAction tier="growth" label="Upgrade to Growth" />
                         </div>
                     </div>
 
@@ -149,9 +189,11 @@ export default function PricingPage() {
                                 </li>
                             </ul>
 
-                            <button className="w-full py-4 bg-transparent border-2 border-black text-black font-bold text-lg hover:bg-black hover:text-white transition-all">
-                                Contact Sales
-                            </button>
+                            <Link href="mailto:sales@zyopay.com">
+                                <button className="w-full py-4 bg-transparent border-2 border-black text-black font-bold text-lg hover:bg-black hover:text-white transition-all">
+                                    Contact Sales
+                                </button>
+                            </Link>
                         </div>
                     </div>
                 </div>

@@ -19,6 +19,7 @@ import settingsRoutes from './routes/settingsRoutes.js';
 import usageRoutes from './routes/usageRoutes.js';
 import invoiceRoutes from './routes/invoiceRoutes.js';
 import auditRoutes from './routes/auditRoutes.js';
+import notificationRoutes from './routes/notificationRoutes.js';
 import { apiLimiter, authLimiter, subscriptionLimiter } from './middleware/rateLimiter.js';
 import { startMetadataSyncScheduler } from './metadata-scheduler.js';
 import { startWebhookRetryScheduler } from './webhook-retry-scheduler.js';
@@ -68,6 +69,7 @@ app.use('/settings', apiLimiter, settingsRoutes);
 app.use('/usage', apiLimiter, usageRoutes);
 app.use('/invoices', apiLimiter, invoiceRoutes);
 app.use('/audit', apiLimiter, auditRoutes);
+app.use('/notifications', apiLimiter, notificationRoutes);
 
 // Debug Sentry
 app.get('/debug-sentry', function mainHandler(req, res) {

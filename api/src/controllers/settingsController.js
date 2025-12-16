@@ -9,7 +9,7 @@ export const getCompanyDetails = (req, res) => {
 
     try {
         // Get merchant details for wallet address
-        const merchant = db.prepare(`SELECT wallet_address FROM merchants WHERE id = ?`).get(merchantId);
+        const merchant = db.prepare(`SELECT wallet_address, tier FROM merchants WHERE id = ?`).get(merchantId);
 
         let settings = db.prepare(`
             SELECT * FROM merchant_settings WHERE merchant_id = ?
@@ -32,7 +32,8 @@ export const getCompanyDetails = (req, res) => {
             supportEmail: settings.support_email,
             brandColor: settings.brand_color,
             logoUrl: settings.logo_url,
-            walletAddress: merchant ? merchant.wallet_address : null
+            walletAddress: merchant ? merchant.wallet_address : null,
+            tier: merchant ? (merchant.tier || 'starter') : 'starter'
         });
     } catch (error) {
         logger.error('Get company details error', { error: error.message, merchantId });
@@ -177,7 +178,9 @@ export const getNotificationPreferences = (req, res) => {
         res.json({
             notificationNewSub: settings.notification_new_sub === 1,
             notificationPaymentFailed: settings.notification_payment_failed === 1,
-            notificationWeeklySummary: settings.notification_weekly_summary === 1
+            notificationWeeklySummary: settings.notification_weekly_summary === 1,
+            resendApiKey: settings.resend_api_key || '',
+            emailSender: settings.email_sender || ''
         });
     } catch (error) {
         logger.error('Get notification preferences error', { error: error.message, merchantId });
@@ -188,29 +191,59 @@ export const getNotificationPreferences = (req, res) => {
 // Update notification preferences
 export const updateNotificationPreferences = (req, res) => {
     const merchantId = req.user.id;
-    const { notificationNewSub, notificationPaymentFailed, notificationWeeklySummary } = req.body;
+    const { notificationNewSub, notificationPaymentFailed, notificationWeeklySummary, resendApiKey, emailSender } = req.body;
 
     try {
         db.prepare(`
             INSERT INTO merchant_settings (
-                merchant_id, notification_new_sub, notification_payment_failed, notification_weekly_summary, updated_at
-            ) VALUES (?, ?, ?, ?, strftime('%s', 'now'))
+                merchant_id, notification_new_sub, notification_payment_failed, notification_weekly_summary, resend_api_key, email_sender, updated_at
+            ) VALUES (?, ?, ?, ?, ?, ?, strftime('%s', 'now'))
             ON CONFLICT(merchant_id) DO UPDATE SET
                 notification_new_sub = excluded.notification_new_sub,
                 notification_payment_failed = excluded.notification_payment_failed,
                 notification_weekly_summary = excluded.notification_weekly_summary,
+                resend_api_key = excluded.resend_api_key,
+                email_sender = excluded.email_sender,
                 updated_at = excluded.updated_at
         `).run(
             merchantId,
             notificationNewSub ? 1 : 0,
             notificationPaymentFailed ? 1 : 0,
-            notificationWeeklySummary ? 1 : 0
+            notificationWeeklySummary ? 1 : 0,
+            resendApiKey || null,
+            emailSender || null
         );
 
         logger.info('Notification preferences updated', { merchantId });
         res.json({ message: 'Notification preferences updated successfully' });
     } catch (error) {
         logger.error('Update notification preferences error', { error: error.message, merchantId });
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
+// Update merchant tier
+export const updateTier = (req, res) => {
+    const merchantId = req.user.id;
+    const { tier } = req.body;
+
+    if (!['starter', 'growth', 'enterprise'].includes(tier)) {
+        return res.status(400).json({ error: 'Invalid tier' });
+    }
+
+    try {
+        const result = db.prepare(`
+            UPDATE merchants 
+            SET tier = ?, updated_at = strftime('%s', 'now')
+            WHERE id = ?
+        `).run(tier, merchantId);
+
+        logger.info('Merchant tier updated', { merchantId, tier });
+        auditService.log(merchantId, 'update_tier', 'merchant', merchantId, { tier });
+
+        res.json({ message: 'Tier updated successfully', tier });
+    } catch (error) {
+        logger.error('Update tier error', { error: error.message, merchantId });
         res.status(500).json({ error: 'Internal server error' });
     }
 };

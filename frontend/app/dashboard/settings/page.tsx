@@ -7,6 +7,7 @@ import { useCompanyDetails, useUpdateCompany, useAPIKeys, useGenerateAPIKey, use
 import AuditLogTable from '@/components/dashboard/AuditLogTable';
 
 export default function SettingsPage() {
+    const { data: company } = useCompanyDetails();
     const [activeTab, setActiveTab] = useState('company');
 
     const tabs = [
@@ -84,7 +85,7 @@ export default function SettingsPage() {
                                     </div>
                                     <div className="text-sm">
                                         <p className="text-black font-bold text-xs">Email Verified</p>
-                                        <p className="text-[#666] text-xs font-medium">admin@zyopay.com</p>
+                                        <p className="text-[#666] text-xs font-medium">{company?.supportEmail || 'admin@example.com'}</p>
                                     </div>
                                 </div>
                             </div>
@@ -170,7 +171,7 @@ function CompanySettings() {
                             type="text"
                             value={formData.companyName || ''}
                             onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
-                            placeholder="ZyoPay Inc."
+                            placeholder="Acme Corp"
                             className="w-full bg-[#F8F9FA] border border-[#EAEAEA] rounded-xl py-3 pl-11 pr-4 text-black text-sm font-medium placeholder-[#999] focus:border-black/20 focus:bg-white outline-none transition-all"
                         />
                     </div>
@@ -186,7 +187,7 @@ function CompanySettings() {
                             type="text"
                             value={formData.companyWebsite || ''}
                             onChange={(e) => setFormData({ ...formData, companyWebsite: e.target.value })}
-                            placeholder="https://zyopay.com"
+                            placeholder="https://example.com"
                             className="w-full bg-[#F8F9FA] border border-[#EAEAEA] rounded-xl py-3 pl-11 pr-4 text-black text-sm font-medium placeholder-[#999] focus:border-black/20 focus:bg-white outline-none transition-all"
                         />
                     </div>
@@ -202,7 +203,7 @@ function CompanySettings() {
                             type="email"
                             value={formData.supportEmail || ''}
                             onChange={(e) => setFormData({ ...formData, supportEmail: e.target.value })}
-                            placeholder="contact@zyopay.com"
+                            placeholder="support@example.com"
                             className="w-full bg-[#F8F9FA] border border-[#EAEAEA] rounded-xl py-3 pl-11 pr-4 text-black text-sm font-medium placeholder-[#999] focus:border-black/20 focus:bg-white outline-none transition-all"
                         />
                     </div>
@@ -215,7 +216,7 @@ function CompanySettings() {
                         value={formData.address || ''}
                         onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                         className="w-full bg-[#F8F9FA] border border-[#EAEAEA] rounded-xl p-4 text-black text-sm font-medium placeholder-[#999] focus:border-black/20 focus:bg-white outline-none transition-all resize-none"
-                        placeholder="123 Solana Way, Crypto Valley, CA 94000"
+                        placeholder="123 Market St, San Francisco, CA 94105"
                     />
                 </div>
 
@@ -495,51 +496,109 @@ function NotificationSettings() {
         'Payout Processed': true
     });
 
+    const [emailConfig, setEmailConfig] = useState({
+        resendApiKey: '',
+        emailSender: ''
+    });
+
     useEffect(() => {
         if (preferences) {
             setToggles({
-                'New Subscription': preferences.newSubscription,
-                'Payment Failed': preferences.paymentFailed,
-                'Plan Cancelled': preferences.planCancelled,
-                'Payout Processed': preferences.payoutProcessed
+                'New Subscription': preferences.notificationNewSub,
+                'Payment Failed': preferences.notificationPaymentFailed,
+                'Plan Cancelled': preferences.planCancelled || true, // Default
+                'Payout Processed': preferences.notificationWeeklySummary // Mapped
+            });
+            setEmailConfig({
+                resendApiKey: preferences.resendApiKey || '',
+                emailSender: preferences.emailSender || ''
             });
         }
     }, [preferences]);
 
-    const handleToggle = async (key: string) => {
+    const handleToggle = (key: string) => {
         const newState = { ...toggles, [key]: !toggles[key] };
         setToggles(newState);
+    };
 
+    const handleSave = async () => {
         try {
             await updatePreferences.mutateAsync({
-                newSubscription: newState['New Subscription'],
-                paymentFailed: newState['Payment Failed'],
-                planCancelled: newState['Plan Cancelled'],
-                payoutProcessed: newState['Payout Processed']
+                notificationNewSub: toggles['New Subscription'],
+                notificationPaymentFailed: toggles['Payment Failed'],
+                notificationWeeklySummary: toggles['Payout Processed'],
+                resendApiKey: emailConfig.resendApiKey,
+                emailSender: emailConfig.emailSender
             });
+            alert('Notification settings updated successfully');
         } catch (error) {
             console.error('Failed to update notifications:', error);
-            setToggles(toggles);
+            alert('Failed to update notification settings');
         }
     };
 
     if (isLoading) return <div className="p-8 text-center text-sm text-[#999]">Loading preferences...</div>;
 
     return (
-        <SettingsSection title="Email Notifications" description="Select which activity updates to receive.">
-            <div className="space-y-4">
-                {Object.keys(toggles).map((item) => (
-                    <div
-                        key={item}
-                        className="flex items-center justify-between p-4 border border-[#EAEAEA] bg-[#F8F9FA] rounded-xl hover:bg-white hover:border-black/20 hover:shadow-sm transition-all cursor-pointer"
-                        onClick={() => handleToggle(item)}
-                    >
-                        <span className="text-black font-bold text-sm">{item}</span>
-                        <div className={`w-11 h-6 rounded-full relative transition-colors duration-200 ${toggles[item] ? 'bg-black' : 'bg-[#EAEAEA]'}`}>
-                            <div className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow-sm transition-all duration-200 ${toggles[item] ? 'right-1' : 'left-1'}`} />
+        <SettingsSection title="Email Notifications" description="Configure email alerts and receipts.">
+            <div className="space-y-6">
+                {/* Email Provider Config */}
+                <div className="p-5 bg-[#F8F9FA] rounded-xl border border-[#EAEAEA]">
+                    <h3 className="text-black font-bold text-sm mb-4 flex items-center gap-2">
+                        <Mail className="w-4 h-4" />
+                        Email Provider (Resend)
+                    </h3>
+                    <div className="grid grid-cols-1 gap-4">
+                        <div>
+                            <label className="block text-xs font-bold text-[#666] mb-2">Resend API Key</label>
+                            <input
+                                type="password"
+                                placeholder="re_123..."
+                                className="w-full bg-white border border-[#EAEAEA] rounded-xl px-4 py-2.5 outline-none text-sm font-medium focus:border-black/20 transition-all"
+                                value={emailConfig.resendApiKey}
+                                onChange={e => setEmailConfig({ ...emailConfig, resendApiKey: e.target.value })}
+                            />
+                            <p className="text-[10px] text-[#999] mt-1">Leave empty to use ZyoPay's default sender (limited).</p>
+                        </div>
+                        <div>
+                            <label className="block text-xs font-bold text-[#666] mb-2">From Email</label>
+                            <input
+                                type="email"
+                                placeholder="billing@yourcompany.com"
+                                className="w-full bg-white border border-[#EAEAEA] rounded-xl px-4 py-2.5 outline-none text-sm font-medium focus:border-black/20 transition-all"
+                                value={emailConfig.emailSender}
+                                onChange={e => setEmailConfig({ ...emailConfig, emailSender: e.target.value })}
+                            />
                         </div>
                     </div>
-                ))}
+                </div>
+
+                {/* Toggles */}
+                <h3 className="text-black font-bold text-sm">Alert Preferences</h3>
+                <div className="space-y-3">
+                    {Object.keys(toggles).map((item) => (
+                        <div
+                            key={item}
+                            className="flex items-center justify-between p-4 border border-[#EAEAEA] rounded-xl hover:border-black/20 transition-all cursor-pointer bg-white"
+                            onClick={() => handleToggle(item)}
+                        >
+                            <span className="text-black font-bold text-sm">{item}</span>
+                            <div className={`w-11 h-6 rounded-full relative transition-colors duration-200 ${toggles[item] ? 'bg-black' : 'bg-[#EAEAEA]'}`}>
+                                <div className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow-sm transition-all duration-200 ${toggles[item] ? 'right-1' : 'left-1'}`} />
+                            </div>
+                        </div>
+                    ))}
+                </div>
+
+                <div className="flex justify-end pt-4">
+                    <button
+                        onClick={handleSave}
+                        disabled={updatePreferences.isPending}
+                        className="px-6 py-2.5 bg-black text-white font-bold text-sm rounded-xl hover:bg-[#1a1a1a] shadow-lg shadow-black/10 transition-all disabled:opacity-50 flex items-center gap-2"
+                    >
+                        {updatePreferences.isPending ? 'Saving...' : 'Save Settings'}
+                    </button>
+                </div>
             </div>
         </SettingsSection>
     )

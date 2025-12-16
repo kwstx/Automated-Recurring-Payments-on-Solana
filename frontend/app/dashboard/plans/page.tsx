@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Plus, Search, Edit2, Users, Trash2, Check, Pause, Loader2, Package } from 'lucide-react';
+import { Plus, Search, Edit2, Users, Trash2, Check, Pause, Loader2, Package, Copy } from 'lucide-react';
 import Link from 'next/link';
 import { usePlans, useDeletePlan, useUpdatePlan } from '@/hooks/usePlans';
 
@@ -141,7 +141,18 @@ export default function PlansPage() {
                                     </button>
                                 </div>
 
-                                <div className="col-span-2 flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <div className="col-span-2 flex items-center justify-end gap-1">
+                                    <button
+                                        onClick={() => {
+                                            const link = `${window.location.origin}/pay/${plan.plan_pda}`;
+                                            navigator.clipboard.writeText(link);
+                                            alert('Checkout link copied to clipboard!');
+                                        }}
+                                        className="p-2 text-[#666] hover:text-black hover:bg-white hover:shadow-sm rounded-lg transition-all"
+                                        title="Copy Checkout Link"
+                                    >
+                                        <Copy className="w-4 h-4" />
+                                    </button>
                                     <button className="p-2 text-[#666] hover:text-black hover:bg-white hover:shadow-sm rounded-lg transition-all" title="Edit Plan">
                                         <Edit2 className="w-4 h-4" />
                                     </button>
@@ -171,6 +182,6 @@ export default function PlansPage() {
                     </div>
                 )}
             </div>
-        </div>
+        </div >
     );
 }

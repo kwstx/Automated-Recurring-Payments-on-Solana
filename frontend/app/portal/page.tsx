@@ -2,7 +2,7 @@
 
 import LandingHeader from '@/components/LandingHeader';
 import { motion } from 'framer-motion';
-import { Wallet, Loader2 } from 'lucide-react';
+import { Wallet, Loader2, ExternalLink } from 'lucide-react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { useEffect, useState } from 'react';
@@ -153,63 +153,75 @@ export default function PortalPage() {
                                                     </div>
                                                     <span className="font-mono text-xs text-black border border-black px-1">{sub.plan}</span>
                                                 </div>
+                                            </div>
+                                            <div className="flex gap-2">
+                                                <a
+                                                    href={`https://explorer.solana.com/address/${sub.subscriptionPda}?cluster=devnet`}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="text-gray-400 hover:text-black transition-colors"
+                                                    title="View on Solana Explorer"
+                                                >
+                                                    <ExternalLink className="w-4 h-4" />
+                                                </a>
                                                 <div className={`px-2 py-0.5 text-[10px] font-bold border border-black ${sub.status === 'active' ? 'bg-[#EAEAEA] text-black' : 'bg-black text-white'}`}>
                                                     {sub.status}
                                                 </div>
                                             </div>
+                                        </div>
 
-                                            <div className="space-y-3 mb-8 font-mono text-sm">
-                                                <div className="flex justify-between items-center border-b border-[#EAEAEA] pb-2">
-                                                    <span className="text-[#666]">Amount</span>
-                                                    <span className="font-bold">${sub.price} <span className="text-xs font-normal text-[#999]">{sub.currency}</span></span>
-                                                </div>
-                                                <div className="flex justify-between items-center border-b border-[#EAEAEA] pb-2">
-                                                    <span className="text-[#666]">Next Charge</span>
-                                                    <span className="font-bold">{sub.nextBilling ? new Date(sub.nextBilling * 1000).toLocaleDateString() : '-'}</span>
-                                                </div>
-                                                <div className="flex justify-between items-center border-b border-[#EAEAEA] pb-2">
-                                                    <span className="text-[#666]">Interval</span>
-                                                    <span className="font-bold">{sub.interval}</span>
-                                                </div>
+                                        <div className="space-y-3 mb-8 font-mono text-sm">
+                                            <div className="flex justify-between items-center border-b border-[#EAEAEA] pb-2">
+                                                <span className="text-[#666]">Amount</span>
+                                                <span className="font-bold">${sub.price} <span className="text-xs font-normal text-[#999]">{sub.currency}</span></span>
                                             </div>
-
-                                            <div className="grid grid-cols-2 gap-3">
-                                                {sub.status === 'active' ? (
-                                                    <>
-                                                        <button
-                                                            onClick={() => handleAction('pause', sub.id)}
-                                                            disabled={pause.isPending}
-                                                            className="py-2.5 border border-black text-xs font-bold hover:bg-[#EAEAEA] transition-colors disabled:opacity-50"
-                                                        >
-                                                            {pause.isPending ? 'Pausing...' : 'Pause'}
-                                                        </button>
-                                                        <UnsubscribeButton
-                                                            subscriptionPda={sub.subscriptionPda}
-                                                            subscriptionId={sub.id}
-                                                        />
-                                                    </>
-                                                ) : sub.status === 'paused' ? (
-                                                    <button
-                                                        onClick={() => handleAction('resume', sub.id)}
-                                                        disabled={resume.isPending}
-                                                        className="col-span-2 py-2.5 border border-black bg-black text-white text-xs font-bold hover:bg-[#333] transition-colors disabled:opacity-50"
-                                                    >
-                                                        {resume.isPending ? 'Resuming...' : 'Resume Subscription'}
-                                                    </button>
-                                                ) : (
-                                                    <div className="col-span-2 text-center py-2.5 text-xs font-mono text-[#999] border border-[#EAEAEA] bg-[#f9f9f9]">
-                                                        Subscription Cancelled
-                                                    </div>
-                                                )}
+                                            <div className="flex justify-between items-center border-b border-[#EAEAEA] pb-2">
+                                                <span className="text-[#666]">Next Charge</span>
+                                                <span className="font-bold">{sub.nextBilling ? new Date(sub.nextBilling * 1000).toLocaleDateString() : '-'}</span>
+                                            </div>
+                                            <div className="flex justify-between items-center border-b border-[#EAEAEA] pb-2">
+                                                <span className="text-[#666]">Interval</span>
+                                                <span className="font-bold">{sub.interval}</span>
                                             </div>
                                         </div>
+
+                                        <div className="grid grid-cols-2 gap-3">
+                                            {sub.status === 'active' ? (
+                                                <>
+                                                    <button
+                                                        onClick={() => handleAction('pause', sub.id)}
+                                                        disabled={pause.isPending}
+                                                        className="py-2.5 border border-black text-xs font-bold hover:bg-[#EAEAEA] transition-colors disabled:opacity-50"
+                                                    >
+                                                        {pause.isPending ? 'Pausing...' : 'Pause'}
+                                                    </button>
+                                                    <UnsubscribeButton
+                                                        subscriptionPda={sub.subscriptionPda}
+                                                        subscriptionId={sub.id}
+                                                    />
+                                                </>
+                                            ) : sub.status === 'paused' ? (
+                                                <button
+                                                    onClick={() => handleAction('resume', sub.id)}
+                                                    disabled={resume.isPending}
+                                                    className="col-span-2 py-2.5 border border-black bg-black text-white text-xs font-bold hover:bg-[#333] transition-colors disabled:opacity-50"
+                                                >
+                                                    {resume.isPending ? 'Resuming...' : 'Resume Subscription'}
+                                                </button>
+                                            ) : (
+                                                <div className="col-span-2 text-center py-2.5 text-xs font-mono text-[#999] border border-[#EAEAEA] bg-[#f9f9f9]">
+                                                    Subscription Cancelled
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
+
                                 ))}
                             </div>
                         )}
                     </div>
                 </main>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 }

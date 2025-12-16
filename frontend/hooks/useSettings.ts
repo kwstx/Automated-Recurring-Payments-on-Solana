@@ -74,3 +74,14 @@ export const useUpdateNotifications = () => {
         },
     });
 };
+
+export const useUpdateTier = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (tier: string) => settingsAPI.updateTier(tier),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['settings', 'company'] });
+        },
+    });
+};

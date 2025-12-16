@@ -1,21 +1,24 @@
-import { Resend } from 'resend';
-import logger from '../logger.js';
+const getResendClient = (apiKey) => {
+    if (apiKey) return new Resend(apiKey);
+    return new Resend(process.env.RESEND_API_KEY || 're_123456789');
+};
 
-// Initialize Resend
-// Defaults to a placeholder if not set, preventing startup crash but logging errors on send
-const resend = new Resend(process.env.RESEND_API_KEY || 're_123456789');
-
-const EMAIL_FROM = process.env.EMAIL_FROM || 'onboarding@resend.dev';
+const getSender = (fromEmail) => {
+    return fromEmail || process.env.EMAIL_FROM || 'onboarding@resend.dev';
+};
 
 export const emailService = {
 
     /**
      * Send Welcome Email on New Subscription
      */
-    sendWelcomeEmail: async (toEmail, merchantName, planName, amount, currency) => {
+    sendWelcomeEmail: async (toEmail, merchantName, planName, amount, currency, config = {}) => {
         try {
+            const resend = getResendClient(config.apiKey);
+            const from = getSender(config.fromEmail);
+
             const { data, error } = await resend.emails.send({
-                from: EMAIL_FROM,
+                from: from,
                 to: toEmail,
                 subject: `Welcome to ${planName}!`,
                 html: `
@@ -42,10 +45,13 @@ export const emailService = {
     /**
      * Send Receipt on Successful Payment
      */
-    sendReceipt: async (toEmail, merchantName, planName, amount, currency, txSignature) => {
+    sendReceipt: async (toEmail, merchantName, planName, amount, currency, txSignature, config = {}) => {
         try {
+            const resend = getResendClient(config.apiKey);
+            const from = getSender(config.fromEmail);
+
             const { data, error } = await resend.emails.send({
-                from: EMAIL_FROM,
+                from: from,
                 to: toEmail,
                 subject: `Payment Receipt - ${merchantName}`,
                 html: `
@@ -72,10 +78,13 @@ export const emailService = {
     /**
      * Send Payment Failed (Dunning) Alert
      */
-    sendPaymentFailed: async (toEmail, merchantName, planName, amount, currency, reason) => {
+    sendPaymentFailed: async (toEmail, merchantName, planName, amount, currency, reason, config = {}) => {
         try {
+            const resend = getResendClient(config.apiKey);
+            const from = getSender(config.fromEmail);
+
             const { data, error } = await resend.emails.send({
-                from: EMAIL_FROM,
+                from: from,
                 to: toEmail,
                 subject: `Action Required: Payment Failed for ${merchantName}`,
                 html: `
@@ -103,10 +112,13 @@ export const emailService = {
     /**
      * Send Renewal Notification
      */
-    sendRenewalNotification: async (toEmail, { merchantName, planName, renewalDate, amount, currency }) => {
+    sendRenewalNotification: async (toEmail, { merchantName, planName, renewalDate, amount, currency }, config = {}) => {
         try {
+            const resend = getResendClient(config.apiKey);
+            const from = getSender(config.fromEmail);
+
             const { data, error } = await resend.emails.send({
-                from: EMAIL_FROM,
+                from: from,
                 to: toEmail,
                 subject: `Upcoming Renewal: ${merchantName}`,
                 html: `

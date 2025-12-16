@@ -42,7 +42,8 @@ export const register = (req, res) => {
             merchant: {
                 id: result.lastInsertRowid,
                 username,
-                walletAddress: 'Pending_Setup'
+                walletAddress: 'Pending_Setup',
+                tier: 'starter'
             }
         });
     } catch (error) {
@@ -86,7 +87,8 @@ export const login = (req, res) => {
             merchant: {
                 id: merchant.id,
                 username: merchant.username,
-                walletAddress: merchant.wallet_address
+                walletAddress: merchant.wallet_address,
+                tier: merchant.tier || 'starter'
             }
         });
     } catch (error) {
