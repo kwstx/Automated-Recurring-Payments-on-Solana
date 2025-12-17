@@ -49,9 +49,9 @@ const LoginForm = ({ role, isMerchant }: { role: string; isMerchant: boolean }) 
                 Choose Role
             </Link>
 
-            <div className="grid grid-cols-1 md:grid-cols-[40%_1fr] border border-[#a3a3a3]">
+            <div className="grid grid-cols-1 md:grid-cols-[40%_1fr] border border-black bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-xl overflow-hidden">
                 {/* Left Column: Header */}
-                <div className="relative p-8 md:p-10 border-b md:border-b-0 md:border-r border-[#a3a3a3] flex flex-col justify-between">
+                <div className="relative p-8 md:p-10 border-b md:border-b-0 md:border-r border-black flex flex-col justify-between">
                     <div>
                         <span className="text-xs font-mono font-bold mb-6 block">[01] LOGIN</span>
                         <h1 className="text-3xl md:text-4xl font-bold leading-[0.9] text-black mb-4">
@@ -73,7 +73,7 @@ const LoginForm = ({ role, isMerchant }: { role: string; isMerchant: boolean }) 
                                 type="text"
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
-                                className="w-full bg-transparent border-b border-[#a3a3a3] px-0 py-3 text-[#1a1a1a] placeholder:text-[#999] outline-none focus:border-black transition-colors text-sm"
+                                className="w-full bg-white border border-black rounded-lg px-4 py-3 text-[#1a1a1a] placeholder:text-[#999] outline-none focus:ring-2 focus:ring-black/10 transition-all text-sm font-medium"
                                 placeholder={isMerchant ? "acme_inc" : "user_123"}
                                 required
                             />
@@ -86,7 +86,7 @@ const LoginForm = ({ role, isMerchant }: { role: string; isMerchant: boolean }) 
                                 type="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="w-full bg-transparent border-b border-[#a3a3a3] px-0 py-3 text-[#1a1a1a] placeholder:text-[#999] outline-none focus:border-black transition-colors text-sm"
+                                className="w-full bg-white border border-black rounded-lg px-4 py-3 text-[#1a1a1a] placeholder:text-[#999] outline-none focus:ring-2 focus:ring-black/10 transition-all text-sm font-medium"
                                 placeholder="••••••••"
                                 required
                             />
@@ -106,7 +106,7 @@ const LoginForm = ({ role, isMerchant }: { role: string; isMerchant: boolean }) 
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className="w-full py-4 bg-black text-white font-bold text-sm hover:bg-[#1a1a1a] active:scale-[0.99] transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                            className="w-full py-4 bg-black text-white font-bold text-sm rounded-lg hover:translate-y-[-2px] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] active:translate-y-[0px] active:shadow-none transition-all disabled:opacity-50 flex items-center justify-center gap-2"
                         >
                             {isLoading ? (
                                 <Loader2 className="w-5 h-5 animate-spin" />
@@ -115,7 +115,7 @@ const LoginForm = ({ role, isMerchant }: { role: string; isMerchant: boolean }) 
                             )}
                         </button>
 
-                        <div className="pt-4 text-center border-t border-[#d4d4d4]">
+                        <div className="pt-4 text-center border-t border-black/10">
                             <p className="text-xs text-[#666]">
                                 Don&apos;t have an account?{' '}
                                 <Link href={`/register`} className="text-black font-bold hover:underline transition-all">
@@ -143,7 +143,7 @@ const RoleSelection = () => {
                     <ArrowLeft className="w-3 h-3" />
                     Back home
                 </Link>
-                <h1 className="text-4xl md:text-5xl font-bold leading-[1.1] mb-6 text-black">
+                <h1 className="text-5xl md:text-6xl font-black tracking-tighter leading-[0.9] mb-6 text-black">
                     Choose Your Access Type
                 </h1>
                 <p className="text-[#666] text-sm md:text-base font-medium tracking-normal max-w-xl mx-auto leading-relaxed">
@@ -203,19 +203,8 @@ function LoginContent() {
     const roleParam = searchParams.get('role');
 
     return (
-        <div className="relative min-h-screen flex flex-col text-black font-sans overflow-x-hidden">
-            {/* Background Image Gradient */}
-            <div className="fixed inset-0 -z-10 pointer-events-none">
-                <div className="relative w-full h-full">
-                    <Image
-                        src="/resources-bg-v2.png"
-                        alt="Background Gradient"
-                        fill
-                        className="object-cover opacity-100 object-top"
-                        priority
-                    />
-                </div>
-            </div>
+        <div className="relative min-h-screen bg-white flex flex-col text-black font-sans overflow-x-hidden">
+
 
             <LandingHeader transparent={true} />
 

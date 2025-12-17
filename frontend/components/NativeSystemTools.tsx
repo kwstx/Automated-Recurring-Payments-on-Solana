@@ -10,10 +10,10 @@ export default function NativeSystemTools() {
             <div className="max-w-7xl mx-auto">
 
                 {/* Headline */}
-                <div className="max-w-4xl mb-20 text-center md:text-left mx-auto md:mx-0">
-                    <h2 className="text-3xl md:text-5xl font-bold leading-[1.2] tracking-tight text-black">
+                <div className="max-w-6xl mb-20 text-center md:text-left mx-auto md:mx-0">
+                    <h2 className="text-5xl md:text-6xl font-black tracking-tighter leading-[0.9] text-black">
                         Native on-chain logic, instant settlement, and powerful{" "}
-                        <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#E699D9] to-[#80E0B0] font-bold">
+                        <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#E699D9] to-[#80E0B0] font-black">
                             SDKs make ZyoPay
                         </span>{" "}
                         the ultimate infrastructure for recurring revenue.

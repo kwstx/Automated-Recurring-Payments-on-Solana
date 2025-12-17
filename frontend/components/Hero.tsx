@@ -67,10 +67,10 @@ export default function Hero() {
             transition={{ duration: 0.6 }}
             className="text-center mb-0 relative z-20"
           >
-            <h2 className="text-3xl md:text-5xl font-bold tracking-tight leading-[1.1] text-black mb-6 max-w-4xl mx-auto">
-              Automate your billing on chain<br className="hidden md:block" />
+            <h1 className="text-5xl md:text-6xl font-black tracking-tighter text-black leading-[0.9] mb-8">
+              Automate your billing on chain<br />
               with solana subscriptions.
-            </h2>
+            </h1>
             <p className="text-[#666] text-sm md:text-base font-medium tracking-normal max-w-3xl mx-auto">
               Automated recurring revenue infrastructure for the modern web3 economy [2025]
             </p>

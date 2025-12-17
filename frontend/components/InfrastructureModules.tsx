@@ -60,7 +60,7 @@ export default function InfrastructureModules() {
         <section className="relative z-10 w-full py-24 px-4 md:px-8 bg-white text-[#1a1a1a]">
             {/* Centered Header */}
             <div className="max-w-7xl mx-auto text-center mb-16">
-                <h2 className="text-4xl md:text-6xl font-bold tracking-tight leading-tight text-black">
+                <h2 className="text-5xl md:text-6xl font-black tracking-tighter text-black leading-[0.9]">
                     One platform for different<br />
                     crypto operations
                 </h2>

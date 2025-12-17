@@ -6,26 +6,15 @@ import Image from 'next/image';
 
 export default function WebhooksPage() {
     return (
-        <div className="min-h-screen text-black font-sans relative overflow-x-hidden">
+        <div className="min-h-screen bg-white text-black font-sans relative overflow-x-hidden">
 
-            {/* Background Image Gradient */}
-            <div className="fixed inset-0 -z-10 pointer-events-none">
-                <div className="relative w-full h-full">
-                    <Image
-                        src="/resources-bg-v2.png"
-                        alt="Background Gradient"
-                        fill
-                        className="object-cover opacity-100 object-top"
-                        priority
-                    />
-                </div>
-            </div>
+
 
             <LandingHeader transparent={true} />
 
             <main className="max-w-[1600px] mx-auto px-4 md:px-6 py-12 lg:py-24">
                 <div className="mb-16">
-                    <h1 className="text-5xl md:text-7xl font-bold leading-[0.9] mb-8">
+                    <h1 className="text-5xl md:text-6xl font-black tracking-tighter mb-8 leading-[0.9]">
                         Real-Time<br />
                         Event Streams
                     </h1>

@@ -63,8 +63,8 @@ export default function PricingPage() {
 
             <main className="max-w-7xl mx-auto px-4 md:px-6 py-12 lg:py-20">
                 <div className="text-center max-w-3xl mx-auto mb-20">
-                    <h1 className="text-6xl md:text-8xl font-bold tracking-tighter mb-8 text-black">
-                        PRICING
+                    <h1 className="text-5xl md:text-6xl font-black tracking-tighter mb-8 text-black">
+                        Pricing
                     </h1>
                     <p className="text-xl md:text-2xl font-medium text-[#666] max-w-2xl mx-auto leading-relaxed">
                         Simple, transparent pricing for every stage of your growth.
@@ -73,7 +73,7 @@ export default function PricingPage() {
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {/* Starter Plan */}
-                    <div className="border border-black flex flex-col h-full bg-white relative group">
+                    <div className="border border-black flex flex-col h-full bg-white relative group rounded-2xl overflow-hidden">
                         <div className="bg-[#C1F0DC] p-6 border-b border-black">
                             <div className="flex justify-between items-start mb-4">
                                 <div className="p-3 bg-black text-white rounded-none inline-flex">
@@ -110,7 +110,7 @@ export default function PricingPage() {
                     </div>
 
                     {/* Growth Plan */}
-                    <div className="border border-black flex flex-col h-full bg-white relative group md:-mt-8 md:mb-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+                    <div className="border border-black flex flex-col h-full bg-white relative group md:-mt-8 md:mb-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-2xl overflow-hidden">
                         <div className="absolute top-0 right-0 bg-black text-white text-xs font-bold px-3 py-1.5 border-l border-b border-black">
                             MOST POPULAR
                         </div>
@@ -154,7 +154,7 @@ export default function PricingPage() {
                     </div>
 
                     {/* Enterprise Plan */}
-                    <div className="border border-black flex flex-col h-full bg-white relative group">
+                    <div className="border border-black flex flex-col h-full bg-white relative group rounded-2xl overflow-hidden">
                         <div className="bg-[#EBF5C6] p-6 border-b border-black">
                             <div className="flex justify-between items-start mb-4">
                                 <div className="p-3 bg-black text-white rounded-none inline-flex">

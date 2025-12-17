@@ -7,20 +7,9 @@ import Link from 'next/link';
 
 export default function ResourcesPage() {
     return (
-        <div className="min-h-screen text-black font-sans relative overflow-x-hidden">
+        <div className="min-h-screen bg-white text-black font-sans relative overflow-x-hidden">
 
-            {/* Background Image Gradient */}
-            <div className="fixed inset-0 -z-10 pointer-events-none">
-                <div className="relative w-full h-full">
-                    <Image
-                        src="/resources-bg-v2.png"
-                        alt="Background Gradient"
-                        fill
-                        className="object-cover opacity-100 object-top"
-                        priority
-                    />
-                </div>
-            </div>
+
 
             <LandingHeader transparent={true} />
 
@@ -28,7 +17,7 @@ export default function ResourcesPage() {
 
                 {/* Centered Hero-Style Header */}
                 <div className="text-center mb-16 relative z-10 max-w-4xl mx-auto">
-                    <h1 className="text-3xl md:text-5xl font-bold tracking-tight leading-[1.1] mb-6 text-black">
+                    <h1 className="text-5xl md:text-6xl font-black tracking-tighter mb-6 text-black">
                         What are Solana<br />
                         Subscriptions?
                     </h1>

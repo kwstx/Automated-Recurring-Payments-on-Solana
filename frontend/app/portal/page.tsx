@@ -2,7 +2,7 @@
 
 import LandingHeader from '@/components/LandingHeader';
 import { motion } from 'framer-motion';
-import { Wallet, Loader2, ExternalLink } from 'lucide-react';
+import { Wallet, Loader2, ExternalLink, Pause, Play, AlertTriangle } from 'lucide-react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { useEffect, useState } from 'react';
@@ -41,39 +41,43 @@ export default function PortalPage() {
 
     if (!connected) {
         return (
-            <div className="min-h-screen bg-[#F5F5F5] text-black font-sans flex flex-col">
+            <div className="min-h-screen bg-[#F2D7EE] text-black font-sans flex flex-col selection:bg-[#C1F0DC]">
                 <LandingHeader />
                 <div className="flex-1 flex flex-col items-center justify-center p-4">
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="max-w-md w-full text-center"
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="max-w-md w-full bg-white border border-black rounded-2xl p-8 md:p-12 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] text-center relative overflow-hidden"
                     >
-                        <span className="text-xs font-mono font-bold mb-6 block text-[#666]">[06] SUBSCRIBER PORTAL</span>
-                        <h1 className="text-4xl md:text-5xl font-bold leading-[0.9] mb-6">
+                        <div className="absolute top-0 left-0 w-full h-2 bg-black"></div>
+                        <span className="text-xs font-bold mb-6 block text-black tracking-widest uppercase">Subscriber Portal</span>
+                        <h1 className="text-4xl font-bold leading-tight mb-6 tracking-tighter">
                             Connect<br />Wallet
                         </h1>
-                        <p className="text-sm font-mono text-[#666] mb-12 leading-relaxed">
-                            To view your active subscriptions and manage payments, please connect your Solana wallet.
+                        <p className="text-base font-medium text-[#666] mb-8 leading-relaxed">
+                            Access your active subscriptions, manage payments, and view billing history.
                         </p>
 
-                        <div className="flex justify-center w-full">
-                            <WalletMultiButton style={{
-                                backgroundColor: '#000000',
-                                color: '#ffffff',
-                                fontFamily: 'monospace',
-                                fontWeight: 'bold',
-                                textTransform: 'none',
-                                padding: '24px 32px',
-                                borderRadius: '0px',
-                                width: '100%',
-                                justifyContent: 'center'
-                            }} />
+                        <div className="flex justify-center w-full mb-8">
+                            <div className="w-full bg-black rounded-xl overflow-hidden hover:opacity-90 transition-opacity">
+                                <WalletMultiButton style={{
+                                    backgroundColor: 'transparent',
+                                    color: '#ffffff',
+                                    fontFamily: 'inherit',
+                                    fontWeight: 'bold',
+                                    textTransform: 'none',
+                                    padding: '20px 0',
+                                    borderRadius: '0px',
+                                    width: '100%',
+                                    justifyContent: 'center',
+                                    fontSize: '16px'
+                                }} />
+                            </div>
                         </div>
 
-                        <div className="mt-8 pt-8 border-t border-[#ccc]">
-                            <p className="text-xs text-[#666] font-mono">
-                                Don't have a wallet? <a href="https://phantom.app/" target="_blank" className="underline text-black">Get started here</a>.
+                        <div className="pt-6 border-t border-[#F5F5F5]">
+                            <p className="text-xs text-[#999] font-medium">
+                                By connecting, you agree to our Terms of Service.
                             </p>
                         </div>
                     </motion.div>
@@ -83,39 +87,31 @@ export default function PortalPage() {
     }
 
     return (
-        <div className="min-h-screen bg-white text-black font-sans overflow-x-hidden">
+        <div className="min-h-screen bg-white text-black font-sans selection:bg-[#F2D7EE]">
             <LandingHeader />
 
-            <div className="relative pt-12 pb-24 px-4 md:px-6 max-w-[1600px] mx-auto">
-                {/* Background Grid Lines */}
-                <div className="absolute inset-0 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-12 pointer-events-none z-0 px-4 md:px-6">
-                    <div className="hidden md:block md:col-span-4 lg:col-span-3 border-r border-[#EAEAEA] h-full"></div>
-                    <div className="hidden md:block md:col-span-8 lg:col-span-9 relative h-full">
-                        {/* Second Vertical Line */}
-                        <div className="absolute left-[6.25rem] md:left-[8.5rem] lg:left-[11rem] top-0 bottom-0 w-px bg-[#EAEAEA]"></div>
-                    </div>
-                </div>
-
+            <div className="relative pt-12 pb-24 px-4 md:px-6 max-w-7xl mx-auto">
                 <main className="relative z-10 flex flex-col items-center">
 
-                    {/* Header Section: Centered */}
+                    {/* Header Section */}
                     <div className="text-center mb-16 max-w-3xl">
-                        <span className="text-xs font-mono font-bold mb-4 block text-[#666]">[06] SUBSCRIBER PORTAL</span>
-                        <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold leading-[0.9] mb-8">
-                            MY ACTIVE SUBS
+                        <span className="text-xs font-bold mb-4 block text-black tracking-widest uppercase bg-[#C1F0DC] px-3 py-1 rounded-full w-fit mx-auto border border-black">Subscriber Portal</span>
+                        <h1 className="text-5xl md:text-6xl font-black tracking-tighter mb-6 leading-[0.9]">
+                            My Subscriptions
                         </h1>
-                        <p className="text-sm font-mono text-[#666] mb-8 max-w-xs mx-auto leading-relaxed">
-                            Manage payments, view history, and cancel subscriptions directly on-chain.
+                        <p className="text-lg font-medium text-[#666] mb-8 max-w-lg mx-auto leading-relaxed">
+                            Manage your active plans, pause payments, or cancel service directly on-chain.
                         </p>
 
                         <div className="flex justify-center gap-6 items-center">
-                            <div className="flex items-center gap-2 h-[82px] px-6">
+                            <div className="flex items-center justify-center p-1 bg-[#F5F5F5] rounded-xl border border-[#EAEAEA]">
                                 <WalletMultiButton style={{
                                     backgroundColor: '#000000',
-                                    height: '50px',
-                                    borderRadius: '0px',
-                                    fontFamily: 'monospace',
-                                    fontSize: '12px'
+                                    height: '40px',
+                                    borderRadius: '8px',
+                                    fontFamily: 'inherit',
+                                    fontSize: '14px',
+                                    padding: '0 24px'
                                 }} />
                             </div>
                         </div>
@@ -124,104 +120,118 @@ export default function PortalPage() {
                     {/* Content Grid */}
                     <div className="w-full">
                         {isLoading ? (
-                            <div className="text-center py-20">
-                                <Loader2 className="w-8 h-8 animate-spin mx-auto text-black" />
-                                <p className="mt-4 font-mono text-sm text-[#666]">Loading subscriptions...</p>
+                            <div className="text-center py-20 bg-[#F9F9F9] rounded-2xl border border-[#EAEAEA]">
+                                <Loader2 className="w-8 h-8 animate-spin mx-auto text-black/20" />
+                                <p className="mt-4 font-bold text-sm text-[#999]">Loading subscriptions...</p>
                             </div>
                         ) : subscriptions.length === 0 ? (
-                            <div className="text-center py-20 border border-black bg-[#f5f5f5]">
-                                <p className="font-mono text-sm text-[#666]">No active subscriptions found for this wallet.</p>
+                            <div className="text-center py-24 bg-[#F9F9F9] rounded-2xl border border-dashed border-[#ccc]">
+                                <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 border border-[#EAEAEA]">
+                                    <Wallet className="w-6 h-6 text-[#999]" />
+                                </div>
+                                <h3 className="text-xl font-bold text-black mb-2">No active subscriptions</h3>
+                                <p className="font-medium text-sm text-[#666]">Subscriptions linked to this wallet will appear here.</p>
                             </div>
                         ) : (
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                                {subscriptions.map((sub: any) => (
-                                    <div
+                                {subscriptions.map((sub: any, index: number) => (
+                                    <motion.div
                                         key={sub.id}
-                                        className="bg-white border border-black relative group hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-300"
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: index * 0.1 }}
+                                        className="bg-white border border-black rounded-2xl overflow-hidden relative group hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 flex flex-col"
                                     >
-                                        {/* Status Bar */}
-                                        <div className="w-full h-1" style={{ backgroundColor: sub.status === 'active' ? (sub.brandColor || '#000000') : '#ccc' }}></div>
-
-                                        <div className="p-6 md:p-8">
-                                            <div className="flex justify-between items-start mb-6">
-                                                <div>
-                                                    <div className="flex items-center gap-3 mb-2">
-                                                        {sub.logoUrl && (
-                                                            <img src={sub.logoUrl} alt={sub.merchant} className="w-8 h-8 object-contain rounded-full border border-[#EAEAEA]" />
-                                                        )}
-                                                        <h3 className="text-2xl font-bold leading-none">{sub.merchant}</h3>
-                                                    </div>
-                                                    <span className="font-mono text-xs text-black border border-black px-1">{sub.plan}</span>
-                                                </div>
-                                            </div>
-                                            <div className="flex gap-2">
-                                                <a
-                                                    href={`https://explorer.solana.com/address/${sub.subscriptionPda}?cluster=devnet`}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className="text-gray-400 hover:text-black transition-colors"
-                                                    title="View on Solana Explorer"
-                                                >
-                                                    <ExternalLink className="w-4 h-4" />
-                                                </a>
-                                                <div className={`px-2 py-0.5 text-[10px] font-bold border border-black ${sub.status === 'active' ? 'bg-[#EAEAEA] text-black' : 'bg-black text-white'}`}>
+                                        {/* Status Header */}
+                                        <div className={`px-6 py-4 border-b border-black flex justify-between items-center ${sub.status === 'active' ? 'bg-[#C1F0DC]' :
+                                            sub.status === 'paused' ? 'bg-[#F2D7EE]' : 'bg-[#EAEAEA]'
+                                            }`}>
+                                            <div className="flex items-center gap-2">
+                                                <div className={`w-2 h-2 rounded-full border border-black ${sub.status === 'active' ? 'bg-green-500' :
+                                                    sub.status === 'paused' ? 'bg-orange-400' : 'bg-gray-400'
+                                                    }`} />
+                                                <span className="text-xs font-bold uppercase tracking-wider text-black">
                                                     {sub.status}
+                                                </span>
+                                            </div>
+                                            <a
+                                                href={`https://explorer.solana.com/address/${sub.subscriptionPda}?cluster=devnet`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-black/60 hover:text-black transition-colors"
+                                            >
+                                                <ExternalLink className="w-4 h-4" />
+                                            </a>
+                                        </div>
+
+                                        <div className="p-6 md:p-8 flex-1 flex flex-col">
+                                            <div className="mb-6">
+                                                <div className="flex items-center gap-3 mb-3">
+                                                    {sub.logoUrl && (
+                                                        <img src={sub.logoUrl} alt={sub.merchant} className="w-10 h-10 object-contain rounded-lg border border-[#EAEAEA]" />
+                                                    )}
+                                                    <h3 className="text-2xl font-bold leading-tight">{sub.merchant}</h3>
+                                                </div>
+                                                <div className="inline-block bg-black text-white text-[10px] font-bold px-2 py-1 rounded">
+                                                    {sub.plan} Plan
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <div className="space-y-3 mb-8 font-mono text-sm">
-                                            <div className="flex justify-between items-center border-b border-[#EAEAEA] pb-2">
-                                                <span className="text-[#666]">Amount</span>
-                                                <span className="font-bold">${sub.price} <span className="text-xs font-normal text-[#999]">{sub.currency}</span></span>
+                                            <div className="space-y-4 mb-8 flex-1">
+                                                <div className="flex justify-between items-center py-3 border-b border-[#F5F5F5]">
+                                                    <span className="text-sm font-medium text-[#666]">Amount</span>
+                                                    <span className="font-bold text-lg">${sub.price} <span className="text-xs font-normal text-[#999]">{sub.currency}</span></span>
+                                                </div>
+                                                <div className="flex justify-between items-center py-3 border-b border-[#F5F5F5]">
+                                                    <span className="text-sm font-medium text-[#666]">Next Billing</span>
+                                                    <span className="font-bold text-sm">{sub.nextBilling ? new Date(sub.nextBilling * 1000).toLocaleDateString() : '-'}</span>
+                                                </div>
+                                                <div className="flex justify-between items-center py-3 border-b border-[#F5F5F5]">
+                                                    <span className="text-sm font-medium text-[#666]">Frequency</span>
+                                                    <span className="font-bold text-sm capitalize">{sub.interval}</span>
+                                                </div>
                                             </div>
-                                            <div className="flex justify-between items-center border-b border-[#EAEAEA] pb-2">
-                                                <span className="text-[#666]">Next Charge</span>
-                                                <span className="font-bold">{sub.nextBilling ? new Date(sub.nextBilling * 1000).toLocaleDateString() : '-'}</span>
-                                            </div>
-                                            <div className="flex justify-between items-center border-b border-[#EAEAEA] pb-2">
-                                                <span className="text-[#666]">Interval</span>
-                                                <span className="font-bold">{sub.interval}</span>
-                                            </div>
-                                        </div>
 
-                                        <div className="grid grid-cols-2 gap-3">
-                                            {sub.status === 'active' ? (
-                                                <>
+                                            <div className="grid grid-cols-2 gap-3">
+                                                {sub.status === 'active' ? (
+                                                    <>
+                                                        <button
+                                                            onClick={() => handleAction('pause', sub.id)}
+                                                            disabled={pause.isPending}
+                                                            className="flex items-center justify-center gap-2 py-3 border-2 border-black bg-white text-black text-xs font-bold rounded-xl hover:bg-[#F5F5F5] transition-colors disabled:opacity-50"
+                                                        >
+                                                            {pause.isPending ? <Loader2 className="w-3 h-3 animate-spin" /> : <Pause className="w-3 h-3" />}
+                                                            Pause
+                                                        </button>
+                                                        <UnsubscribeButton
+                                                            subscriptionPda={sub.subscriptionPda}
+                                                            subscriptionId={sub.id}
+                                                            className="w-full"
+                                                        />
+                                                    </>
+                                                ) : sub.status === 'paused' ? (
                                                     <button
-                                                        onClick={() => handleAction('pause', sub.id)}
-                                                        disabled={pause.isPending}
-                                                        className="py-2.5 border border-black text-xs font-bold hover:bg-[#EAEAEA] transition-colors disabled:opacity-50"
+                                                        onClick={() => handleAction('resume', sub.id)}
+                                                        disabled={resume.isPending}
+                                                        className="col-span-2 flex items-center justify-center gap-2 py-3 bg-black text-white text-xs font-bold rounded-xl hover:bg-[#333] transition-colors disabled:opacity-50 shadow-md"
                                                     >
-                                                        {pause.isPending ? 'Pausing...' : 'Pause'}
+                                                        {resume.isPending ? <Loader2 className="w-3 h-3 animate-spin" /> : <Play className="w-3 h-3" />}
+                                                        Resume Subscription
                                                     </button>
-                                                    <UnsubscribeButton
-                                                        subscriptionPda={sub.subscriptionPda}
-                                                        subscriptionId={sub.id}
-                                                    />
-                                                </>
-                                            ) : sub.status === 'paused' ? (
-                                                <button
-                                                    onClick={() => handleAction('resume', sub.id)}
-                                                    disabled={resume.isPending}
-                                                    className="col-span-2 py-2.5 border border-black bg-black text-white text-xs font-bold hover:bg-[#333] transition-colors disabled:opacity-50"
-                                                >
-                                                    {resume.isPending ? 'Resuming...' : 'Resume Subscription'}
-                                                </button>
-                                            ) : (
-                                                <div className="col-span-2 text-center py-2.5 text-xs font-mono text-[#999] border border-[#EAEAEA] bg-[#f9f9f9]">
-                                                    Subscription Cancelled
-                                                </div>
-                                            )}
+                                                ) : (
+                                                    <div className="col-span-2 text-center py-3 text-xs font-bold text-[#999] bg-[#F5F5F5] rounded-xl border border-transparent">
+                                                        Subscription Cancelled
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
-                                    </div>
-
+                                    </motion.div>
                                 ))}
                             </div>
                         )}
                     </div>
                 </main>
-            </div >
-        </div >
+            </div>
+        </div>
     );
 }
