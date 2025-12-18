@@ -1,3 +1,6 @@
+import { Resend } from 'resend';
+import logger from '../logger.js';
+
 const getResendClient = (apiKey) => {
     if (apiKey) return new Resend(apiKey);
     return new Resend(process.env.RESEND_API_KEY || 're_123456789');

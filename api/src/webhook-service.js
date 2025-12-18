@@ -12,6 +12,18 @@ export const deliverWebhook = async (url, event, payload, secret) => {
             .update(JSON.stringify(payload))
             .digest('hex');
 
+        // Validate URL (SSRF Protection)
+        const parsedUrl = new URL(url);
+        const hostname = parsedUrl.hostname;
+
+        // Block localhost and private IP ranges unless in development mode
+        const isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1';
+        const isPrivateIp = hostname.startsWith('192.168.') || hostname.startsWith('10.') || hostname.startsWith('172.');
+
+        if ((isLocalhost || isPrivateIp) && process.env.NODE_ENV !== 'development') {
+            throw new Error('Webhook URL cannot be a local or private address');
+        }
+
         // Send webhook
         const response = await fetch(url, {
             method: 'POST',

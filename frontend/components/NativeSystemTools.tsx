@@ -1,9 +1,39 @@
 'use client';
 
+import { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Terminal, Zap, RefreshCw } from 'lucide-react';
 
 export default function NativeSystemTools() {
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
+    const [isDragging, setIsDragging] = useState(false);
+    const [startX, setStartX] = useState(0);
+    const [scrollLeft, setScrollLeft] = useState(0);
+
+    const handleMouseDown = (e: React.MouseEvent) => {
+        setIsDragging(true);
+        setStartX(e.pageX - (scrollContainerRef.current?.offsetLeft || 0));
+        setScrollLeft(scrollContainerRef.current?.scrollLeft || 0);
+    };
+
+    const handleMouseLeave = () => {
+        setIsDragging(false);
+    };
+
+    const handleMouseUp = () => {
+        setIsDragging(false);
+    };
+
+    const handleMouseMove = (e: React.MouseEvent) => {
+        if (!isDragging) return;
+        e.preventDefault();
+        const x = e.pageX - (scrollContainerRef.current?.offsetLeft || 0);
+        const walk = (x - startX) * 2; // Scroll-fast
+        if (scrollContainerRef.current) {
+            scrollContainerRef.current.scrollLeft = scrollLeft - walk;
+        }
+    };
+
     return (
         <section className="relative z-10 w-full py-24 px-4 md:px-8 bg-white text-[#1a1a1a]">
             {/* Centered Container */}
@@ -21,7 +51,14 @@ export default function NativeSystemTools() {
                 </div>
 
                 {/* 3-Column Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div
+                    ref={scrollContainerRef}
+                    className={`flex overflow-x-auto gap-6 pb-6 md:grid md:grid-cols-3 md:pb-0 md:overflow-visible -mx-4 px-4 md:mx-0 md:px-0 no-scrollbar cursor-grab active:cursor-grabbing ${isDragging ? '' : 'snap-x snap-mandatory'}`}
+                    onMouseDown={handleMouseDown}
+                    onMouseLeave={handleMouseLeave}
+                    onMouseUp={handleMouseUp}
+                    onMouseMove={handleMouseMove}
+                >
 
                     {/* Card 1: Developer SDKs */}
                     <motion.div
@@ -29,7 +66,7 @@ export default function NativeSystemTools() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5 }}
-                        className="bg-gray-50 rounded-2xl p-10 flex flex-col justify-between min-h-[300px]"
+                        className="bg-gray-50 rounded-2xl p-10 flex flex-col justify-between min-h-[300px] min-w-[85vw] md:min-w-0 snap-center select-none"
                     >
                         <div className="flex-1 flex items-center justify-center">
                             <Terminal strokeWidth={1} size={80} className="text-black" />
@@ -48,7 +85,7 @@ export default function NativeSystemTools() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: 0.1 }}
-                        className="bg-gray-50 rounded-2xl p-10 flex flex-col justify-between min-h-[300px]"
+                        className="bg-gray-50 rounded-2xl p-10 flex flex-col justify-between min-h-[300px] min-w-[85vw] md:min-w-0 snap-center select-none"
                     >
                         <div className="flex-1 flex items-center justify-center">
                             <Zap strokeWidth={1} size={80} className="text-black" />
@@ -67,7 +104,7 @@ export default function NativeSystemTools() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: 0.2 }}
-                        className="bg-gray-50 rounded-2xl p-10 flex flex-col justify-between min-h-[300px]"
+                        className="bg-gray-50 rounded-2xl p-10 flex flex-col justify-between min-h-[300px] min-w-[85vw] md:min-w-0 snap-center select-none"
                     >
                         <div className="flex-1 flex items-center justify-center">
                             <RefreshCw strokeWidth={1} size={80} className="text-black" />

@@ -20,9 +20,20 @@ export const initializeProgram = (idl) => {
 
     try {
         const programId = new PublicKey(PROGRAM_ID);
-        // Note: For API server, we don't have a wallet, so we'll create a read-only provider
-        // For write operations, we'll need the merchant's wallet
-        programInstance = new Program(idl, programId, { connection });
+
+        // Create a read-only provider with a mock wallet
+        const mockWallet = {
+            publicKey: new PublicKey('11111111111111111111111111111111'),
+            signTransaction: () => Promise.reject(new Error('Read-only provider')),
+            signAllTransactions: () => Promise.reject(new Error('Read-only provider'))
+        };
+
+        const provider = new AnchorProvider(connection, mockWallet, {
+            preflightCommitment: 'confirmed'
+        });
+
+        // Initialize Program with (idl, provider) signature for Anchor 0.30+
+        programInstance = new Program(idl, provider);
         logger.info('Anchor program initialized', { programId: PROGRAM_ID });
         return programInstance;
     } catch (error) {

@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import db from '../database.js';
 import { generateToken } from '../auth.js';
+import { auditService } from '../services/auditService.js';
 import logger from '../logger.js';
 
 export const register = (req, res) => {
@@ -70,6 +71,10 @@ export const login = (req, res) => {
         // Verify password
         const validPassword = bcrypt.compareSync(password, merchant.password_hash);
         if (!validPassword) {
+            // Log failed attempt for existing user
+            auditService.log(merchant.id, 'login_failed', 'merchant', merchant.id, { reason: 'invalid_password' }, req.ip);
+            logger.warn('Failed login attempt', { username, reason: 'invalid_password', ip: req.ip });
+
             return res.status(401).json({ error: 'Invalid credentials' });
         }
 

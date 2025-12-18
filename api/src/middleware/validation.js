@@ -1,80 +1,51 @@
 import Joi from 'joi';
 
-/**
- * Validation middleware factory
- */
-export const validate = (schema) => {
-    return (req, res, next) => {
-        const { error, value } = schema.validate(req.body, {
-            abortEarly: false,
-            stripUnknown: true
-        });
-
-        if (error) {
-            const errors = error.details.map(detail => ({
-                field: detail.path.join('.'),
-                message: detail.message
-            }));
-
-            return res.status(400).json({
-                error: 'Validation failed',
-                details: errors
-            });
-        }
-
-        req.body = value;
-        next();
-    };
+const validateRequest = (schema) => (req, res, next) => {
+    const { error } = schema.validate(req.body);
+    if (error) {
+        return res.status(400).json({ error: error.details[0].message });
+    }
+    next();
 };
 
-/**
- * Query parameter validation
- */
-export const validateQuery = (schema) => {
-    return (req, res, next) => {
-        const { error, value } = schema.validate(req.query, {
-            abortEarly: false,
-            stripUnknown: true
-        });
+export const registerSchema = Joi.object({
+    username: Joi.string().alphanum().min(3).max(30).required(),
+    password: Joi.string()
+        .min(10)
+        .pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/)
+        .message('Password must be at least 10 characters long and contain at least one lowercase letter, one uppercase letter, and one number')
+        .required(),
+    email: Joi.string().email().required()
+});
 
-        if (error) {
-            const errors = error.details.map(detail => ({
-                field: detail.path.join('.'),
-                message: detail.message
-            }));
+export const loginSchema = Joi.object({
+    username: Joi.string().required(),
+    password: Joi.string().required()
+});
 
-            return res.status(400).json({
-                error: 'Validation failed',
-                details: errors
-            });
-        }
+export const createPlanSchema = Joi.object({
+    planPda: Joi.string().required(),
+    name: Joi.string().min(3).max(50).required(),
+    description: Joi.string().max(200).allow(null, ''),
+    amount: Joi.number().positive().required(),
+    interval: Joi.number().integer().positive().required(),
+    currency: Joi.string().length(3).uppercase().optional(),
+    currencyMint: Joi.string().optional(),
+    decimals: Joi.number().integer().min(0).max(18).optional(),
+    verifyOnChain: Joi.boolean().optional()
+});
 
-        req.query = value;
-        next();
-    };
+export const updatePlanSchema = Joi.object({
+    planId: Joi.number().integer().positive().required(),
+    name: Joi.string().min(3).max(50).optional(),
+    description: Joi.string().max(200).allow(null, '').optional(),
+    amount: Joi.number().positive().optional(),
+    isActive: Joi.boolean().optional()
+});
+
+export const validator = {
+    register: validateRequest(registerSchema),
+    login: validateRequest(loginSchema),
+    createPlan: validateRequest(createPlanSchema),
+    updatePlan: validateRequest(updatePlanSchema)
 };
-
-/**
- * Custom validators
- */
-
-// Solana public key validator
-export const solanaPublicKey = Joi.string().length(44).pattern(/^[1-9A-HJ-NP-Za-km-z]{44}$/);
-
-// URL validator
-export const urlValidator = Joi.string().uri({ scheme: ['http', 'https'] });
-
-// Timestamp validator (Unix timestamp)
-export const timestamp = Joi.number().integer().positive();
-
-// Positive integer
-export const positiveInteger = Joi.number().integer().positive();
-
-// Currency code
-export const currency = Joi.string().valid('USDC', 'SOL', 'USDT');
-
-// Interval validator
-export const interval = Joi.string().valid('daily', 'weekly', 'monthly', 'yearly');
-
-// Event type validator
-export const eventType = Joi.string().valid('payment.success', 'payment.failure', 'subscription.renewal', '*');

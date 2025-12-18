@@ -4,7 +4,7 @@ services:
   api:
     build: ./api
     ports:
-      - "4000:4000"
+      - "127.0.0.1:4000:4000"
     environment:
       - PORT=4000
       - NODE_ENV=production
@@ -18,7 +18,7 @@ services:
   frontend:
     build: ./frontend
     ports:
-      - "3000:3000"
+      - "127.0.0.1:3000:3000"
     environment:
       - NEXT_PUBLIC_API_URL=http://localhost:4000 # Client-side access
       # Server-side access to API inside docker network usually needs service name "http://api:4000"

@@ -4,21 +4,14 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowDownRight } from 'lucide-react';
+import LandingHeader from '@/components/LandingHeader';
 
 export default function Hero() {
   return (
-    <div className="sticky top-0 z-0 min-h-screen flex flex-col pt-2 px-4 pb-0 md:pt-4 md:px-6 md:pb-0 font-sans text-[#1a1a1a] overflow-x-hidden w-full max-w-[100vw]">
+    <div className="sticky top-0 z-0 min-h-screen flex flex-col pt-0 px-0 pb-0 md:pb-0 font-sans text-[#1a1a1a] overflow-x-hidden w-full max-w-[100vw] bg-[#fdfdfd]">
 
-      {/* Background Image */}
-      <div className="absolute inset-0 z-[-1]">
-        <Image
-          src="/hero-gradient-bg.png"
-          alt="Hero Background Gradient"
-          fill
-          className="object-cover opacity-80"
-          priority
-        />
-      </div>
+      {/* Background Image Removed */}
+      {/* <div className="absolute inset-0 z-[-1]"> ... </div> */}
 
 
 
@@ -27,51 +20,25 @@ export default function Hero() {
 
 
         {/* Header / Navigation */}
-        <header className="w-full relative z-20 flex items-center justify-between">
-          {/* Brand */}
-          <div className="flex items-center">
-            <h1 className="font-bold text-2xl tracking-tight">ZyoPay</h1>
-          </div>
-
-          {/* Right Side: Links & Button */}
-          <div className="flex items-center gap-8">
-            {/* Navigation Links */}
-            <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-[#1a1a1a]">
-              <Link href="/sdks" className="hover:text-black transition-colors">SDKs</Link>
-              <Link href="/webhooks" className="hover:text-black transition-colors">Webhooks</Link>
-              <Link href="/resources" className="hover:text-black transition-colors">Resources</Link>
-              <Link href="/pricing" className="hover:text-black transition-colors">Pricing</Link>
-              <Link href="/docs" className="hover:text-black transition-colors">Docs</Link>
-              <Link href="/portal" className="hover:text-black transition-colors">Portal</Link>
-            </nav>
-
-            {/* Launch App Button */}
-            <Link
-              href="/login"
-              className="bg-black text-white px-5 py-2.5 rounded-lg text-sm font-bold hover:bg-black/90 transition-all shadow-sm"
-            >
-              Launch App
-            </Link>
-          </div>
-        </header>
+        <LandingHeader transparent />
 
 
 
         {/* Main Content - Centered Layout */}
-        <div className="flex-1 flex flex-col items-center justify-center relative z-10 w-full mx-auto px-4 mt-8">
+        <div className="flex-1 flex flex-col items-center justify-center relative z-10 w-full mx-auto px-4 mt-0">
 
           {/* Headline */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-0 relative z-20"
+            className="text-center mb-12 md:mb-20 -mt-12 md:-mt-24 relative z-20"
           >
-            <h1 className="text-5xl md:text-6xl font-black tracking-tighter text-black leading-[0.9] mb-8">
-              Automate your billing on chain<br />
+            <h1 className="text-4xl md:text-[3.5rem] font-black tracking-tighter text-black leading-[1.1] md:leading-[0.9] mb-6 md:mb-8 translate-y-8">
+              Automate your billing on chain <br className="hidden md:block" />
               with solana subscriptions.
             </h1>
-            <p className="text-[#666] text-sm md:text-base font-medium tracking-normal max-w-3xl mx-auto">
+            <p className="text-[#666] text-sm md:text-base font-medium tracking-normal max-w-xl md:max-w-3xl mx-auto translate-y-4 px-4">
               Automated recurring revenue infrastructure for the modern web3 economy [2025]
             </p>
           </motion.div>
@@ -83,10 +50,10 @@ export default function Hero() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative w-full max-w-[210rem] aspect-[1.6] -mt-24 md:-mt-52 pointer-events-none select-none z-10"
+            className="relative w-full max-w-[20rem] md:max-w-[40rem] aspect-[1.6] mt-4 md:-mt-24 md:translate-y-12 pointer-events-none select-none z-10"
           >
             <Image
-              src="/hero-phone-final.png"
+              src="/hero-phone-replaced.png"
               alt="ZyoPay Mobile App Interface"
               fill
               className="object-contain"
@@ -99,17 +66,17 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="flex flex-col sm:flex-row gap-4 mt-8 md:mt-0 -translate-y-12 md:-translate-y-48 relative z-20"
+            className="flex flex-col w-full sm:w-auto sm:flex-row gap-4 mt-8 md:mt-0 -translate-y-0 md:translate-y-16 relative z-20 px-4 sm:px-0"
           >
             <Link
               href="/register"
-              className="bg-black text-white px-8 py-3 rounded-lg font-bold text-sm tracking-wide hover:bg-black/90 transition-colors shadow-lg"
+              className="bg-black text-white px-8 py-3 rounded-lg font-bold text-sm tracking-wide hover:bg-black/90 transition-colors shadow-lg text-center"
             >
               Get Started with Solana
             </Link>
             <Link
               href="/docs"
-              className="bg-[#EAEAEA] text-black border border-[#d4d4d4] px-8 py-3 rounded-lg font-bold text-sm tracking-wide hover:bg-[#d4d4d4] transition-colors"
+              className="bg-[#EAEAEA] text-black border border-[#d4d4d4] px-8 py-3 rounded-lg font-bold text-sm tracking-wide hover:bg-[#d4d4d4] transition-colors text-center"
             >
               View Developer Docs
             </Link>

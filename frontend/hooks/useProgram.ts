@@ -32,7 +32,7 @@ export const useProgram = () => {
             });
 
             // Explicitly cast idl to any to avoid strict type checks on json import
-            return new Program(idl as any, programId, provider);
+            return new Program(idl as any, provider);
         } catch (err) {
             console.error("Program init failed:", err);
             return null;

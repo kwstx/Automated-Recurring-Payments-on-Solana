@@ -8,7 +8,7 @@ export default function LandingHeader({ transparent = false }: { transparent?: b
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     return (
-        <div className={`w-full ${transparent ? 'bg-transparent border-transparent' : 'bg-[#EAEAEA] border-b border-transparent'} sticky top-0 z-50 transition-colors duration-300`}>
+        <div className={`w-full ${transparent ? 'bg-transparent border-transparent' : 'bg-white border-b border-transparent'} sticky top-0 z-50 transition-colors duration-300`}>
             {/* Added generous padding to match Hero spacing */}
             <div className="w-full px-4 md:px-6 py-4">
                 <div className="flex items-center justify-between">
@@ -34,7 +34,7 @@ export default function LandingHeader({ transparent = false }: { transparent?: b
                                 href="/login"
                                 className="bg-black text-white px-5 py-2.5 rounded-lg text-sm font-bold hover:bg-black/90 transition-all shadow-sm block"
                             >
-                                Launch App
+                                Get Started
                             </Link>
                         </div>
 
@@ -74,7 +74,7 @@ export default function LandingHeader({ transparent = false }: { transparent?: b
                                 onClick={() => setIsMenuOpen(false)}
                                 className="bg-black text-white px-5 py-3 rounded-lg text-lg font-bold hover:bg-black/90 transition-all shadow-sm block text-center"
                             >
-                                Launch App
+                                Get Started
                             </Link>
                         </div>
                     </motion.div>

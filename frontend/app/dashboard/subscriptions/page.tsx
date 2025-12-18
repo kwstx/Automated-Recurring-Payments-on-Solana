@@ -96,9 +96,11 @@ export default function SubscriptionsPage() {
                                     <div className="w-8 h-8 bg-[#F0F1F2] rounded-full flex items-center justify-center text-[#666]">
                                         <User className="w-4 h-4" />
                                     </div>
-                                    <div className="text-sm font-medium text-black font-mono bg-[#F5F5F5] px-2 py-0.5 rounded text-[11px] truncate max-w-[140px] text-center border border-[#EAEAEA]">
-                                        {sub.wallet.slice(0, 4)}...{sub.wallet.slice(-4)}
-                                    </div>
+                                    <Link href={`/dashboard/subscriptions/${sub.id}`} className="hover:opacity-70 transition-opacity">
+                                        <div className="text-sm font-medium text-black font-mono bg-[#F5F5F5] px-2 py-0.5 rounded text-[11px] truncate max-w-[140px] text-center border border-[#EAEAEA]">
+                                            {sub.wallet.slice(0, 4)}...{sub.wallet.slice(-4)}
+                                        </div>
+                                    </Link>
                                 </div>
 
                                 <div className="col-span-3">

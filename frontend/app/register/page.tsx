@@ -51,7 +51,7 @@ function RegisterContent() {
     };
 
     return (
-        <div className="relative min-h-screen flex items-center justify-center px-4 py-12 bg-[#EAEAEA] text-[#1a1a1a] font-sans">
+        <div className="relative min-h-screen flex items-center justify-center px-4 py-12 bg-white text-[#1a1a1a] font-sans">
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -64,9 +64,9 @@ function RegisterContent() {
                     Back
                 </Link>
 
-                <div className="grid grid-cols-1 md:grid-cols-[40%_1fr] border border-[#a3a3a3]">
+                <div className="grid grid-cols-1 md:grid-cols-[40%_1fr] border border-black bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-xl overflow-hidden">
                     {/* Left Column: Header */}
-                    <div className="relative p-8 md:p-10 border-b md:border-b-0 md:border-r border-[#a3a3a3] flex flex-col justify-between">
+                    <div className="relative p-8 md:p-10 border-b md:border-b-0 md:border-r border-black flex flex-col justify-between">
                         <div>
                             <span className="text-xs font-mono font-bold mb-6 block">[01] REGISTER</span>
                             <h1 className="text-3xl md:text-4xl font-bold leading-[0.9] text-black mb-4">
@@ -89,7 +89,7 @@ function RegisterContent() {
                                     type="text"
                                     value={username}
                                     onChange={(e) => setUsername(e.target.value)}
-                                    className="w-full bg-transparent border-b border-[#a3a3a3] px-0 py-3 text-[#1a1a1a] placeholder:text-[#999] outline-none focus:border-black transition-colors text-sm"
+                                    className="w-full bg-white border border-black rounded-lg px-4 py-3 text-[#1a1a1a] placeholder:text-[#999] outline-none focus:ring-2 focus:ring-black/10 transition-all text-sm font-medium"
                                     placeholder="Choose a username"
                                     required
                                 />
@@ -102,7 +102,7 @@ function RegisterContent() {
                                     type="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full bg-transparent border-b border-[#a3a3a3] px-0 py-3 text-[#1a1a1a] placeholder:text-[#999] outline-none focus:border-black transition-colors text-sm"
+                                    className="w-full bg-white border border-black rounded-lg px-4 py-3 text-[#1a1a1a] placeholder:text-[#999] outline-none focus:ring-2 focus:ring-black/10 transition-all text-sm font-medium"
                                     placeholder="name@example.com"
                                     required
                                 />
@@ -115,7 +115,7 @@ function RegisterContent() {
                                     type="password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full bg-transparent border-b border-[#a3a3a3] px-0 py-3 text-[#1a1a1a] placeholder:text-[#999] outline-none focus:border-black transition-colors text-sm"
+                                    className="w-full bg-white border border-black rounded-lg px-4 py-3 text-[#1a1a1a] placeholder:text-[#999] outline-none focus:ring-2 focus:ring-black/10 transition-all text-sm font-medium"
                                     placeholder="Create a strong password"
                                     required
                                 />
@@ -135,7 +135,7 @@ function RegisterContent() {
                             <button
                                 type="submit"
                                 disabled={isLoading}
-                                className="w-full py-4 bg-black text-white font-bold text-sm hover:bg-[#1a1a1a] active:scale-[0.99] transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                                className="w-full py-4 bg-black text-white font-bold text-sm rounded-lg hover:translate-y-[-2px] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] active:translate-y-[0px] active:shadow-none transition-all disabled:opacity-50 flex items-center justify-center gap-2"
                             >
                                 {isLoading ? (
                                     <Loader2 className="w-5 h-5 animate-spin" />
@@ -144,7 +144,7 @@ function RegisterContent() {
                                 )}
                             </button>
 
-                            <div className="pt-4 text-center border-t border-[#d4d4d4]">
+                            <div className="pt-4 text-center border-t border-black/10">
                                 <p className="text-xs text-[#666]">
                                     Already have an account?{' '}
                                     <Link href="/login" className="text-black font-bold hover:underline transition-all">
@@ -163,7 +163,7 @@ function RegisterContent() {
 export default function RegisterPage() {
     return (
         <Suspense fallback={
-            <div className="min-h-screen bg-[#EAEAEA] flex items-center justify-center">
+            <div className="min-h-screen bg-white flex items-center justify-center">
                 <Loader2 className="w-8 h-8 text-black animate-spin" />
             </div>
         }>

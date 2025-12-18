@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  api:
+    image: solana-subscription-api:latest
+    # build: ./api # In prod, use pre-built image or build locally and push
+    ports:
+      - "127.0.0.1:4000:4000" # Localhost only, use reverse proxy for SSL
+    environment:
+      - PORT=4000
+      - NODE_ENV=production
+    restart: always
+
+  frontend:
+    image: solana-subscription-frontend:latest
+    # build: ./frontend
+    ports:
+      - "127.0.0.1:3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=https://api.yourdomain.com # Use public HTTPS domain
+    restart: always

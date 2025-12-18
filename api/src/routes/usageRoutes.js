@@ -1,19 +1,11 @@
 import express from 'express';
-import * as usageController from '../controllers/usageController.js';
-import { verifyToken, verifyApiKey } from '../auth.js';
+import { createMeter, recordUsage, getSubscriptionUsage } from '../controllers/usageController.js';
+import { authenticateToken } from '../auth.js';
 
 const router = express.Router();
 
-// Usage reporting can be done by Frontend (authenticated user) or Backend (API Key)
-// We'll create a middleware wrapper that checks either
-const allowUserOrApiKey = (req, res, next) => {
-    if (req.headers['x-api-key']) {
-        return verifyApiKey(req, res, next);
-    }
-    return verifyToken(req, res, next);
-};
-
-router.post('/report', allowUserOrApiKey, usageController.reportUsage);
-router.get('/:subscriptionId', allowUserOrApiKey, usageController.getUsage);
+router.post('/meters', authenticateToken, createMeter);
+router.post('/record', authenticateToken, recordUsage); // Internal or API key protected usually
+router.get('/subscriptions/:id', authenticateToken, getSubscriptionUsage);
 
 export default router;

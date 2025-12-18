@@ -6,7 +6,7 @@ import {
     generateAPIKey,
     revokeAPIKey,
     getNotificationPreferences,
-    getNotificationPreferences,
+
     updateNotificationPreferences,
     updateTier
 } from '../controllers/settingsController.js';

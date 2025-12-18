@@ -1,57 +1,96 @@
 'use client';
 
 import LandingHeader from '@/components/LandingHeader';
-import { ShieldCheck, Download } from 'lucide-react';
+import { ShieldCheck, Download, FileText, Lock } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export default function AuditPage() {
     return (
-        <div className="min-h-screen bg-[#F5F5F5] text-black font-sans">
+        <div className="min-h-screen bg-[#fdfdfd] text-[#1a1a1a] font-sans flex flex-col">
             <LandingHeader />
 
-            <main className="max-w-[1920px] mx-auto px-4 md:px-6 py-24">
-                <div className="max-w-4xl mx-auto">
-                    <span className="text-xs font-mono font-bold mb-6 block text-[#666]">SECURITY</span>
-                    <h1 className="text-4xl md:text-6xl font-bold leading-[0.9] mb-12">
-                        SMART CONTRACT<br />AUDIT REPORTS
-                    </h1>
+            <main className="flex-1 max-w-[1920px] mx-auto px-4 md:px-6 py-12 md:py-24 w-full">
+                <div className="max-w-5xl mx-auto">
 
-                    <p className="text-lg leading-relaxed font-mono text-[#333] mb-12">
-                        Safety is our top priority. Our on-chain programs are audited by top-tier security firms to ensure fund safety and protocol integrity.
-                    </p>
+                    {/* Header Section */}
+                    <div className="mb-20 text-center md:text-left">
+                        <motion.span
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="text-xs font-bold tracking-widest uppercase text-neutral-500 mb-4 block"
+                        >
+                            Infrastructure Safety
+                        </motion.span>
+                        <motion.h1
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.1 }}
+                            className="text-4xl md:text-6xl font-black tracking-tighter text-black leading-[1.1] md:leading-[0.9] mb-8"
+                        >
+                            Security &<br />
+                            Architecture.
+                        </motion.h1>
+                        <motion.p
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.2 }}
+                            className="text-base md:text-lg leading-relaxed text-[#666] font-medium max-w-2xl"
+                        >
+                            ZyoPay is built on a non-custodial architecture using standard Solana Program Library (SPL) tokens. We prioritize transparency and verifiable code.
+                        </motion.p>
+                    </div>
 
-                    <div className="grid gap-6">
-                        <div className="bg-white border border-black p-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all cursor-pointer group">
-                            <div className="flex items-start gap-4">
-                                <div className="bg-black text-white p-3">
-                                    <ShieldCheck size={24} />
+                    {/* Cards Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {/* Non-Custodial Card */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5 }}
+                            className="bg-gray-50 rounded-2xl p-8 md:p-10 flex flex-col justify-between min-h-[320px] hover:bg-gray-100 transition-colors group"
+                        >
+                            <div>
+                                <div className="bg-white w-14 h-14 rounded-xl flex items-center justify-center mb-8 shadow-sm">
+                                    <ShieldCheck className="w-7 h-7 text-black" strokeWidth={1.5} />
                                 </div>
-                                <div>
-                                    <h3 className="text-2xl font-bold mb-1">OtterSec Audit</h3>
-                                    <p className="text-sm font-mono text-[#666]">Completed Oct 2025 • v1.0.0</p>
-                                </div>
+                                <h3 className="text-xl md:text-2xl font-bold text-black mb-2">Non-Custodial</h3>
+                                <p className="text-sm font-medium text-neutral-500 leading-relaxed">
+                                    Funds flow directly between subscriber wallets and merchant wallets. The protocol never holds user funds.
+                                </p>
                             </div>
-                            <button className="flex items-center gap-2 font-bold text-sm border border-black px-4 py-2 group-hover:bg-black group-hover:text-white transition-colors">
-                                <Download size={16} /> Download PDF
-                            </button>
-                        </div>
+                        </motion.div>
 
-                        <div className="bg-white border border-black p-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 opacity-60">
-                            <div className="flex items-start gap-4">
-                                <div className="bg-[#ccc] text-white p-3">
-                                    <ShieldCheck size={24} />
+                        {/* Open Source Card */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: 0.1 }}
+                            className="bg-gray-50 rounded-2xl p-8 md:p-10 flex flex-col justify-between min-h-[320px] hover:bg-gray-100 transition-colors group"
+                        >
+                            <div>
+                                <div className="bg-white w-14 h-14 rounded-xl flex items-center justify-center mb-8 shadow-sm">
+                                    <FileText className="w-7 h-7 text-black" strokeWidth={1.5} />
                                 </div>
-                                <div>
-                                    <h3 className="text-2xl font-bold mb-1">Halborn Audit</h3>
-                                    <p className="text-sm font-mono text-[#666]">In Progress • Scheduled Q1 2026</p>
-                                </div>
+                                <h3 className="text-xl md:text-2xl font-bold text-black mb-2">Verified Source</h3>
+                                <p className="text-sm font-medium text-neutral-500 leading-relaxed">
+                                    Our smart contracts are open-source and verifiable on the Solana blockchain explorer.
+                                </p>
                             </div>
-                            <div className="font-bold text-sm border border-[#ccc] text-[#999] px-4 py-2">
-                                Pending
+
+                            <div className="mt-8 pt-8 border-t border-black/5">
+                                <a href="https://github.com/kwstx/Automated-Recurring-Payments-on-Solana" target="_blank" className="flex items-center gap-2 font-bold text-sm text-black group-hover:text-black/70 transition-colors">
+                                    <Download size={16} />
+                                    View on GitHub
+                                </a>
                             </div>
-                        </div>
+                        </motion.div>
                     </div>
                 </div>
             </main>
+
+
         </div>
     );
 }

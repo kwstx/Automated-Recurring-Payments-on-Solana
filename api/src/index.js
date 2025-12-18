@@ -1,12 +1,7 @@
 // import './instrument.js'; // Must be first import
 import 'dotenv/config';
 import express from 'express';
-// // import * as Sentry from '@sentry/node';
-// app.use(Sentry.Handlers.requestHandler());
-// app.use(Sentry.Handlers.tracingHandler());
 import cors from 'cors';
-import swaggerUi from 'swagger-ui-express';
-import { swaggerSpec } from './swagger.js';
 import logger from './logger.js';
 import authRoutes from './routes/authRoutes.js';
 import planRoutes from './routes/planRoutes.js';
@@ -31,10 +26,6 @@ import { connection } from './solana-client.js';
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-// Sentry Request Handler not needed in v8+ with auto instrumentation
-// app.use(Sentry.Handlers.requestHandler());
-// app.use(Sentry.Handlers.tracingHandler());
-
 // Middleware
 app.use(cors({
     origin: ['http://localhost:3000', 'http://127.0.0.1:3000', 'http://localhost:4000', 'http://127.0.0.1:4000'],
@@ -54,9 +45,6 @@ app.use((req, res, next) => {
     next();
 });
 
-// API Documentation
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-
 // Routes with rate limiting
 app.use('/auth', authLimiter, authRoutes);
 app.use('/plan', apiLimiter, planRoutes);
@@ -70,11 +58,6 @@ app.use('/usage', apiLimiter, usageRoutes);
 app.use('/invoices', apiLimiter, invoiceRoutes);
 app.use('/audit', apiLimiter, auditRoutes);
 app.use('/notifications', apiLimiter, notificationRoutes);
-
-// Debug Sentry
-app.get('/debug-sentry', function mainHandler(req, res) {
-    throw new Error('My first Sentry error!');
-});
 
 // Health check
 // Deep Health Check

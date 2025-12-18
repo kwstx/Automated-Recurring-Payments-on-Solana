@@ -1,4 +1,7 @@
 import { auditService } from '../services/auditService.js';
+import db from '../database.js';
+import logger from '../logger.js';
+import { verifyPlanOnChain } from '../solana-client.js';
 
 export const createPlan = async (req, res) => {
     const { planPda, name, description, amount, currency, currencyMint, decimals, interval, verifyOnChain } = req.body;
